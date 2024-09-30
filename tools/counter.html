@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字数カウンター</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>文字数カウンター</h1>
+    <button id="toggleTheme">ダークモード</button>
+    <textarea id="textInput" placeholder="ここにテキストを入力してください..." rows="10"></textarea>
+    <div class="counter">
+        <p>全体文字数: <span id="totalCharCount">0</span></p>
+        <p>スペースと改行を除く文字数: <span id="nonSpaceCharCount">0</span></p>
+        <p>全角文字数: <span id="fullWidthCharCount">0</span></p>
+        <p>半角文字数: <span id="halfWidthCharCount">0</span></p>
+        <p>行数: <span id="lineCount">0</span></p>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
