@@ -1,3 +1,15 @@
+@font-face {
+    font-family: 'UD丸ゴ';
+    src: url('path/to/UDMarugo.woff2') format('woff2'),
+         url('path/to/UDMarugo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'UD丸ゴ', sans-serif; /* フォントを適用 */
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f8ff;
@@ -35,4 +47,77 @@ button {
 
 button:hover {
     background-color: #005f73;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f8ff;
+}
+
+header {
+    background: #4a90e2;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+.tool-list {
+    background: #d0e2be;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    position: relative; /* 相対位置を設定 */
+}
+
+.tool-list h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.tool-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tool-list li {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.tool-list li:hover {
+    background: #e6f7ff;
+    transform: translateY(-2px);
+}
+
+.tool-list h3 {
+    margin: 0;
+    color: #4a90e2;
+}
+
+.tool-list p {
+    color: #666;
+}
+
+.tool-list img {
+    width: 180px; /* 画像の幅を180pxに指定 */
+    height: auto; /* 高さは自動調整 */
+    margin: 0 auto; /* 左右のマージンを自動にして中央揃え */
+    display: block; /* ブロック要素にして中央揃えを適用 */
+    opacity: 0.9; /* 透過度を90%に設定（0.0が完全に透明、1.0が不透明） */
+    transition: opacity 0.3s; /* ホバー時の透過効果のアニメーション */
+}
+
+.tool-list img:hover {
+    opacity: 1; /* ホバー時に不透明にする */
 }
