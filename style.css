@@ -1,3 +1,15 @@
+@font-face {
+    font-family: 'UD丸ゴ';
+    src: url('path/to/UDMarugo.woff2') format('woff2'),
+         url('path/to/UDMarugo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'UD丸ゴ', sans-serif; /* フォントを適用 */
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f8ff;
