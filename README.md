@@ -16,7 +16,7 @@ GitHubPages機能を使用していて、developからmainブランチにマー�
 
 #### 作成する手順
 
-1. [issues](https://github.com/kame777/kamedayo/issues)を新規作成します。
+1. [issues](https://github.com/kame777/kameserver/issues)を新規作成します。
 2. タイトル等必要事項を記入します。
 3. Assignees（担当者）を**必要であれば**選びます。
 4. Labelsを付けます。
@@ -39,6 +39,7 @@ GitHubPages機能を使用していて、developからmainブランチにマー�
             * GitHub Actionsを触ったときは`ci: [大まかな内容]`とします。
             * リファクタリングしたときは`refactor: [大まかな内容]`とします。
             * テストを書いたときは`test: [大まかな内容]`とします。
+            * scalafmtやscalafixを反映したときは`style: [大まかな内容]`とします。
             * パフォーマンスを改善したときは`perf: [大まかな内容]`とします。
             * その他のコード品質に関わらない変更をしたときは、`chore: [大まかな内容]`とします。
         * 発展的な内容：コンベンショナルコミットにおいて複数の種別に該当する場合、引き返して複数のコミットに分割することが推奨されています。
