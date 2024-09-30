@@ -1,5 +1,13 @@
 document.getElementById('textInput').addEventListener('input', function() {
-    const text = this.value;
+    updateCounts();
+});
+
+document.getElementById('textInput').addEventListener('select', function() {
+    updateSelectedCounts();
+});
+
+function updateCounts() {
+    const text = document.getElementById('textInput').value;
 
     // 全体文字数
     const totalCharCount = text.length;
@@ -22,7 +30,22 @@ document.getElementById('textInput').addEventListener('input', function() {
     document.getElementById('fullWidthCharCount').textContent = fullWidthCharCount;
     document.getElementById('halfWidthCharCount').textContent = halfWidthCharCount;
     document.getElementById('lineCount').textContent = lineCount;
-});
+}
+
+function updateSelectedCounts() {
+    const textArea = document.getElementById('textInput');
+    const selectedText = textArea.value.substring(textArea.selectionStart, textArea.selectionEnd);
+
+    // 選択された文字数
+    const selectedCharCount = selectedText.length;
+
+    // 選択された行数
+    const selectedLines = selectedText.split('\n').length;
+
+    // 各カウントを表示
+    document.getElementById('selectedCharCount').textContent = selectedCharCount;
+    document.getElementById('selectedLineCount').textContent = selectedLines;
+}
 
 // ダークモードの切り替え
 document.getElementById('toggleTheme').addEventListener('click', function() {
