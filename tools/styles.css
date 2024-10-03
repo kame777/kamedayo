@@ -27,6 +27,7 @@ textarea {
     border-radius: 5px;
     resize: none;
     transition: border-color 0.3s;
+    box-sizing: border-box; /* 追加: パディングとボーダーを含めた幅の計算 */
 }
 
 .counter {
