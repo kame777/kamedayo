@@ -8,21 +8,21 @@
 
 body {
     font-family: 'UD丸ゴ', sans-serif; /* フォントを適用 */
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f8ff;
+    background-color: #f0f8ff; /* 背景色を元に戻す */
     color: #333;
     display: flex;
+    flex-direction: row; /* 横並びに配置 */
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start; /* 上部に揃える */
+    height: auto; /* 高さを自動に */
     margin: 0;
+    padding: 0;
 }
 
 .container {
     text-align: center;
+    flex: 2; /* コンテナが横幅の2/3を占めるように */
+    padding: 20px; /* パディングを追加 */
 }
 
 h1 {
@@ -49,22 +49,11 @@ button:hover {
     background-color: #005f73;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f8ff;
-}
-
 header {
     background: #4a90e2;
     color: #ffffff;
     padding: 20px 0;
     text-align: center;
-}
-
-main {
-    padding: 20px;
 }
 
 .tool-list {
@@ -74,6 +63,7 @@ main {
     padding: 20px;
     margin-top: 20px;
     position: relative; /* 相対位置を設定 */
+    flex: 1; /* ツールリストが横幅の1/3を占めるように */
 }
 
 .tool-list h2 {
@@ -114,10 +104,49 @@ main {
     height: auto; /* 高さは自動調整 */
     margin: 0 auto; /* 左右のマージンを自動にして中央揃え */
     display: block; /* ブロック要素にして中央揃えを適用 */
-    opacity: 0.9; /* 透過度を90%に設定（0.0が完全に透明、1.0が不透明） */
+    opacity: 0.9; /* 透過度を90%に設定 */
     transition: opacity 0.3s; /* ホバー時の透過効果のアニメーション */
 }
 
 .tool-list img:hover {
     opacity: 1; /* ホバー時に不透明にする */
+}
+
+/* スマホ用のレスポンシブデザイン */
+@media (max-width: 600px) {
+    body {
+        flex-direction: column; /* スマホでは縦並びに変更 */
+    }
+
+    .container {
+        text-align: center;
+        width: 100%; /* 幅を100%に設定 */
+    }
+
+    .tool-list {
+        width: 100%; /* 幅を100%に設定 */
+        margin-top: 20px; /* 上部のマージンを追加 */
+    }
+
+    h1 {
+        font-size: 2em; /* スマホ用にフォントサイズを小さく */
+    }
+
+    p {
+        font-size: 1em; /* スマホ用にフォントサイズを小さく */
+    }
+
+    button {
+        font-size: 1em; /* スマホ用にボタンのフォントサイズを小さく */
+        padding: 8px 16px; /* スマホ用にパディングを調整 */
+    }
+
+    .tool-list img {
+        width: 100%; /* 画像を画面幅に合わせる */
+        max-width: 180px; /* 最大幅を設定 */
+    }
+
+    .tool-list li {
+        padding: 10px; /* スマホ用にパディングを調整 */
+    }
 }
