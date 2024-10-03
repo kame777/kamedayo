@@ -13,7 +13,6 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, color 0.3s;
 }
 
 h1 {
@@ -27,7 +26,7 @@ textarea {
     border-radius: 5px;
     resize: none;
     transition: border-color 0.3s;
-    box-sizing: border-box; /* 追加: パディングとボーダーを含めた幅の計算 */
+    box-sizing: border-box;
 }
 
 .counter {
@@ -38,31 +37,31 @@ textarea {
 
 /* ダークモードのスタイル */
 body.dark-mode {
-    background-color: #1a1a1a; /* より黒い背景 */
-    color: #e0e0e0; /* 明るい文字色 */
+    background-color: #1a1a1a;
+    color: #e0e0e0;
 }
 
 .container.dark-mode {
-    background: #2a2a2a; /* より暗いコンテナ背景 */
+    background: #2a2a2a;
 }
 
 textarea.dark-mode {
     border: 1px solid #666;
-    background: #333; /* より暗いテキストエリア背景 */
-    color: #e0e0e0; /* 明るい文字色 */
+    background: #333;
+    color: #e0e0e0;
 }
 
 button {
     margin-bottom: 10px;
     padding: 10px;
     cursor: pointer;
-    background-color: #444; /* ボタンの背景色 */
-    color: #fff; /* ボタンの文字色 */
+    background-color: #D3D3D3; /* 薄い灰色 */
+    color: #000; /* ボタンの文字色を黒に変更 */
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #555; /* ホバー時のボタンの背景色 */
+    background-color: #B0B0B0; /* ホバー時の灰色 */
 }
