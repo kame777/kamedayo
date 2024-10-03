@@ -1,3 +1,16 @@
+// ページが読み込まれたときにテーマを適用
+window.onload = function() {
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+        document.body.classList.toggle('dark-mode', currentTheme === 'dark');
+        document.querySelector('.container').classList.toggle('dark-mode', currentTheme === 'dark');
+        document.querySelector('textarea').classList.toggle('dark-mode', currentTheme === 'dark');
+
+        // ボタンのテキストを切り替え
+        document.getElementById('toggleTheme').textContent = currentTheme === 'dark' ? 'ライトモード' : 'ダークモード';
+    }
+};
+
 document.getElementById('textInput').addEventListener('input', function() {
     updateCounts();
 });
@@ -49,14 +62,19 @@ function updateSelectedCounts() {
 
 // ダークモードの切り替え
 document.getElementById('toggleTheme').addEventListener('click', function() {
-    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.toggle('dark-mode');
     document.querySelector('.container').classList.toggle('dark-mode');
     document.querySelector('textarea').classList.toggle('dark-mode');
 
+    // テーマをlocalStorageに保存
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+
     // ボタンのテキストを切り替え
-    if (document.body.classList.contains('dark-mode')) {
-        this.textContent = 'ライトモード';
-    } else {
-        this.textContent = 'ダークモード';
-    }
+    this.textContent = isDarkMode ? 'ライトモード' : 'ダークモード';
+});
+
+// クリアボタンのイベントリスナー
+document.getElementById('clearText').addEventListener('click', function() {
+    document.getElementById('textInput').value = ''; // テキストエリアをクリア
+    updateCounts(); // カウントを更新
 });
