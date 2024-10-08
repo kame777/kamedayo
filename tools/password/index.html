@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>パスワードジェネレーター</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="center">パスワードジェネレーター</h1>
+  <label for="length">パスワードの長さ (1-128): <span id="lengthValue">16</span></label>
+  <input type="range" id="length" min="1" max="128" value="16">
+
+  <div>
+    <input type="checkbox" id="uppercase" checked>
+    <label for="uppercase">大文字を含める</label>
+  </div>
+  <div>
+    <input type="checkbox" id="lowercase" checked>
+    <label for="lowercase">小文字を含める</label>
+  </div>
+  <div>
+    <input type="checkbox" id="numbers" checked>
+    <label for="numbers">数字を含める</label>
+  </div>
+  <div>
+    <input type="checkbox" id="symbols" checked>
+    <label for="symbols">記号を含める</label>
+  </div>
+
+  <div id="symbolSettings">
+    <label for="customSymbols">使用する記号を選択:</label>
+    <input type="text" id="customSymbols" value="!@#$%^&*()">
+  </div>
+
+  <div>
+    <label for="count">生成するパスワードの数:</label>
+    <input type="number" id="count" min="1" max="10" value="1">
+  </div>
+
+  <div class="button-container">
+    <button id="generate">生成</button>
+    <button id="toggleTheme">ダークモード</button>
+    <button onclick="openPasswordChecker()">パスワード強度をチェック</button>
+  </div>
+
+  <h2 class="center">生成されたパスワード</h2>
+  <div id="passwords"></div>
+</div>
+<script src="script.js"></script>
+<script>
+  function openPasswordChecker() {
+    window.open('https://kamedayo.com/tools/password/strength/');
+  }
+</script>
+</body>
+</html>

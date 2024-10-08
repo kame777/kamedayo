@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>パスワード強度チェッカー</title>
+    <style>
+        body {
+            font-family: 'Permanent Marker', cursive;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
+        .password-input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        input[type=password] {
+            padding: 1rem;
+            font-size: 1.5rem;
+            border: 2px solid #ccc;
+            border-radius: 0.5rem;
+            width: 300px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #result {
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+</head>
+<body>
+<h1>パスワード強度チェッカー</h1>
+<h3>あなたのパスワードは強力ですか？チェックしてみましょう！<br>（やや辛口判定かも？...）</h3>
+<div class="password-input-container">
+    <label for="password-input"></label>
+    <input type="password" id="password-input" placeholder="パスワードを入力">
+</div>
+
+<div id="result"></div>
+
+<script>
+    function checkPassword() {
+        var password = document.getElementById("password-input").value;
+        var strengthLevel = 0;
+
+        // パスワードの長さをチェック
+        if (password.length >= 8) {
+            strengthLevel++;
+        }
+
+        // 英大文字を含むかチェック
+        if (/[A-Z]/.test(password)) {
+            strengthLevel++;
+        }
+
+        // 英小文字を含むかチェック
+        if (/[a-z]/.test(password)) {
+            strengthLevel++;
+        }
+
+        // 数字を含むかチェック
+        if (/\d/.test(password)) {
+            strengthLevel++;
+        }
+
+        // 特殊文字を含むかチェック
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            strengthLevel++;
+        }
+
+        // パスワードの強度を表示
+        var resultElement = document.getElementById("result");
+        if (strengthLevel < 3) {
+            resultElement.innerHTML = "パスワードが弱いです。より強いパスワードを設定してください。";
+            resultElement.style.backgroundColor = "#ff6b6b";
+        } else if (strengthLevel < 5) {
+            resultElement.innerHTML = "パスワードは中程度の強度です。";
+            resultElement.style.backgroundColor = "#ffa500";
+        } else {
+            resultElement.innerHTML = "パスワードは強いです。";
+            resultElement.style.backgroundColor = "#4CAF50";
+        }
+    }
+
+    // リアルタイムでパスワード強度を更新する
+    var passwordInput = document.getElementById("password-input");
+    passwordInput.addEventListener("input", function() {
+        checkPassword();
+    });
+</script>
+</body>
+</html>
