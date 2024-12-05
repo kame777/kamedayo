@@ -19,22 +19,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // パスワード生成ボタンのクリックイベント
-    generateButton.addEventListener('click', () => {
+    generateButton.addEventListener('click', generatePasswords);
+
+    // パスワード生成関数
+    function generatePasswords() {
         const length = parseInt(lengthSlider.value);
         const includeUppercase = document.getElementById('uppercase').checked;
         const includeLowercase = document.getElementById('lowercase').checked;
         const includeNumbers = document.getElementById('numbers').checked;
-        const includeSymbols = document.getElementById('symbols').checked;
+        const includeSymbols = symbolsCheckbox.checked;
         const customSymbols = customSymbolsInput.value;
         const passwordCount = parseInt(document.getElementById('count').value);
+
+        // 入力の検証
+        if (length <= 0 || passwordCount <= 0) {
+            alert('パスワードの長さと生成する数は1以上でなければなりません。');
+            return;
+        }
 
         passwordsDiv.innerHTML = '';
 
         for (let i = 0; i < passwordCount; i++) {
             const password = generatePassword(length, includeUppercase, includeLowercase, includeNumbers, includeSymbols, customSymbols);
-            passwordsDiv.innerHTML += `<p>${password}</p>`;
+            const passwordElement = document.createElement('p');
+            passwordElement.textContent = password; // XSS対策
+            passwordsDiv.appendChild(passwordElement);
         }
-    });
+    }
 
     // パスワード生成関数
     function generatePassword(length, includeUppercase, includeLowercase, includeNumbers, includeSymbols, customSymbols) {
