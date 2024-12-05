@@ -1,7 +1,18 @@
+:root {
+    --primary-color: #007bff;
+    --primary-color-hover: #0056b3;
+    --background-color-light: #f0f0f0;
+    --background-color-dark: #121212;
+    --text-color-light: #333;
+    --text-color-dark: #e0e0e0;
+    --container-background-light: white;
+    --container-background-dark: #1e1e1e;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -9,7 +20,7 @@ body {
     max-width: 600px;
     margin: 50px auto;
     padding: 20px;
-    background: white;
+    background: var(--container-background-light);
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -18,13 +29,14 @@ body {
     display: none;
 }
 
+/* ダークモードのスタイル */
 .dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
 }
 
 .dark-mode .container {
-    background: #1e1e1e;
+    background: var(--container-background-dark);
 }
 
 .center {
@@ -41,7 +53,7 @@ button {
     margin-top: 10px;
     padding: 10px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -49,7 +61,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-color-hover);
 }
 
 h2 {
@@ -66,5 +78,16 @@ h2 {
 
 .dark-mode #passwords p {
     background: #333;
-    color: #e0e0e0;
+    color: var(--text-color-dark);
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    button {
+        width: 100%; /* ボタンを全幅にする */
+    }
 }
