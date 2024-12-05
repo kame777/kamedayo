@@ -149,4 +149,22 @@ header {
     .tool-list li {
         padding: 10px; /* スマホ用にパディングを調整 */
     }
+
+
+}
+
+header {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid #dee2e6;
+}
+nav a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #007bff;
+}
+nav a:hover {
+    text-decoration: underline;
 }
