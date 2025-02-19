@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>kameテスト用サイト</title>
     <link rel="stylesheet" href="style.css">
     <script>
@@ -10,21 +10,21 @@
             window.location.href = "https://misskey.kamedayo.com";
         }
     </script>
-<header>
-    <nav>
-        <a href="./index.html">トップ</a>
-        <a href="./tools/list.html">Webツール一覧</a>
-    </nav>
-</header>
 </head>
 <body>
 <div class="container">
     <h1>kameテスト用サイトへようこそ!!</h1>
-    <p>趣味でHTML・CSSでWebツール自作したりして、プログラミングを勉強してます。</p>
+    <p>趣味でHTML・CSSでWebツール自作したりしてプログラミングを勉強してます。</p>
     <p>（このサイトは<a href="https://github.com/kame777/kamedayo/">GitHub</a>,Cloudflareで管理しているﾖ）</p>
-    <div style="border-radius: 10px; border: 4px double #84C98B; font-size: 100%; padding: 20px;"> 現在、「かめすきー」というMisskeyを運営しています。<br>一般開放はしない予定なので、登録したい方は<a href="https://url.kamedayo.com/twitter">X(旧Twitter)</a>もしくは<a href="https://url.kamedayo.com/misskey">Misskey.io</a>にDMください<br>（データの保証はしません　インスタンスごと吹っ飛ばしたらごめんなさい）</div>
-    <div style="border: #F2E700 solid 1px; border-left: #F2E700 solid 10px; padding: 20px; background: #fff; font-size: 100%;"> 下のボタンをクリックすると <a href="https://misskey.kamedayo.com">misskey.kamedayo.com</a> にリダイレクトされます。</div>
-    <button onclick="redirect()">かめすきーを見る!</button>
+    <div class="info-box">
+        <p>「かめすきー」というMisskeyサーバーを運営しています。<br>一般開放はしない予定なので、登録したい方は<a href="https://url.kamedayo.com/twitter">X(旧Twitter)</a>もしくは<a href="https://url.kamedayo.com/misskey">Misskey.io</a>にDMください<br>（データの保証はできません！インスタンスごと吹っ飛ばしたらごめんなさい）</p>
+    </div>
+    <div class="redirect-info">
+        下のボタンをクリックすると <a href="https://misskey.kamedayo.com">misskey.kamedayo.com</a> にリダイレクトされます。
+    </div>
+    <div class="redirect-button">
+        <button onclick="redirect()">かめすきーを見る!</button>
+    </div>
 </div>
 <!-- ツール一覧の追加 -->
 <section class="tool-list">
