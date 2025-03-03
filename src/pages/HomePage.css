@@ -1,0 +1,17 @@
+.home-page {
+    padding: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .home-page-dark {
+    color: #e0e0e0;
+  }
+  
+  /* ダークモード時のリンク */
+  .home-page-dark a {
+    color: #7dc0ff;
+  }
+  
+  .home-page-dark a:hover {
+    color: #a7d8ff;
+  }

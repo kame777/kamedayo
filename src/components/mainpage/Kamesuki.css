@@ -1,0 +1,29 @@
+.redirect-button {
+    text-align: center;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+  }
+  
+  .redirect-button button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .redirect-button button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* ダークモード */
+  .redirect-button-dark button {
+    background-color: #2980b9;
+  }
+  
+  .redirect-button-dark button:hover {
+    background-color: #3498db;
+  }

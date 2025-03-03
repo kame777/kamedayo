@@ -1,0 +1,169 @@
+body {
+    font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+h2 {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: vertical;
+    min-height: 150px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: inherit;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    flex: 1;
+    min-width: 120px;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.stats-container {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .stats-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.stat-group {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.counter {
+    font-size: 16px;
+}
+
+.counter p {
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.counter span {
+    font-weight: 600;
+    color: #4a90e2;
+}
+
+/* ダークモードのスタイル */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+.container.dark {
+    background: #2a2a2a;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.container.dark h1 {
+    color: #e0e0e0;
+}
+
+.container.dark h2 {
+    color: #ffffff; /* より明るい色で見出しを強調 */
+    border-bottom: 1px solid #666; /* より明確な区切り線 */
+    padding-bottom: 8px; /* 余白を少し増やす */
+}
+
+textarea.dark {
+    border: 1px solid #555;
+    background: #333;
+    color: #e0e0e0;
+}
+
+textarea.dark:focus {
+    border-color: #6aA0f2;
+    box-shadow: 0 0 0 2px rgba(106, 160, 242, 0.2);
+}
+
+.container.dark .stat-group {
+    background-color: #3a3a3a; /* 少し明るい背景色 */
+    border: 1px solid #555; /* 境界線を追加してセクションを明確に */
+}
+
+.container.dark .counter span {
+    color: #7dc0ff; /* より明るく、コントラストの高い青色 */
+}
+
+.container.dark .counter p {
+    color: #e0e0e0; /* 通常テキストの色を明るく */
+}
+
+.container.dark button {
+    background-color: #444;
+    color: #e0e0e0;
+}
+
+.container.dark button:hover {
+    background-color: #555;
+}
