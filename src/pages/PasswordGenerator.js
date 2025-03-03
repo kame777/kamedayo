@@ -7,7 +7,7 @@ const PasswordGenerator = () => {
 
   return (
     <>
-      <h1 className={`coming-soon ${theme}`}>工事中です！</h1>
+      <h1 className={`coming-soon ${theme}`}>工事中です<br />ご迷惑をおかけします。</h1>
     </>
   )
 }
