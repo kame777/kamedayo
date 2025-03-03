@@ -14,8 +14,8 @@ const tools = [
     {
         path: '/pages/PasswordGenerator',
         img: 'img/PasswordGenerator.png',
-        alt: 'パスワードマネージャーの画像',
-        title: 'パスワードジェネレーター',
+        alt: 'パスワード生成ツールの画像',
+        title: 'パスワード生成ツール',
         description: '小文字や大文字・記号の有無など詳細な設定が可能',
     },
 ];
@@ -26,6 +26,7 @@ const ToolList = () => {
     return (
         <section className={`tool-list ${theme === 'dark' ? 'tool-list-dark' : ''}`}>
             <h2>Webツール</h2>
+            <h3>既存のツールで「あったら良いな」という機能を盛りこんで作っちゃった！ってやつを置いてます</h3>
             <ul>
                 {tools.map((tool, index) => (
                     <li key={index} className={`tool-item ${theme === 'dark' ? 'tool-item-dark' : ''}`}>
