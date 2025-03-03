@@ -13,6 +13,17 @@ const PasswordGenerator = () => {
   const [generatedPassword, setGeneratedPassword] = useState('');
   const [coloredPassword, setColoredPassword] = useState([]);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
+  // モバイル表示の検出
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // パスワードタイプの設定
   const handlePasswordTypeChange = (type) => {
@@ -151,7 +162,7 @@ const PasswordGenerator = () => {
           >
             <span className="icon" role="img" aria-label="ランダム">
               🔀
-            </span> ランダム
+            </span> {isMobile ? '乱数' : 'ランダム'}
           </button>
           <button 
             className={passwordType === 'memorable' ? 'active' : ''} 
@@ -159,7 +170,7 @@ const PasswordGenerator = () => {
           >
             <span className="icon" role="img" aria-label="覚えやすい">
               👁️
-            </span> 覚えやすい
+            </span> {isMobile ? '記憶' : '覚えやすい'}
           </button>
           <button 
             className={passwordType === 'pin' ? 'active' : ''} 
@@ -245,10 +256,10 @@ const PasswordGenerator = () => {
         
         <div className="button-row">
           <button className="copy-button" onClick={copyToClipboard}>
-            {copySuccess ? 'コピーしました！' : 'パスワードをコピー'}
+            {copySuccess ? 'コピー済' : 'パスワードをコピー'}
           </button>
           <button className="refresh-button" onClick={generatePassword}>
-            パスワードを更新
+            {isMobile ? '更新' : 'パスワードを更新'}
           </button>
         </div>
       </div>

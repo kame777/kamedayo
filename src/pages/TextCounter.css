@@ -2,28 +2,32 @@ body {
     font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     transition: background-color 0.3s, color 0.3s;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .container {
-    max-width: 800px;
-    margin: 30px auto;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 15px 10px;
     background: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* 丸みを抑えめに調整 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: #333;
+    font-size: 1.5rem;
 }
 
 h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #555;
     margin-bottom: 10px;
     border-bottom: 1px solid #eee;
@@ -32,9 +36,9 @@ h2 {
 
 textarea {
     width: 100%;
-    padding: 15px;
+    padding: 12px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     resize: vertical;
     min-height: 150px;
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -42,6 +46,8 @@ textarea {
     font-size: 16px;
     line-height: 1.5;
     font-family: inherit;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 
 textarea:focus {
@@ -53,21 +59,23 @@ textarea:focus {
 .button-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 15px;
+    width: 100%;
 }
 
 button {
-    padding: 10px 15px;
+    padding: 10px;
     cursor: pointer;
     background-color: #f0f0f0;
     color: #333;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     transition: all 0.2s ease;
     font-weight: 500;
     flex: 1;
-    min-width: 120px;
+    min-width: 80px;
+    font-size: 0.9rem;
 }
 
 button:hover {
@@ -80,27 +88,23 @@ button:active {
 }
 
 .stats-container {
-    margin-top: 20px;
+    margin-top: 15px;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-@media (min-width: 768px) {
-    .stats-container {
-        grid-template-columns: 1fr 1fr;
-    }
+    gap: 10px;
+    width: 100%;
 }
 
 .stat-group {
     background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    width: 100%;
 }
 
 .counter {
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .counter p {
@@ -122,7 +126,7 @@ body.dark-mode {
 
 .container.dark {
     background: #2a2a2a;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .container.dark h1 {
@@ -130,9 +134,9 @@ body.dark-mode {
 }
 
 .container.dark h2 {
-    color: #ffffff; /* より明るい色で見出しを強調 */
-    border-bottom: 1px solid #666; /* より明確な区切り線 */
-    padding-bottom: 8px; /* 余白を少し増やす */
+    color: #ffffff;
+    border-bottom: 1px solid #666;
+    padding-bottom: 8px;
 }
 
 textarea.dark {
@@ -147,16 +151,16 @@ textarea.dark:focus {
 }
 
 .container.dark .stat-group {
-    background-color: #3a3a3a; /* 少し明るい背景色 */
-    border: 1px solid #555; /* 境界線を追加してセクションを明確に */
+    background-color: #3a3a3a;
+    border: 1px solid #555;
 }
 
 .container.dark .counter span {
-    color: #7dc0ff; /* より明るく、コントラストの高い青色 */
+    color: #7dc0ff;
 }
 
 .container.dark .counter p {
-    color: #e0e0e0; /* 通常テキストの色を明るく */
+    color: #e0e0e0;
 }
 
 .container.dark button {
@@ -166,4 +170,59 @@ textarea.dark:focus {
 
 .container.dark button:hover {
     background-color: #555;
+}
+
+/* レスポンシブデザイン */
+@media (min-width: 768px) {
+    .stats-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: 10px auto;
+        padding: 20px;
+    }
+    
+    button {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px 8px;
+    }
+    
+    h1 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    h2 {
+        font-size: 1rem;
+    }
+    
+    textarea {
+        min-height: 120px;
+        padding: 10px;
+    }
+    
+    .button-group {
+        gap: 5px;
+    }
+    
+    button {
+        padding: 8px;
+        font-size: 0.8rem;
+        min-width: 70px;
+    }
+    
+    .stat-group {
+        padding: 10px;
+    }
+    
+    .counter {
+        font-size: 14px;
+    }
 }

@@ -13,6 +13,11 @@ body {
   color: #333;
   line-height: 1.6;
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden; /* 横スクロール防止 */
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* ダークモードのスタイル */
@@ -23,9 +28,17 @@ body.dark-mode {
 
 /* コンテンツスタイル */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  width: 100%;
+  margin: 0;
+  padding: 15px;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
 }
 
 /* アニメーション */
@@ -40,8 +53,8 @@ body.dark-mode {
   font-size: 2.8rem;
   color: #2a3d66;
   text-align: center;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 60px;
+  margin-bottom: 60px;
   font-weight: 700;
   position: relative;
   opacity: 0;
@@ -72,10 +85,11 @@ body.dark-mode a:hover {
 
 .info-box {
   background-color: #fff;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 body.dark-mode .info-box {
@@ -92,6 +106,10 @@ body.dark-mode .info-box {
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  display: block;
+  margin: 0 auto;
 }
 
 .redirect-button button:hover {
@@ -110,16 +128,39 @@ body.dark-mode .redirect-button button:hover {
 /* レスポンシブ */
 @media (max-width: 768px) {
   .welcome {
-    font-size: 2.2rem;
-    margin-top: 70px;
-    margin-bottom: 70px;
+    font-size: 2rem;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .container {
+    padding: 10px;
+  }
+  
+  .info-box {
+    padding: 12px;
+    border-radius: 8px;
   }
 }
 
 @media (max-width: 480px) {
   .welcome {
-    font-size: 1.8rem;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    font-size: 1.6rem;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  
+  .container {
+    padding: 8px;
+  }
+  
+  .info-box {
+    padding: 10px;
+    border-radius: 6px;
+  }
+  
+  .redirect-button button {
+    font-size: 1.1rem;
+    padding: 8px 16px;
   }
 }
