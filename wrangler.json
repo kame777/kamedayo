@@ -1,0 +1,6 @@
+{
+  "name": "kamedayo-2",
+  "compatibility_date": "2025-10-10",
+  "compatibility_flags": ["nodejs_compat"], //nodejs_compatを追加
+  "pages_build_output_dir": ".vercel/output/static"
+}
