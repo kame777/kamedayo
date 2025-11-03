@@ -2,7 +2,7 @@
 
 このリポジトリは[kamedayo.com](https://kamedayo.com)を構成するために作成されました
 
-Reactを勉強するためにやってるのでいろいろテキトーです。
+Next.jsを勉強するためにやってるのでいろいろテキトーです。
 
 CloudflarePages機能を使用していて、developからmainブランチにマージされるとサイトは自動的に更新されます。
 
