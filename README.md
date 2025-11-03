@@ -2,9 +2,9 @@
 
 このリポジトリは[kamedayo.com](https://kamedayo.com)を構成するために作成されました
 
-現状仮なのでいろいろ適当です。
+Next.jsを勉強するためにやってるのでいろいろテキトーです。
 
-GitHubPages機能を使用していて、developからmainブランチにマージされるとサイトは自動的に更新されます。
+CloudflarePages機能を使用していて、developからmainブランチにマージされるとサイトは自動的に更新されます。
 
 ## 開発者向け情報
 
