@@ -6,7 +6,6 @@ import Kamesuki from './kamesuki/page';
 export default function Home() {
   return (
     <>
-      <title>kameテスト用サイト</title>
       <Header />
       <Hero />
       <Kamesuki />

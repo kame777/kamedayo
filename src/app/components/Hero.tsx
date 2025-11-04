@@ -15,7 +15,7 @@ export default function Hero() {
           <br />
           拡張性抜群だけど、慣れるまで大変だなあ。
         </p>
-        <h2 className='{styles.subtitle}'>
+        <h2 className={styles.subtitle}>
           このサイトについて.
         </h2>
         <p className={styles.subtitle}>
