@@ -39,6 +39,15 @@ a {
   color: inherit;
 }
 
+/* Page content links */
+main a {
+  color: #1d4ed8; /* blue-700 */
+}
+
+main a:hover {
+  text-decoration: underline;
+}
+
 button {
   font-family: inherit;
   cursor: pointer;

@@ -87,6 +87,10 @@
   gap: 1rem;
 }
 
+.rightControls {
+  margin-left: 1rem;
+}
+
 @media (max-width: 768px) {
   .menuToggle {
     display: flex;

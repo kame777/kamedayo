@@ -1,7 +1,13 @@
+"use client";
+
 import Link from 'next/link';
+import { useLocale } from './useLocale';
+import { useDictionary } from './useDictionary';
 import styles from './Footer.module.css';
 
 export default function Footer() {
+  const locale = useLocale();
+  const dict = useDictionary();
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
@@ -14,18 +20,18 @@ export default function Footer() {
           </ul>
         </div>
         <div className={styles.section}>
-          <h4>サイト</h4>
+          <h4>{dict.footer.site}</h4>
           <ul>
-            <li><Link href="/about">私について</Link></li>
-            <li><Link href="/contact">お問い合わせ</Link></li>
+            <li><Link href={`/${locale}/about`}>{dict.footer.about}</Link></li>
+            <li><Link href={`/${locale}/contact`}>{dict.footer.contact}</Link></li>
           </ul>
         </div>
         <div className={styles.section}>
-          <h4>Webツール</h4>
+          <h4>{dict.footer.tools}</h4>
           <ul>
-            <li><Link href="/services">Webツール一覧</Link></li>
-            <li><Link href="/webtool/1">文字数カウンター</Link></li>
-            <li><Link href="/webtool/2">パスワードジェネレーター</Link></li>
+            <li><Link href={`/${locale}/services`}>{dict.footer.list}</Link></li>
+            <li><Link href={`/${locale}/webtool/1`}>{dict.footer.textCounter}</Link></li>
+            <li><Link href={`/${locale}/webtool/2`}>{dict.footer.passwordGen}</Link></li>
           </ul>
         </div>
       </div>
