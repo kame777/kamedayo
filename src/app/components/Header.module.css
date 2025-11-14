@@ -62,6 +62,8 @@
   gap: 5px;
   width: 30px;
   height: 24px;
+  cursor: pointer;
+  z-index: 200;
 }
 
 .menuToggle span {
@@ -92,6 +94,11 @@
 
   .nav {
     display: none;
+  }
+
+  /* 開いたときは明示的に表示する（displayの優先度問題を解決） */
+  .navOpen {
+    display: flex;
   }
 
   .container {

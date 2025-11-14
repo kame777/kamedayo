@@ -18,13 +18,15 @@ export default function Header() {
           className={styles.menuToggle}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="メニュー"
+          aria-expanded={menuOpen}
+          aria-controls="primary-nav"
         >
           <span></span>
           <span></span>
           <span></span>
         </button>
 
-        <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`}>
+        <nav id="primary-nav" className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`} aria-label="メインメニュー">
           <Link href="/">ホーム</Link>
           <Link href="/about">私について</Link>
           <Link href="/services">Webツール</Link>
