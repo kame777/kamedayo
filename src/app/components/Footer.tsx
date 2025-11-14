@@ -8,9 +8,9 @@ export default function Footer() {
         <div className={styles.section}>
           <h4>SNS</h4>
           <ul>
-            <li><a href="https://url.kamedayo.com/twitter" target='_blank' rel="noopener noreferrer">X(旧Twitter)</a></li>
-            <li><a href="https://misskey.kamedayo.com/@kame777" target='_blank' rel="noopener noreferrer">かめすきー</a></li>
-            <li><a href="https://url.kamedayo.com/profile" target='_blank' rel="noopener noreferrer">プロフィール・リンク集</a></li>
+            <li><a data-no-external="true" href="https://url.kamedayo.com/twitter" target='_blank' rel="noopener noreferrer">X(旧Twitter)</a></li>
+            <li><a data-no-external="true" href="https://misskey.kamedayo.com/@kame777" target='_blank' rel="noopener noreferrer">かめすきー</a></li>
+            <li><a data-no-external="true" href="https://url.kamedayo.com/profile" target='_blank' rel="noopener noreferrer">プロフィール・リンク集</a></li>
           </ul>
         </div>
         <div className={styles.section}>
