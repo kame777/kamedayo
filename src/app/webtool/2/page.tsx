@@ -115,6 +115,7 @@ const PasswordGenerator: React.FC = () => {
     <div className={styles.passwordGenerator}>
       <div className={styles.passwordContainer}>
         <Header />
+        <h1 className={styles.title}>パスワードジェネレーター</h1>
         <h2 className={styles.heading}>パスワードの種類を選択</h2>
 
         <div className={styles.passwordTypeSelector}>
