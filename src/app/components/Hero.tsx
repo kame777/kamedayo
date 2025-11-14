@@ -5,45 +5,34 @@ export default function Hero() {
   return (
     <section className={styles.hero}>
       <div className={styles.content}>
-        <h1 className={styles.title}>
-          kameテスト用サイトへ
-          <br />
-          ようこそ！
-        </h1>
+        <div className={styles.headerRow}>
+          <div className={styles.avatar}>k</div>
+          <div className={styles.meta}>
+            <p className={styles.byline}>運営: kame</p>
+          </div>
+        </div>
+
+        <h1 className={styles.title}>kameのツール箱へようこそ</h1>
+
         <p className={styles.subtitle}>
-          【近況報告】サイトをHTML/CSSからNext.jsに変更しました。
-          <br />
-          拡張性抜群だけど、慣れるまで大変だなあ。
+          日常のちょっとした作業を楽にする、自作Webツールをまとめています。困ったらツール一覧をどうぞ。
         </p>
-        <h2 className={styles.subtitle}>
-          このサイトについて.
-        </h2>
-        <p className={styles.subtitle}>
-        こんにちは、運営のkameです。
-        <br />
-        Webに関する技術全般に興味があり、個人的な趣味で作成したWebツールをどうせなら公開しちゃおう！っていうスタイルで運営しています。
-        <br />
-        （あったらいいなぁっていうWebサービスを自分で作りたい）
-        <br />
-        オープンソースで開発しておりますので、是非GitHubも覗いてみてください。
-        <br />
-        皆様の生活が少しでも便利になるようなツールを提供できれば幸いです。
-        <br />
-        どうぞよろしくお願いいたします。
-        </p>
+
         <div className={styles.buttons}>
           <Link href="/services">
-            <button className={styles.primaryBtn}>Webツール一覧</button>
+            <button className={styles.primaryBtn}>ツール一覧を見る</button>
           </Link>
           <Link href="/about">
-            <button className={styles.secondaryBtn}>私について</button>
+            <button className={styles.secondaryBtn}>kameについて</button>
           </Link>
         </div>
+
+        <h2>近況報告</h2>
+
+        <p>11/15:メインページリニューアルしました！</p>
+        
       </div>
-      <div className={styles.background}>
-        <div className={styles.blob}></div>
-        <div className={styles.blob}></div>
-      </div>
+      
     </section>
   );
 }
