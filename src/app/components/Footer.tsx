@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -7,24 +8,24 @@ export default function Footer() {
         <div className={styles.section}>
           <h4>SNS</h4>
           <ul>
-            <li><a href="https://url.kamedayo.com/twitter" target='_blank'>X(旧Twitter)</a></li>
-            <li><a href="https://misskey.kamedayo.com/@kame777" target='_blank'>かめすきー</a></li>
-            <li><a href="https://url.kamedayo.com/profile" target='_blank'>プロフィール・リンク集</a></li>
+            <li><a data-no-external="true" href="https://url.kamedayo.com/twitter" target='_blank' rel="noopener noreferrer">X(旧Twitter)</a></li>
+            <li><a data-no-external="true" href="https://misskey.kamedayo.com/@kame777" target='_blank' rel="noopener noreferrer">かめすきー</a></li>
+            <li><a data-no-external="true" href="https://url.kamedayo.com/profile" target='_blank' rel="noopener noreferrer">プロフィール・リンク集</a></li>
           </ul>
         </div>
         <div className={styles.section}>
           <h4>サイト</h4>
           <ul>
-            <li><a href="./about">私について</a></li>
-            <li><a href="./contact">お問い合わせ</a></li>
+            <li><Link href="/about">私について</Link></li>
+            <li><Link href="/contact">お問い合わせ</Link></li>
           </ul>
         </div>
         <div className={styles.section}>
           <h4>Webツール</h4>
           <ul>
-            <li><a href="../services">Webツール一覧</a></li>
-            <li><a href="../webtool/1">文字数カウンター</a></li>
-            <li><a href="../webtool/2">パスワードジェネレーター</a></li>
+            <li><Link href="/services">Webツール一覧</Link></li>
+            <li><Link href="/webtool/1">文字数カウンター</Link></li>
+            <li><Link href="/webtool/2">パスワードジェネレーター</Link></li>
           </ul>
         </div>
       </div>
