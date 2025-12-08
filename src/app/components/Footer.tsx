@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import styles from './Footer.module.css';
+import Donate from './Donate';
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
+      <Donate />
       <div className={styles.container}>
         <div className={styles.section}>
           <h4>SNS</h4>
@@ -23,7 +25,7 @@ export default function Footer() {
         <div className={styles.section}>
           <h4>Webツール</h4>
           <ul>
-            <li><Link href="/services">Webツール一覧</Link></li>
+            <li><Link href="/webtool">Webツール一覧</Link></li>
             <li><Link href="/webtool/1">文字数カウンター</Link></li>
             <li><Link href="/webtool/2">パスワードジェネレーター</Link></li>
           </ul>

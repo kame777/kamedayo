@@ -38,7 +38,7 @@ export default function Page() {
       <main className={styles.container}>
         <div className={styles.header}>
           <h1 className={styles.title}>Webツール一覧</h1>
-          <p className={styles.subtitle}>軽量・シンプル・実用的なツールを揃えています。</p>
+          <p className={styles.subtitle}>軽量・シンプル・実用的なWebツールを揃えています。（）</p>
         </div>
 
         <div className={styles.grid}>
