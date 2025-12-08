@@ -29,7 +29,7 @@ export default function Header() {
         <nav id="primary-nav" className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`} aria-label="メインメニュー">
           <Link href="/">ホーム</Link>
           <Link href="/about">私について</Link>
-          <Link href="/services">Webツール</Link>
+          <Link href="/webtool">Webツール</Link>
           <Link href="/contact">お問い合わせ</Link>
         </nav>
       </div>

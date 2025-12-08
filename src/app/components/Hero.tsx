@@ -6,7 +6,7 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className={styles.content}>
         <div className={styles.headerRow}>
-          <div className={styles.avatar}>k</div>
+          <div className={styles.avatar}>ka</div>
           <div className={styles.meta}>
             <p className={styles.byline}>運営: kame</p>
           </div>
