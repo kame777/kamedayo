@@ -1,11 +1,12 @@
 .header {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  background: #0f3d24;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
 }
+
 
 .container {
   max-width: var(--max-width);
@@ -19,7 +20,7 @@
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--brand-grad-start) 0%, var(--brand-grad-end) 100%);
+  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -31,14 +32,14 @@
 }
 
 .nav a {
-  font-weight: 500;
-  color: #666;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
   transition: color 0.3s ease;
   position: relative;
 }
 
 .nav a:hover {
-  color: var(--primary);
+  color: #34d399;
 }
 
 .nav a::after {
@@ -48,7 +49,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--primary);
+  background: linear-gradient(90deg, #34d399, #059669);
   transition: width 0.3s ease;
 }
 
@@ -69,7 +70,7 @@
 .menuToggle span {
   width: 100%;
   height: 3px;
-  background: var(--text);
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -81,9 +82,14 @@
   top: 70px;
   left: 0;
   right: 0;
-  background: white;
+  background: rgba(3, 26, 9, 0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   gap: 1rem;
 }
 

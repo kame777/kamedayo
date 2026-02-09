@@ -1,21 +1,23 @@
 :root {
-  /* カラーパレット */
+  /* カラーパレット — 深緑基調 */
   --bg: #ffffff;
-  --surface: #fbfbfb;
-  --text: #222222;
-  --muted: #666666;
-  --primary: #2b78d9;
-  --brand-grad-start: #16a34a; /* 深い緑スタート */
-  --brand-grad-end: #064e3b;   /* 深い緑エンド */
+  --surface: #f8faf8;
+  --text: #1a2e1a;
+  --muted: #4a6a4a;
+  --primary: #16a34a;
+  --brand-grad-start: #16a34a;
+  --brand-grad-end: #064e3b;
   /* ページ全体の背景グラデーション */
-  --page-grad-start: #f5f7fa;
-  --page-grad-end: #c3cfe2;
+  --page-grad-start: #f0f7f0;
+  --page-grad-end: #d1e7d1;
   --page-bg: linear-gradient(135deg, var(--page-grad-start) 0%, var(--page-grad-end) 100%);
-  --accent: #f7fbff;
-  --shadow: rgba(33, 33, 33, 0.08);
+  --accent: #f0faf0;
+  --shadow: rgba(10, 40, 10, 0.08);
   --container-radius: 12px;
   --max-width: 1200px;
   --gutter-x: 2rem;
+  /* Hero背景色 (ヘッダーが参照) */
+  --hero-bg: rgba(6, 40, 20, 0.85);
 }
 
 /* サイト全体で使えるユーティリティ */

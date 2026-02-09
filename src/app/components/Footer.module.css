@@ -1,6 +1,6 @@
 .footer {
-  background: #1a1a2e;
-  color: #e0e0e0;
+  background: linear-gradient(180deg, #1a3a2a 0%, #223d30 100%);
+  color: #ffffff;
   padding: 3rem 2rem 1rem;
   margin-top: 4rem;
 }
@@ -30,17 +30,17 @@
 }
 
 .section a {
-  color: #b0b0b0;
+  color: #d4eedc;
   transition: color 0.3s ease;
 }
 
 .section a:hover {
-  color: var(--primary);
+  color: #34d399;
 }
 
 .bottom {
   text-align: center;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: #888;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.75);
 }

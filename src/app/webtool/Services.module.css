@@ -1,33 +1,104 @@
-/* 背景 */
+/* ===== Hero Banner ===== */
+.heroBanner {
+  position: relative;
+  padding: 6rem 1.5rem 3.5rem;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #031a09 0%, #064e3b 50%, #052e16 100%);
+  color: #fff;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(52, 211, 153, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.heroBadge {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1rem;
+}
+
+.heroTitle {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.heroSubtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ===== Container ===== */
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 4rem var(--gutter-x);
+  padding: 2.5rem var(--gutter-x) 4rem;
   background: var(--page-bg);
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 3rem;
+/* ===== Filter chips ===== */
+.filterRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: 800;
+.chip {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.subtitle {
-  color: #666;
-  margin-top: 0.5rem;
-  font-size: 1rem;
+.chip:hover {
+  border-color: #34d399;
+  color: #059669;
 }
 
-/* グリッド */
+.chipActive {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #fff;
+  border-color: transparent;
+}
+
+.chipActive:hover {
+  color: #fff;
+}
+
+/* ===== Grid ===== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 1.75rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
 }
 
 .linkReset {
@@ -35,102 +106,210 @@
   text-decoration: none;
 }
 
-/* カード */
+/* ===== Card ===== */
 .card {
-  background: #fff;
-  padding: 1.75rem;
-  border-radius: 24px;
-
+  position: relative;
+  background: var(--bg);
+  padding: 2rem;
+  border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
-
+  overflow: hidden;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-
+  flex-direction: column;
+  gap: 0.75rem;
   opacity: 0;
-  animation: fadeUp 450ms ease forwards;
+  transform: translateY(24px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
 
-  transition:
-    transform 200ms ease,
-    box-shadow 240ms ease,
-    border-color 200ms ease;
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease var(--delay, 0ms), transform 0.6s ease var(--delay, 0ms), box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-  border-color: rgba(63,99,200,0.35);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(5, 150, 105, 0.1);
+  border-color: rgba(52, 211, 153, 0.25);
 }
 
-/* 左側（アイコン + タイトル） */
-.left {
+/* Card top glow */
+.cardGlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #34d399, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .cardGlow {
+  opacity: 1;
+}
+
+/* Card header */
+.cardHeader {
   display: flex;
-  gap: 1rem;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.icon {
-  background: var(--accent);  /* 共通アクセント */
-  color: var(--primary);       /* 共通プライマリ */
-  width: 56px;
-  height: 56px;
+.cardIcon {
+  width: 52px;
+  height: 52px;
   border-radius: 14px;
-
-  font-size: 1rem;
-  font-weight: 800;
-
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.05));
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
 }
 
+.card:hover .cardIcon {
+  transform: scale(1.1) rotate(-5deg);
+}
 
-/* タイトル & 説明文 */
+/* Status badge */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.statusLive {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.statusSoon {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.statusLive .statusDot {
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+/* Card text */
 .cardTitle {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   margin: 0;
+  color: var(--text);
 }
 
 .cardDesc {
-  margin: 0.25rem 0 0;
-  color: #666;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+  flex: 1;
 }
 
-.cardUrl {
-  margin-top: 0.3rem;
-  font-size: 0.85rem;
-  color: var(--primary);
+/* Card footer */
+.cardFooter {
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-/* カテゴリ */
-.category {
-  font-size: 0.9rem;
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.88rem;
   font-weight: 600;
-  color: #444;
+  color: #059669;
 }
 
-/* アニメーション */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.cardArrow {
+  transition: transform 0.2s ease;
 }
 
+.card:hover .cardArrow {
+  transform: translateX(4px);
+}
+
+/* ===== CTA Section ===== */
+.cta {
+  margin-top: 4rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.04), rgba(52, 211, 153, 0.06));
+  border: 1px solid rgba(52, 211, 153, 0.15);
+}
+
+.ctaTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+}
+
+.ctaDesc {
+  font-size: 1rem;
+  color: var(--muted);
+  margin: 0 0 1.5rem;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctaBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(5, 150, 105, 0.3);
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
+  .heroBanner {
+    padding: 5rem 1rem 2.5rem;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
   .grid {
     grid-template-columns: 1fr;
   }
 
   .container {
-    padding: 2.5rem 1rem;
+    padding: 2rem 1rem 3rem;
+  }
+
+  .cta {
+    padding: 2rem 1.25rem;
   }
 }
