@@ -32,7 +32,7 @@ export default function Footer() {
         </div>
       </div>
       <div className={styles.bottom}>
-        <p>&copy; 2025 kame777. All rights reserved.</p>
+        <p>&copy; 2026 kame777. All rights reserved.</p>
       </div>
     </footer>
   );

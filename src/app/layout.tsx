@@ -38,10 +38,6 @@ export const metadata: Metadata = {
       { url: '/logo192.png' },
     ],
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-  },
 };
 
 export default function RootLayout({

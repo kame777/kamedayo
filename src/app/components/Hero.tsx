@@ -19,7 +19,7 @@ export default function Hero() {
         </p>
 
         <div className={styles.buttons}>
-          <Link href="/services">
+          <Link href="/webtool">
             <button className={styles.primaryBtn}>ツール一覧を見る</button>
           </Link>
           <Link href="/about">
