@@ -15,7 +15,7 @@ export default function Hero() {
         <h1 className={styles.title}>kameのツール箱へようこそ</h1>
 
         <p className={styles.subtitle}>
-          日常のちょっとした作業を楽にする、自作Webツールをまとめています。困ったらツール一覧をどうぞ。
+          日常のちょっとした作業を楽にする、自作Webツールを作っています。他に欲しいツールがあればDMください！
         </p>
 
         <div className={styles.buttons}>

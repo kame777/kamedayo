@@ -19,7 +19,7 @@ export default function Hero() {
         <h1 className={styles.title}>私について</h1>
 
         <p className={styles.subtitle}>
-          こちらのページをご覧ください（面倒くさくなった）
+          こちらのページをご覧ください（そのうちこのページに移植します！）
         </p>
 
         <div className={styles.buttons}>
