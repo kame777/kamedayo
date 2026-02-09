@@ -1,13 +1,9 @@
-import styles from '../components/Hero.module.css';
+import styles from './About.module.css';
 import Link from 'next/link';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
-export default function Hero() {
+export default function About() {
   return (
-    <>
-      <Header />
-      <section className={styles.hero}>
+    <section className={styles.hero}>
       <div className={styles.content}>
         <div className={styles.headerRow}>
           <div className={styles.avatar}>k</div>
@@ -23,15 +19,11 @@ export default function Hero() {
         </p>
 
         <div className={styles.buttons}>
-          <Link href="https://url.kamedayo.com/profile">
-            <button className={styles.primaryBtn}>kame777リンク集</button>
+          <Link href="https://url.kamedayo.com/profile" className={styles.primaryBtn}>
+            kame777リンク集
           </Link>
         </div>
-
       </div>
-      
-      </section>
-      <Footer />
-    </>
+    </section>
   );
 }

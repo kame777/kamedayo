@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "./PasswordGenerator.module.css";
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import HeroBanner from '../../components/HeroBanner';
+import { LETTERS, DIGITS, DEFAULT_SYMBOLS, WORD_LIST, MOBILE_BREAKPOINT } from '../../data/constants';
 
 type Mode = "random" | "memorable" | "pin";
 type CharItem = { char: string; type: "letter" | "number" | "symbol" };
@@ -14,12 +14,19 @@ const modes: { key: Mode; icon: string; label: string; shortLabel: string }[] = 
   { key: "pin", icon: "#", label: "PIN", shortLabel: "PIN" },
 ];
 
+/** crypto.getRandomValues を使った安全な乱数インデックス */
+function secureRandomIndex(max: number): number {
+  const array = new Uint32Array(1);
+  crypto.getRandomValues(array);
+  return array[0] % max;
+}
+
 const PasswordGenerator: React.FC = () => {
   const [passwordType, setPasswordType] = useState<Mode>("random");
   const [passwordLength, setPasswordLength] = useState<number>(30);
   const [includeNumbers, setIncludeNumbers] = useState<boolean>(true);
   const [includeSymbols, setIncludeSymbols] = useState<boolean>(false);
-  const [customSymbols, setCustomSymbols] = useState<string>("!@#$%^&*()_-+=<>?");
+  const [customSymbols, setCustomSymbols] = useState<string>(DEFAULT_SYMBOLS);
   const [showSymbolSettings, setShowSymbolSettings] = useState<boolean>(false);
   const [generatedPassword, setGeneratedPassword] = useState<string>("");
   const [coloredPassword, setColoredPassword] = useState<CharItem[]>([]);
@@ -27,10 +34,11 @@ const PasswordGenerator: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsMobile(window.innerWidth <= 640);
-    const handleResize = () => setIsMobile(window.innerWidth <= 640);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
   }, []);
 
   const handlePasswordTypeChange = (type: Mode) => {
@@ -39,11 +47,9 @@ const PasswordGenerator: React.FC = () => {
   };
 
   const generatePassword = useCallback(() => {
-    const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const numbers = "0123456789";
     const symbols = customSymbols || "";
-    let allowedChars = letters;
-    if (includeNumbers) allowedChars += numbers;
+    let allowedChars = LETTERS;
+    if (includeNumbers) allowedChars += DIGITS;
     if (includeSymbols) allowedChars += symbols;
 
     let password = "";
@@ -51,38 +57,37 @@ const PasswordGenerator: React.FC = () => {
 
     if (passwordType === "random") {
       for (let i = 0; i < passwordLength; i++) {
-        const randomChar = allowedChars.charAt(Math.floor(Math.random() * allowedChars.length));
+        const randomChar = allowedChars.charAt(secureRandomIndex(allowedChars.length));
         password += randomChar;
-        if (numbers.includes(randomChar)) passwordArray.push({ char: randomChar, type: "number" });
+        if (DIGITS.includes(randomChar)) passwordArray.push({ char: randomChar, type: "number" });
         else if (symbols.includes(randomChar)) passwordArray.push({ char: randomChar, type: "symbol" });
         else passwordArray.push({ char: randomChar, type: "letter" });
       }
     } else if (passwordType === "memorable") {
-      const words = ["apple", "banana", "orange", "grape", "melon", "cherry", "lemon", "peach", "kiwi", "mango"];
       let remainingLength = passwordLength;
       while (remainingLength > 0) {
-        const randomWord = words[Math.floor(Math.random() * words.length)];
+        const randomWord = WORD_LIST[secureRandomIndex(WORD_LIST.length)];
         if (randomWord.length <= remainingLength) {
           const capitalizedWord = randomWord.charAt(0).toUpperCase() + randomWord.slice(1);
           password += capitalizedWord;
           for (const c of capitalizedWord) passwordArray.push({ char: c, type: "letter" });
           remainingLength -= randomWord.length;
           if (remainingLength > 0 && includeNumbers) {
-            const randomNum = numbers.charAt(Math.floor(Math.random() * numbers.length));
+            const randomNum = DIGITS.charAt(secureRandomIndex(DIGITS.length));
             password += randomNum;
             passwordArray.push({ char: randomNum, type: "number" });
             remainingLength--;
           }
           if (remainingLength > 0 && includeSymbols && symbols.length > 0) {
-            const randomSym = symbols.charAt(Math.floor(Math.random() * symbols.length));
+            const randomSym = symbols.charAt(secureRandomIndex(symbols.length));
             password += randomSym;
             passwordArray.push({ char: randomSym, type: "symbol" });
             remainingLength--;
           }
         } else {
-          const randomChar = allowedChars.charAt(Math.floor(Math.random() * allowedChars.length));
+          const randomChar = allowedChars.charAt(secureRandomIndex(allowedChars.length));
           password += randomChar;
-          if (numbers.includes(randomChar)) passwordArray.push({ char: randomChar, type: "number" });
+          if (DIGITS.includes(randomChar)) passwordArray.push({ char: randomChar, type: "number" });
           else if (symbols.includes(randomChar)) passwordArray.push({ char: randomChar, type: "symbol" });
           else passwordArray.push({ char: randomChar, type: "letter" });
           remainingLength--;
@@ -90,7 +95,7 @@ const PasswordGenerator: React.FC = () => {
       }
     } else if (passwordType === "pin") {
       for (let i = 0; i < 6; i++) {
-        const randomNum = numbers.charAt(Math.floor(Math.random() * numbers.length));
+        const randomNum = DIGITS.charAt(secureRandomIndex(DIGITS.length));
         password += randomNum;
         passwordArray.push({ char: randomNum, type: "number" });
       }
@@ -116,19 +121,11 @@ const PasswordGenerator: React.FC = () => {
 
   return (
     <>
-      <Header />
-
-      {/* Hero */}
-      <section className={styles.heroBanner}>
-        <div className={styles.heroBg} aria-hidden="true" />
-        <div className={styles.heroContent}>
-          <span className={styles.heroBadge}>🔐 Password Generator</span>
-          <h1 className={styles.heroTitle}>パスワードジェネレーター</h1>
-          <p className={styles.heroSubtitle}>
-            安全なパスワードをワンクリックで生成
-          </p>
-        </div>
-      </section>
+      <HeroBanner
+        badge="🔐 Password Generator"
+        title="パスワードジェネレーター"
+        subtitle="安全なパスワードをワンクリックで生成"
+      />
 
       <main className={styles.container}>
         {/* Mode selector */}
@@ -180,11 +177,12 @@ const PasswordGenerator: React.FC = () => {
                 <div className={styles.optionRow}>
                   <label className={styles.optionLabel}>数字を含む</label>
                   <div
-                    role="button"
+                    role="switch"
+                    aria-checked={includeNumbers}
                     tabIndex={0}
                     className={`${styles.toggle} ${includeNumbers ? styles.toggleOn : ""}`}
                     onClick={() => setIncludeNumbers(!includeNumbers)}
-                    onKeyDown={() => setIncludeNumbers(!includeNumbers)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIncludeNumbers(!includeNumbers); } }}
                   >
                     <div className={styles.toggleThumb} />
                   </div>
@@ -193,16 +191,20 @@ const PasswordGenerator: React.FC = () => {
                 <div className={styles.optionRow}>
                   <label className={styles.optionLabel}>記号を含む</label>
                   <div
-                    role="button"
+                    role="switch"
+                    aria-checked={includeSymbols}
                     tabIndex={0}
                     className={`${styles.toggle} ${includeSymbols ? styles.toggleOn : ""}`}
                     onClick={() => {
                       setIncludeSymbols(!includeSymbols);
                       if (!includeSymbols) setShowSymbolSettings(true);
                     }}
-                    onKeyDown={() => {
-                      setIncludeSymbols(!includeSymbols);
-                      if (!includeSymbols) setShowSymbolSettings(true);
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setIncludeSymbols(!includeSymbols);
+                        if (!includeSymbols) setShowSymbolSettings(true);
+                      }
                     }}
                   >
                     <div className={styles.toggleThumb} />
@@ -250,8 +252,6 @@ const PasswordGenerator: React.FC = () => {
           </div>
         </div>
       </main>
-
-      <Footer />
     </>
   );
 };

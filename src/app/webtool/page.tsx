@@ -1,85 +1,30 @@
 'use client';
 
 import Link from 'next/link';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import HeroBanner from '../components/HeroBanner';
 import styles from './Services.module.css';
-import { useEffect, useRef } from 'react';
-
-const projects = [
-  {
-    id: 1,
-    icon: '📝',
-    title: '文字数カウンター',
-    desc: '文字数・単語数・行数をリアルタイムでカウント。レポートやSNS投稿の文字数管理に。',
-    category: '公開中',
-    status: 'live',
-    url: '/webtool/1/',
-  },
-  {
-    id: 2,
-    icon: '🔐',
-    title: 'パスワードジェネレーター',
-    desc: '大文字・小文字・数字・記号を組み合わせた安全なパスワードをワンクリック生成。',
-    category: '公開中',
-    status: 'live',
-    url: '/webtool/2/',
-  },
-  {
-    id: 3,
-    icon: '🔍',
-    title: '文章比較ツール',
-    desc: '2つの文章を並べて差分をハイライト表示。コードレビューや原稿チェックに。',
-    category: '開発中',
-    status: 'soon',
-    url: '/webtool/3/',
-  },
-];
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import { tools } from '../data/tools';
 
 export default function Page() {
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const grid = gridRef.current;
-    if (!grid) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.visible);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const cards = grid.querySelectorAll(`.${styles.card}`);
-    cards.forEach((card) => observer.observe(card));
-
-    return () => observer.disconnect();
-  }, []);
+  const gridRef = useScrollReveal<HTMLDivElement>(
+    `.${styles.card}`,
+    styles.visible,
+    { threshold: 0.1 },
+  );
 
   return (
     <>
-      <Header />
-
-      {/* Hero banner */}
-      <section className={styles.heroBanner}>
-        <div className={styles.heroBg} aria-hidden="true" />
-        <div className={styles.heroContent}>
-          <span className={styles.heroBadge}>🧰 Webツール</span>
-          <h1 className={styles.heroTitle}>ツール一覧</h1>
-          <p className={styles.heroSubtitle}>
-            軽量・シンプル・実用的。すべて無料で使えます。
-          </p>
-        </div>
-      </section>
+      <HeroBanner
+        badge="🧰 Webツール"
+        title="ツール一覧"
+        subtitle="軽量・シンプル・実用的。すべて無料で使えます。"
+      />
 
       <main className={styles.container}>
         <div className={styles.grid} ref={gridRef}>
-          {projects.map((p, index) => (
-            <Link key={p.id} href={p.url} className={styles.linkReset}>
+          {tools.map((t, index) => (
+            <Link key={t.id} href={t.url} className={styles.linkReset}>
               <article
                 className={styles.card}
                 style={{ '--delay': `${index * 120}ms` } as React.CSSProperties}
@@ -87,19 +32,19 @@ export default function Page() {
                 <div className={styles.cardGlow} />
 
                 <div className={styles.cardHeader}>
-                  <div className={styles.cardIcon}>{p.icon}</div>
-                  <span className={`${styles.statusBadge} ${p.status === 'live' ? styles.statusLive : styles.statusSoon}`}>
+                  <div className={styles.cardIcon}>{t.icon}</div>
+                  <span className={`${styles.statusBadge} ${t.status === 'live' ? styles.statusLive : styles.statusSoon}`}>
                     <span className={styles.statusDot} />
-                    {p.category}
+                    {t.category}
                   </span>
                 </div>
 
-                <h3 className={styles.cardTitle}>{p.title}</h3>
-                <p className={styles.cardDesc}>{p.desc}</p>
+                <h3 className={styles.cardTitle}>{t.title}</h3>
+                <p className={styles.cardDesc}>{t.description}</p>
 
                 <div className={styles.cardFooter}>
                   <span className={styles.cardLink}>
-                    {p.status === 'live' ? '使ってみる' : '詳細を見る'}
+                    {t.status === 'live' ? '使ってみる' : '詳細を見る'}
                     <span className={styles.cardArrow}>→</span>
                   </span>
                 </div>
@@ -117,8 +62,6 @@ export default function Page() {
           </Link>
         </div>
       </main>
-
-      <Footer />
     </>
   );
 }

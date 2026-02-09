@@ -1,14 +1,9 @@
 import Link from 'next/link';
-import Header from './components/Header';
-import Footer from './components/Footer';
 import styles from './not-found.module.css';
 
 export default function NotFound() {
   return (
-    <>
-      <Header />
-
-      <main className={styles.main}>
+    <main className={styles.main}>
         {/* Background shapes */}
         <div className={styles.bgShapes} aria-hidden="true">
           <div className={`${styles.shape} ${styles.shape1}`} />
@@ -56,8 +51,5 @@ export default function NotFound() {
           </div>
         </div>
       </main>
-
-      <Footer />
-    </>
   );
 }

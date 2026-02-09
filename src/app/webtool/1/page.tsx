@@ -2,8 +2,7 @@
 
 import React, { useState, useRef, useMemo, useCallback } from "react";
 import styles from "./TextCounter.module.css";
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import HeroBanner from '../../components/HeroBanner';
 
 type Stats = {
   totalCharCount: number;
@@ -100,19 +99,11 @@ const TextCounter: React.FC = () => {
 
   return (
     <>
-      <Header />
-
-      {/* Hero */}
-      <section className={styles.heroBanner}>
-        <div className={styles.heroBg} aria-hidden="true" />
-        <div className={styles.heroContent}>
-          <span className={styles.heroBadge}>📝 Text Counter</span>
-          <h1 className={styles.heroTitle}>文字数カウンター</h1>
-          <p className={styles.heroSubtitle}>
-            文字数・行数・全角/半角をリアルタイムにカウント
-          </p>
-        </div>
-      </section>
+      <HeroBanner
+        badge="📝 Text Counter"
+        title="文字数カウンター"
+        subtitle="文字数・行数・全角/半角をリアルタイムにカウント"
+      />
 
       <main className={styles.container}>
         {/* Buttons */}
@@ -158,8 +149,6 @@ const TextCounter: React.FC = () => {
           </div>
         </div>
       </main>
-
-      <Footer />
     </>
   );
 };

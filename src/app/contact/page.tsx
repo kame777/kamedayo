@@ -1,23 +1,14 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import HeroBanner from '../components/HeroBanner';
 import styles from './Contact.module.css';
 
 export default function Contact() {
   return (
     <>
-      <Header />
-
-      {/* Hero banner */}
-      <section className={styles.heroBanner}>
-        <div className={styles.heroBg} aria-hidden="true" />
-        <div className={styles.heroContent}>
-          <span className={styles.heroBadge}>✉️ Contact</span>
-          <h1 className={styles.heroTitle}>お問い合わせ</h1>
-          <p className={styles.heroSubtitle}>
-            ご質問・ツールのリクエスト・バグ報告など、お気軽にどうぞ。
-          </p>
-        </div>
-      </section>
+      <HeroBanner
+        badge="✉️ Contact"
+        title="お問い合わせ"
+        subtitle="ご質問・ツールのリクエスト・バグ報告など、お気軽にどうぞ。"
+      />
 
       <main className={styles.container}>
         <div className={styles.grid}>
@@ -62,8 +53,6 @@ export default function Contact() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </>
   );
 }
