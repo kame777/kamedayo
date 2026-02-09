@@ -1,15 +1,8 @@
 import type { Metadata } from 'next';
-import { Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
-
-const notoSansJP = Noto_Sans_JP({
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kamedayo.com'),
@@ -55,7 +48,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" className={notoSansJP.className}>
+    <html lang="ja">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=LINE+Seed+JP:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
         <Header />
         <PageTransition>
