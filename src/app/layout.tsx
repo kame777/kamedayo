@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import PageTransition from './components/PageTransition';
+import Donate from './components/Donate';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kamedayo.com'),
@@ -59,10 +59,11 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
-        <PageTransition>
+        <main className="page-transition">
           {children}
-        </PageTransition>
+        </main>
         <Footer />
+        <Donate />
       </body>
     </html>
   );

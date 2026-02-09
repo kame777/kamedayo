@@ -174,6 +174,7 @@ export default function About() {
               <iframe
                 src="https://www.youtube.com/embed/42zGm68KZzI"
                 title="SeaofThieves 攻略動画"
+                loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
@@ -196,9 +197,9 @@ export default function About() {
                 <summary>チラ見(当時のwebサイト)</summary>
                 <ImageLightbox
                   images={[
-                    { src: '/kamesaba1.png', alt: 'かめ鯖 webサイト 1' },
-                    { src: '/kamesaba2.png', alt: 'かめ鯖 webサイト 2' },
-                    { src: '/kamesaba3.png', alt: 'かめ鯖 webサイト 3' },
+                    { src: '/kamesaba1.webp', alt: 'かめ鯖 webサイト 1' },
+                    { src: '/kamesaba2.webp', alt: 'かめ鯖 webサイト 2' },
+                    { src: '/kamesaba3.webp', alt: 'かめ鯖 webサイト 3' },
                   ]}
                 />
               </details>

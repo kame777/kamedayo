@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import Image from 'next/image';
 import styles from './ImageLightbox.module.css';
 
 type Props = {
@@ -39,14 +40,17 @@ export default function ImageLightbox({ images }: Props) {
     <>
       <div className={styles.gallery}>
         {images.map((img, i) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={img.src}
-            src={img.src}
-            alt={img.alt}
-            className={styles.thumb}
-            onClick={() => setActiveIndex(i)}
-          />
+          <div key={img.src} className={styles.thumbWrap} onClick={() => setActiveIndex(i)}>
+            <Image
+              src={img.src}
+              alt={img.alt}
+              width={800}
+              height={450}
+              className={styles.thumb}
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 800px"
+            />
+          </div>
         ))}
       </div>
 
@@ -68,6 +72,7 @@ export default function ImageLightbox({ images }: Props) {
             alt={images[activeIndex].alt}
             className={styles.fullImage}
             onClick={(e) => e.stopPropagation()}
+            loading="eager"
           />
 
           <button

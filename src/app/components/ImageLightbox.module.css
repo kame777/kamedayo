@@ -6,17 +6,24 @@
   margin-top: 0.75rem;
 }
 
-.thumb {
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+.thumbWrap {
   cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.thumb:hover {
+.thumbWrap:hover {
   transform: scale(1.02);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.thumb {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* ── Lightbox Overlay ── */

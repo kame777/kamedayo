@@ -12,7 +12,7 @@ export default function Footer() {
           <ul>
             <li><a data-no-external="true" href="https://url.kamedayo.com/twitter" target='_blank' rel="noopener noreferrer">X(旧Twitter)</a></li>
             <li><a data-no-external="true" href="https://misskey.kamedayo.com/@kame777" target='_blank' rel="noopener noreferrer">かめすきー</a></li>
-            <li><a data-no-external="true" href="https://url.kamedayo.com/profile" target='_blank' rel="noopener noreferrer">プロフィール・リンク集</a></li>
+            <li><a data-no-external="true" href="/about#:~:text=%F0%9F%94%97-,%E5%90%84%E7%A8%AE%E3%83%AA%E3%83%B3%E3%82%AF%E9%A1%9E,-%E5%90%84%E7%A8%AE%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88" rel="noopener noreferrer">各種リンク類</a></li>
           </ul>
         </div>
         <div className={styles.section}>
