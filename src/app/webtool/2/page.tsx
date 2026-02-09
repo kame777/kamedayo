@@ -8,6 +8,12 @@ import Footer from '../../components/Footer';
 type Mode = "random" | "memorable" | "pin";
 type CharItem = { char: string; type: "letter" | "number" | "symbol" };
 
+const modes: { key: Mode; icon: string; label: string; shortLabel: string }[] = [
+  { key: "random", icon: "🔀", label: "ランダム", shortLabel: "乱数" },
+  { key: "memorable", icon: "👁️", label: "覚えやすい", shortLabel: "記憶" },
+  { key: "pin", icon: "#", label: "PIN", shortLabel: "PIN" },
+];
+
 const PasswordGenerator: React.FC = () => {
   const [passwordType, setPasswordType] = useState<Mode>("random");
   const [passwordLength, setPasswordLength] = useState<number>(30);
@@ -18,9 +24,10 @@ const PasswordGenerator: React.FC = () => {
   const [generatedPassword, setGeneratedPassword] = useState<string>("");
   const [coloredPassword, setColoredPassword] = useState<CharItem[]>([]);
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(typeof window !== "undefined" ? window.innerWidth <= 640 : false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsMobile(window.innerWidth <= 640);
     const handleResize = () => setIsMobile(window.innerWidth <= 640);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -60,14 +67,12 @@ const PasswordGenerator: React.FC = () => {
           password += capitalizedWord;
           for (const c of capitalizedWord) passwordArray.push({ char: c, type: "letter" });
           remainingLength -= randomWord.length;
-
           if (remainingLength > 0 && includeNumbers) {
             const randomNum = numbers.charAt(Math.floor(Math.random() * numbers.length));
             password += randomNum;
             passwordArray.push({ char: randomNum, type: "number" });
             remainingLength--;
           }
-
           if (remainingLength > 0 && includeSymbols && symbols.length > 0) {
             const randomSym = symbols.charAt(Math.floor(Math.random() * symbols.length));
             password += randomSym;
@@ -106,139 +111,148 @@ const PasswordGenerator: React.FC = () => {
       await navigator.clipboard.writeText(generatedPassword);
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
-    } catch {
-      // ignore
-    }
+    } catch { /* ignore */ }
   };
 
   return (
-    <div className={styles.passwordGenerator}>
-      <div className={styles.passwordContainer}>
-        <Header />
-        <h1 className={styles.title}>パスワードジェネレーター</h1>
-        <h2 className={styles.heading}>パスワードの種類を選択</h2>
+    <>
+      <Header />
 
-        <div className={styles.passwordTypeSelector}>
-          <button
-            type="button"
-            className={`${styles.typeButton} ${passwordType === "random" ? styles.active : ""}`}
-            onClick={() => handlePasswordTypeChange("random")}
-          >
-            <span className={styles.icon} role="img" aria-label="random">🔀</span> {isMobile ? "乱数" : "ランダム"}
-          </button>
-
-          <button
-            type="button"
-            className={`${styles.typeButton} ${passwordType === "memorable" ? styles.active : ""}`}
-            onClick={() => handlePasswordTypeChange("memorable")}
-          >
-            <span className={styles.icon} role="img" aria-label="memorable">👁️</span> {isMobile ? "記憶" : "覚えやすい"}
-          </button>
-
-          <button
-            type="button"
-            className={`${styles.typeButton} ${passwordType === "pin" ? styles.active : ""}`}
-            onClick={() => handlePasswordTypeChange("pin")}
-          >
-            <span className={styles.icon}>#</span> PIN
-          </button>
+      {/* Hero */}
+      <section className={styles.heroBanner}>
+        <div className={styles.heroBg} aria-hidden="true" />
+        <div className={styles.heroContent}>
+          <span className={styles.heroBadge}>🔐 Password Generator</span>
+          <h1 className={styles.heroTitle}>パスワードジェネレーター</h1>
+          <p className={styles.heroSubtitle}>
+            安全なパスワードをワンクリックで生成
+          </p>
         </div>
+      </section>
 
-        <h2 className={styles.heading}>新しいパスワードをカスタマイズ</h2>
-
-        {passwordType !== "pin" ? (
-          <>
-            <div className={styles.optionRow}>
-              <label>文字数</label>
-              <div className={styles.lengthControl}>
-                <input
-                  type="range"
-                  min={4}
-                  max={64}
-                  value={passwordLength}
-                  onChange={(e) => setPasswordLength(Number(e.target.value))}
-                  className={styles.range}
-                />
-                <input
-                  type="number"
-                  min={4}
-                  max={64}
-                  value={passwordLength}
-                  onChange={(e) => setPasswordLength(Number(e.target.value))}
-                  className={styles.lengthInput}
-                />
-              </div>
-            </div>
-
-            <div className={styles.optionRow}>
-              <label>数字</label>
-              <div
-                role="button"
-                tabIndex={0}
-                className={`${styles.toggleSwitch} ${includeNumbers ? styles.active : ""}`}
-                onClick={() => setIncludeNumbers(!includeNumbers)}
-                onKeyDown={() => setIncludeNumbers(!includeNumbers)}
+      <main className={styles.container}>
+        {/* Mode selector */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>パスワードの種類</h2>
+          <div className={styles.modeSelector}>
+            {modes.map((m) => (
+              <button
+                key={m.key}
+                type="button"
+                className={`${styles.modeBtn} ${passwordType === m.key ? styles.modeBtnActive : ""}`}
+                onClick={() => handlePasswordTypeChange(m.key)}
               >
-                <div className={styles.toggleButton} />
-              </div>
-            </div>
-
-            <div className={styles.optionRow}>
-              <label>記号</label>
-              <div
-                role="button"
-                tabIndex={0}
-                className={`${styles.toggleSwitch} ${includeSymbols ? styles.active : ""}`}
-                onClick={() => {
-                  setIncludeSymbols(!includeSymbols);
-                  if (!includeSymbols) setShowSymbolSettings(true);
-                }}
-                onKeyDown={() => {
-                  setIncludeSymbols(!includeSymbols);
-                  if (!includeSymbols) setShowSymbolSettings(true);
-                }}
-              >
-                <div className={styles.toggleButton} />
-              </div>
-            </div>
-
-            {showSymbolSettings && includeSymbols && (
-              <div className={styles.symbolSettings}>
-                <label>使用する記号を入力してください：</label>
-                <input
-                  type="text"
-                  value={customSymbols}
-                  onChange={(e) => setCustomSymbols(e.target.value)}
-                  className={styles.symbolInput}
-                />
-              </div>
-            )}
-          </>
-        ) : (
-          <div className={styles.pinInfo}><p>PINは6桁の数字で生成されます</p></div>
-        )}
-
-        <h2 className={styles.heading}>生成されたパスワード</h2>
-
-        <div className={styles.generatedPassword}>
-          <div className={styles.passwordDisplay}>
-            {coloredPassword.map((item, idx) => (
-              <span key={idx} className={`${styles.char} ${styles[item.type]}`}>{item.char}</span>
+                <span className={styles.modeIcon}>{m.icon}</span>
+                {isMobile ? m.shortLabel : m.label}
+              </button>
             ))}
           </div>
         </div>
 
-        <div className={styles.buttonRow}>
-          <button type="button" className={styles.copyButton} onClick={copyToClipboard}>
-            {copySuccess ? "コピー済" : "パスワードをコピー"}
-          </button>
-          <button type="button" className={styles.refreshButton} onClick={generatePassword}>
-            {isMobile ? "更新" : "パスワードを更新"}
-          </button>
+        {/* Options */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>カスタマイズ</h2>
+          <div className={styles.optionsCard}>
+            {passwordType !== "pin" ? (
+              <>
+                <div className={styles.optionRow}>
+                  <label className={styles.optionLabel}>文字数</label>
+                  <div className={styles.lengthControl}>
+                    <input
+                      type="range"
+                      min={4}
+                      max={64}
+                      value={passwordLength}
+                      onChange={(e) => setPasswordLength(Number(e.target.value))}
+                      className={styles.range}
+                    />
+                    <input
+                      type="number"
+                      min={4}
+                      max={64}
+                      value={passwordLength}
+                      onChange={(e) => setPasswordLength(Number(e.target.value))}
+                      className={styles.lengthInput}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.optionRow}>
+                  <label className={styles.optionLabel}>数字を含む</label>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    className={`${styles.toggle} ${includeNumbers ? styles.toggleOn : ""}`}
+                    onClick={() => setIncludeNumbers(!includeNumbers)}
+                    onKeyDown={() => setIncludeNumbers(!includeNumbers)}
+                  >
+                    <div className={styles.toggleThumb} />
+                  </div>
+                </div>
+
+                <div className={styles.optionRow}>
+                  <label className={styles.optionLabel}>記号を含む</label>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    className={`${styles.toggle} ${includeSymbols ? styles.toggleOn : ""}`}
+                    onClick={() => {
+                      setIncludeSymbols(!includeSymbols);
+                      if (!includeSymbols) setShowSymbolSettings(true);
+                    }}
+                    onKeyDown={() => {
+                      setIncludeSymbols(!includeSymbols);
+                      if (!includeSymbols) setShowSymbolSettings(true);
+                    }}
+                  >
+                    <div className={styles.toggleThumb} />
+                  </div>
+                </div>
+
+                {showSymbolSettings && includeSymbols && (
+                  <div className={styles.symbolRow}>
+                    <label className={styles.optionLabel}>使用する記号</label>
+                    <input
+                      type="text"
+                      value={customSymbols}
+                      onChange={(e) => setCustomSymbols(e.target.value)}
+                      className={styles.symbolInput}
+                    />
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className={styles.pinNotice}>
+                <span className={styles.pinIcon}>📌</span>
+                PINは6桁の数字で生成されます
+              </div>
+            )}
+          </div>
         </div>
-            <Footer />
-      </div>
-    </div>
+
+        {/* Generated password */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>生成されたパスワード</h2>
+          <div className={styles.resultCard}>
+            <div className={styles.passwordDisplay}>
+              {coloredPassword.map((item, idx) => (
+                <span key={idx} className={`${styles.char} ${styles[item.type]}`}>{item.char}</span>
+              ))}
+            </div>
+            <div className={styles.resultActions}>
+              <button type="button" className={styles.copyBtn} onClick={copyToClipboard}>
+                {copySuccess ? "✅ コピー済み" : "📋 コピー"}
+              </button>
+              <button type="button" className={styles.refreshBtn} onClick={generatePassword}>
+                🔄 {isMobile ? "更新" : "再生成"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </>
   );
 };
 

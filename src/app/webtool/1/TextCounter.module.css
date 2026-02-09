@@ -1,90 +1,89 @@
-/* コンテナの基本スタイル。カスタムプロパティは共通化され、:root で定義されています */
-.container {
-  width: 100%;
-  max-width: 920px;
-  margin: 20px auto;
-  padding: 28px;
-  background: var(--bg);
-  border-radius: var(--container-radius);
-  box-shadow: 0 6px 20px var(--shadow);
-  transition: background-color 0.25s, color 0.25s, box-shadow 0.25s;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic UI', 'Meiryo', sans-serif;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+/* ===== Hero Banner ===== */
+.heroBanner {
+  position: relative;
+  padding: 6rem 1.5rem 3.5rem;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #031a09 0%, #064e3b 50%, #052e16 100%);
+  color: #fff;
 }
 
-.title {
-  text-align: center;
-  /* ヘッダーと重ならないよう少し上に余白を追加 */
-  margin-top: 12px;
-  margin-bottom: 18px;
-  color: var(--text);
-  font-size: 1.75rem;
-  font-weight: 700;
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 50% at 30% 70%, rgba(52, 211, 153, 0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 70% 30%, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.heroBadge {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1rem;
+}
+
+.heroTitle {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
   letter-spacing: -0.02em;
 }
 
-.sectionTitle {
-  font-size: 1.05rem;
-  color: var(--muted);
-  margin-bottom: 10px;
-  padding-bottom: 6px;
+.heroSubtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  line-height: 1.7;
 }
 
-.textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #e6e6e6;
-  border-radius: 10px;
-  resize: vertical;
-  min-height: 180px;
-  transition: border-color 0.22s, box-shadow 0.22s;
-  box-sizing: border-box;
-  font-size: 16.5px;
-  line-height: 1.8;
-  font-family: inherit;
-  margin-bottom: 18px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03);
-  background: linear-gradient(180deg, var(--accent), var(--surface));
-  color: var(--text);
+/* ===== Container ===== */
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2rem var(--gutter-x) 4rem;
 }
 
-.textarea::placeholder {
-  color: #9aa1a6;
-}
-
-.textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 6px 18px rgba(43, 120, 217, 0.08);
-}
-
+/* ===== Button Group ===== */
 .buttonGroup {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 16px;
-  width: 100%;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 .button {
-  padding: 10px 12px;
+  padding: 0.65rem 0.75rem;
   cursor: pointer;
-  background-color: #f6f6f6;
+  background: var(--bg);
   color: var(--text);
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  transition: transform 0.12s ease, background-color 0.12s ease, box-shadow 0.12s ease;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
   font-weight: 600;
   flex: 1 1 120px;
   min-width: 90px;
-  font-size: 0.98rem;
+  font-size: 0.95rem;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .button:hover {
-  background-color: #f0f6ff;
+  background: rgba(5, 150, 105, 0.06);
   transform: translateY(-2px);
 }
 
@@ -92,33 +91,71 @@
   transform: translateY(0);
 }
 
-/* 2番目のボタン（コピー）を目立たせる */
-.buttonGroup .button:nth-child(2) {
-  background-color: var(--primary);
+.buttonPrimary {
+  background: linear-gradient(135deg, #059669, #047857);
   color: #fff;
-  border-color: rgba(43, 120, 217, 0.9);
-  box-shadow: 0 6px 18px rgba(43, 120, 217, 0.12);
+  border-color: transparent;
+  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.2);
 }
 
+.buttonPrimary:hover {
+  background: linear-gradient(135deg, #047857, #065f46);
+  box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
+}
+
+/* ===== Textarea ===== */
+.textarea {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  resize: vertical;
+  min-height: 200px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  font-size: 1rem;
+  line-height: 1.85;
+  font-family: inherit;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.textarea::placeholder {
+  color: #9ca3af;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 4px 18px rgba(5, 150, 105, 0.1);
+}
+
+/* ===== Stats Container (2-column) ===== */
 .statsContainer {
-  margin-top: 10px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 14px;
-  width: 100%;
+  gap: 0.75rem;
 }
 
 .statGroup {
-  background-color: var(--surface);
-  padding: 14px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  width: 100%;
-  box-sizing: border-box;
+  background: var(--bg);
+  padding: 1.25rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.statGroupTitle {
+  margin: 0 0 0.6rem 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
 }
 
 .counter {
-  font-size: 15px;
+  font-size: 0.95rem;
   color: var(--text);
 }
 
@@ -126,83 +163,66 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 8px 0;
+  margin: 0.5rem 0;
 }
 
 .counter p span {
   font-weight: 700;
-  color: var(--primary);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Noto Sans Mono', monospace;
-  background: rgba(43,120,217,0.06);
-  padding: 4px 8px;
-  border-radius: 6px;
+  color: #059669;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+  background: rgba(5, 150, 105, 0.06);
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
   min-width: 44px;
   text-align: right;
 }
 
-.statGroup h2 {
-  margin: 0 0 8px 0;
-  font-size: 1.02rem;
-  color: var(--text);
-}
-
-/* Dark mode variant applied via .dark on .container */
-.containerDark {
-  --bg: #161616;
-  --surface: #1f1f1f;
-  --text: #e8e8e8;
-  --muted: #bfc7cc;
-  --primary: #6fb0ff;
-  --accent: #111317;
-  --shadow: rgba(0, 0, 0, 0.5);
-}
-
-/* Responsiveness */
+/* ===== Responsive ===== */
 @media (min-width: 768px) {
   .statsContainer {
     grid-template-columns: 1fr 1fr;
   }
+}
 
-  .container {
-    max-width: 920px;
-    padding: 32px;
+@media (max-width: 768px) {
+  .heroBanner {
+    padding: 5rem 1rem 2.5rem;
   }
 
-  .button {
-    font-size: 1rem;
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 1.5rem 1rem 3rem;
   }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 12px;
-  }
-
-  .title {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
+    padding: 1rem 0.75rem 2.5rem;
   }
 
   .textarea {
-    min-height: 140px;
-    padding: 10px;
+    min-height: 150px;
+    padding: 0.75rem;
   }
 
   .buttonGroup {
-    gap: 8px;
+    gap: 0.5rem;
   }
 
   .button {
-    padding: 9px;
-    font-size: 0.9rem;
+    padding: 0.55rem;
+    font-size: 0.88rem;
     min-width: 72px;
   }
 
   .statGroup {
-    padding: 12px;
+    padding: 1rem;
   }
 
   .counter {
-    font-size: 14px;
+    font-size: 0.88rem;
   }
 }
