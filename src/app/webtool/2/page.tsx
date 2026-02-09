@@ -14,11 +14,16 @@ const modes: { key: Mode; icon: string; label: string; shortLabel: string }[] = 
   { key: "pin", icon: "#", label: "PIN", shortLabel: "PIN" },
 ];
 
-/** crypto.getRandomValues を使った安全な乱数インデックス */
+/** crypto.getRandomValues を使った安全な乱数インデックス（rejection sampling で一様分布） */
 function secureRandomIndex(max: number): number {
-  const array = new Uint32Array(1);
-  crypto.getRandomValues(array);
-  return array[0] % max;
+  const limit = Math.floor(0x100000000 / max) * max; // 2^32 以下で max の最大の倍数
+  let value: number;
+  do {
+    const array = new Uint32Array(1);
+    crypto.getRandomValues(array);
+    value = array[0];
+  } while (value >= limit);
+  return value % max;
 }
 
 const PasswordGenerator: React.FC = () => {

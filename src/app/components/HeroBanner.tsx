@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './HeroBanner.module.css';
 
 type HeroBannerProps = {
