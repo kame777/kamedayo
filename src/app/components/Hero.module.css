@@ -5,7 +5,7 @@
   justify-content: center;
   padding: 3.5rem 1.5rem;
   position: relative;
-  background: #f7f7f8;
+  background: transparent; /* ページ背景を透過させて統一 */
   color: #1f2937;
 }
 
@@ -15,6 +15,7 @@
   color: inherit;
   padding: 2rem;
   border-radius: 12px;
+  background: var(--bg); /* カード背景を明示的に白に固定 */
   box-shadow: 0 6px 20px rgba(31, 41, 55, 0.06);
 }
 
@@ -53,7 +54,7 @@
   font-weight: 700;
   line-height: 1.15;
   margin: 0.25rem 0 1rem 0;
-  color: #0f172a;
+  color: var(--text);
 }
 
 .subtitle {
@@ -82,7 +83,7 @@
 }
 
 .primaryBtn {
-  background: #2563eb;
+  background: var(--primary);
   color: white;
 }
 
@@ -97,8 +98,8 @@
 
 .secondaryBtn {
   background: transparent;
-  color: #374151;
-  border: 1px solid #e6e7eb;
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
 .secondaryBtn:hover {

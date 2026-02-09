@@ -20,6 +20,7 @@ export default function Footer() {
           <ul>
             <li><Link href="/about">私について</Link></li>
             <li><Link href="/contact">お問い合わせ</Link></li>
+            <li><a data-no-external="true" href="https://status.kamedayo.com/" target='_blank' rel="noopener noreferrer">サイトステータス</a></li>
           </ul>
         </div>
         <div className={styles.section}>

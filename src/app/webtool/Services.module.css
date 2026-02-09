@@ -1,9 +1,9 @@
 /* 背景 */
 .container {
-  max-width: 1300px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 4rem 2rem;
-  background: (135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 4rem var(--gutter-x);
+  background: var(--page-bg);
 }
 
 .header {
@@ -60,7 +60,7 @@
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-  border-color: 3f63c8(255, 128, 128, 0.35);
+  border-color: rgba(63,99,200,0.35);
 }
 
 /* 左側（アイコン + タイトル） */
@@ -71,8 +71,8 @@
 }
 
 .icon {
-  background: #dce9ff;  /* 淡い青に変更 */
-  color: #3f63c8;       /* 濃いブルーの文字 */
+  background: var(--accent);  /* 共通アクセント */
+  color: var(--primary);       /* 共通プライマリ */
   width: 56px;
   height: 56px;
   border-radius: 14px;
@@ -103,7 +103,7 @@
 .cardUrl {
   margin-top: 0.3rem;
   font-size: 0.85rem;
-  color: #3f63c8;
+  color: var(--primary);
 }
 
 /* カテゴリ */
