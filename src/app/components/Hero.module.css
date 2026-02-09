@@ -53,7 +53,7 @@
   font-weight: 700;
   line-height: 1.15;
   margin: 0.25rem 0 1rem 0;
-  color: #0f172a;
+  color: var(--text);
 }
 
 .subtitle {
@@ -82,7 +82,7 @@
 }
 
 .primaryBtn {
-  background: #2563eb;
+  background: var(--primary);
   color: white;
 }
 
@@ -97,8 +97,8 @@
 
 .secondaryBtn {
   background: transparent;
-  color: #374151;
-  border: 1px solid #e6e7eb;
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
 .secondaryBtn:hover {

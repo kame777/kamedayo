@@ -4,6 +4,8 @@
   box-sizing: border-box;
 }
 
+@import './styles/common.css';
+
 html {
   scroll-behavior: smooth;
 }

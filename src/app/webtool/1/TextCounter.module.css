@@ -1,14 +1,5 @@
-/* カスタムプロパティはコンテナ内に定義 */
+/* コンテナの基本スタイル。カスタムプロパティは共通化され、:root で定義されています */
 .container {
-  --bg: #ffffff;
-  --surface: #fbfbfb;
-  --text: #222222;
-  --muted: #666666;
-  --primary: #2b78d9;
-  --accent: #f7fbff;
-  --shadow: rgba(33, 33, 33, 0.08);
-  --container-radius: 12px;
-
   width: 100%;
   max-width: 920px;
   margin: 20px auto;

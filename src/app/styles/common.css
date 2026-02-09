@@ -1,0 +1,50 @@
+:root {
+  /* カラーパレット */
+  --bg: #ffffff;
+  --surface: #fbfbfb;
+  --text: #222222;
+  --muted: #666666;
+  --primary: #2b78d9;
+  --brand-grad-start: #667eea;
+  --brand-grad-end: #764ba2;
+  --accent: #f7fbff;
+  --shadow: rgba(33, 33, 33, 0.08);
+  --container-radius: 12px;
+  --max-width: 1200px;
+  --gutter-x: 2rem;
+}
+
+/* サイト全体で使えるユーティリティ */
+.u-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem var(--gutter-x);
+  box-sizing: border-box;
+}
+
+.btn {
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* アクセシリティ補助 */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
