@@ -29,7 +29,8 @@ function secureRandomIndex(max: number): number {
 
 const PasswordGenerator: React.FC = () => {
   const [passwordType, setPasswordType] = useState<Mode>("random");
-  const [passwordLength, setPasswordLength] = useState<number>(30);
+  const [passwordLength, setPasswordLength] = useState<number>(16);
+  const [prevLength, setPrevLength] = useState<number>(16);
   const [includeNumbers, setIncludeNumbers] = useState<boolean>(true);
   const [includeSymbols, setIncludeSymbols] = useState<boolean>(false);
   const [customSymbols, setCustomSymbols] = useState<string>(DEFAULT_SYMBOLS);
@@ -49,8 +50,13 @@ const PasswordGenerator: React.FC = () => {
   }, []);
 
   const handlePasswordTypeChange = (type: Mode) => {
+    if (type === "pin") {
+      setPrevLength(passwordLength);
+      setPasswordLength(6);
+    } else if (passwordType === "pin") {
+      setPasswordLength(prevLength);
+    }
     setPasswordType(type);
-    if (type === "pin") setPasswordLength(6);
   };
 
   const generatePassword = useCallback(() => {
