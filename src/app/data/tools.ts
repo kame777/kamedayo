@@ -54,7 +54,7 @@ export const tools: Tool[] = [
     id: 5,
     icon: '📄',
     title: 'PDFツール',
-    description: 'PDFの結合・分割・ページ抽出。すべてブラウザ上で完結。',
+    description: 'PDFの結合・分割・ページ抽出・圧縮。すべてブラウザ上で完結。',
     category: '公開中',
     status: 'live',
     url: '/webtool/5',

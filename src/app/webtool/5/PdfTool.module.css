@@ -14,6 +14,8 @@
   background: var(--bg);
   border: 1px solid rgba(0, 0, 0, 0.05);
   margin-bottom: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tabBtn {
@@ -345,10 +347,168 @@
   to { transform: rotate(360deg); }
 }
 
+/* ===== Compress Options ===== */
+.compressOptions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.compressBtn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1rem 0.75rem;
+  border-radius: 14px;
+  border: 2px solid rgba(0, 0, 0, 0.06);
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.compressBtn:hover {
+  border-color: rgba(5, 150, 105, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.08);
+}
+
+.compressBtnActive {
+  border-color: #059669;
+  background: rgba(5, 150, 105, 0.04);
+  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.12);
+}
+
+.compressLabel {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.compressDesc {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ===== Convert Options ===== */
+.convertOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.dirToggle {
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.3rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+  width: fit-content;
+}
+
+.dirBtn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 9px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dirBtn:hover {
+  background: rgba(5, 150, 105, 0.06);
+  color: var(--text);
+}
+
+.dirBtnActive {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
+}
+
+.dirBtnActive:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #fff;
+}
+
+.fmtSelector {
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.25rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.03);
+  width: fit-content;
+}
+
+.fmtBtn {
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fmtBtn:hover {
+  background: rgba(5, 150, 105, 0.06);
+  color: var(--text);
+}
+
+.fmtBtnActive {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
+}
+
+.fmtBtnActive:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #fff;
+}
+
+/* ===== Compress Result ===== */
+.compressResult {
+  padding: 1.25rem;
+  border-radius: 16px;
+  background: var(--bg);
+  border: 1px solid rgba(5, 150, 105, 0.15);
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.compressResultRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.92rem;
+}
+
+.compressResultRow span {
+  color: var(--muted);
+}
+
+.compressResultRow strong {
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+}
+
+.greenText {
+  color: #059669 !important;
+}
+
 /* ===== Features ===== */
 .features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
 
@@ -391,8 +551,19 @@
   }
 
   .tabBtn {
-    font-size: 0.85rem;
-    padding: 0.65rem 0.5rem;
+    font-size: 0.82rem;
+    padding: 0.6rem 0.5rem;
+    white-space: nowrap;
+  }
+
+  .compressOptions {
+    flex-direction: column;
+  }
+
+  .compressBtn {
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
   }
 }
 
@@ -414,13 +585,13 @@
   }
 
   .tabBtn {
-    font-size: 0.8rem;
-    padding: 0.55rem 0.4rem;
-    gap: 0.25rem;
+    font-size: 0.78rem;
+    padding: 0.5rem 0.35rem;
+    gap: 0.2rem;
   }
 
   .tabIcon {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .fileCard {
@@ -437,5 +608,27 @@
 
   .button {
     justify-content: center;
+  }
+
+  .dirToggle {
+    width: 100%;
+  }
+
+  .dirBtn {
+    flex: 1;
+    text-align: center;
+    font-size: 0.82rem;
+    padding: 0.55rem 0.6rem;
+  }
+
+  .fmtSelector {
+    width: 100%;
+  }
+
+  .fmtBtn {
+    flex: 1;
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 0.45rem 0.5rem;
   }
 }
