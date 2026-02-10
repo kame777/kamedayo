@@ -21,7 +21,13 @@ export async function POST(req: NextRequest) {
 
     if (!SHORT_IO_API_KEY || !SHORT_IO_DOMAIN) {
       return NextResponse.json(
-        { error: "サーバー設定エラー: APIキーまたはドメインが未設定です。" },
+        {
+          error: "サーバー設定エラー: APIキーまたはドメインが未設定です。",
+          debug: {
+            hasKey: !!SHORT_IO_API_KEY,
+            hasDomain: !!SHORT_IO_DOMAIN,
+          },
+        },
         { status: 500 }
       );
     }
