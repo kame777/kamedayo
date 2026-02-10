@@ -128,7 +128,7 @@ const PasswordGenerator: React.FC = () => {
     <>
       <HeroBanner
         badge="🔐 Password Generator"
-        title="パスワードジェネレーター"
+        title="パスワード生成ツール"
         subtitle="安全なパスワードをワンクリックで生成"
       />
 

@@ -23,7 +23,7 @@ export const tools: Tool[] = [
   {
     id: 2,
     icon: '🔐',
-    title: 'パスワードジェネレーター',
+    title: 'パスワード生成ツール',
     description: '安全なランダムパスワードをワンクリックで生成。',
     category: '公開中',
     status: 'live',
