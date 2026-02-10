@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = 'edge';
+
 const SHORT_IO_API_KEY = process.env.SHORT_IO_API_KEY || "";
 const SHORT_IO_DOMAIN = process.env.SHORT_IO_DOMAIN || "";
 
