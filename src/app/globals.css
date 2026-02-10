@@ -17,6 +17,20 @@ body {
   line-height: 1.6;
 }
 
+/* テーマ切替トランジション */
+html[data-theme-transition],
+html[data-theme-transition] *,
+html[data-theme-transition] *::before,
+html[data-theme-transition] *::after {
+  transition: background-color 0.4s ease,
+              background 0.4s ease,
+              color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease,
+              fill 0.3s ease,
+              stroke 0.3s ease !important;
+}
+
 /* Page transition */
 
 .page-transition {

@@ -27,7 +27,13 @@ export default function ThemeToggle() {
   }, [theme, mounted]);
 
   const toggle = () => {
+    // テーマ切替トランジションを有効化
+    document.documentElement.setAttribute('data-theme-transition', '');
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    // トランジション完了後に属性を除去（パフォーマンス対策）
+    setTimeout(() => {
+      document.documentElement.removeAttribute('data-theme-transition');
+    }, 500);
   };
 
   // SSR 中はレンダリングしない（FOUC 防止）
@@ -40,7 +46,7 @@ export default function ThemeToggle() {
       aria-label={theme === 'light' ? 'ダークモードに切替' : 'ライトモードに切替'}
       title={theme === 'light' ? 'ダークモードに切替' : 'ライトモードに切替'}
     >
-      <span className={styles.icon}>
+      <span className={styles.icon} key={theme}>
         {theme === 'light' ? (
           /* 月アイコン */
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
