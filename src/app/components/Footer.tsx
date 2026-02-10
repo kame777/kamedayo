@@ -28,7 +28,7 @@ export default function Footer() {
           <ul>
             <li><Link href="/webtool">Webツール一覧</Link></li>
             <li><Link href="/webtool/1">文字数カウンター</Link></li>
-            <li><Link href="/webtool/2">パスワードジェネレーター</Link></li>
+            <li><Link href="/webtool/2">パスワード生成ツール</Link></li>
           </ul>
         </div>
       </div>

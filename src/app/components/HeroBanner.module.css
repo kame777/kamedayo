@@ -35,6 +35,7 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.85);
   margin-bottom: 1rem;
+  white-space: nowrap;
 }
 
 .heroTitle {
@@ -59,5 +60,24 @@
 
   .heroTitle {
     font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroBanner {
+    padding: 4rem 0.75rem 2rem;
+  }
+
+  .heroTitle {
+    font-size: 1.6rem;
+  }
+
+  .heroSubtitle {
+    font-size: 0.95rem;
+  }
+
+  .heroBadge {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.75rem;
   }
 }

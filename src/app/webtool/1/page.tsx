@@ -32,7 +32,7 @@ function computeStats(t: string): Stats {
     const ch = t[i];
     total++;
     if (ch === "\n") lines++;
-    if (!(ch === " " || ch === "\t" || ch === "\n" || ch === "\r" || ch === "\v" || ch === "\f")) {
+    if (!(ch === " " || ch === "\u3000" || ch === "\t" || ch === "\n" || ch === "\r" || ch === "\v" || ch === "\f")) {
       nonSpace++;
     }
     const cp = t.codePointAt(i)!;

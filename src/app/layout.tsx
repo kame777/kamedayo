@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     url: 'https://kamedayo.com',
     title: 'kamedayo | Webツールと技術メモ',
     description: '個人が作る便利Webツールと技術メモのサイト。',
+
     siteName: 'kamedayo',
     images: [
       { url: '/logo512.png', width: 512, height: 512, alt: 'kamedayo' },

@@ -16,7 +16,7 @@ export default function Page() {
   return (
     <>
       <HeroBanner
-        badge="🧰 Webツール"
+        badge="🧰 Webtool"
         title="ツール一覧"
         subtitle="軽量・シンプル・実用的。すべて無料で使えます。"
       />
