@@ -74,7 +74,23 @@
   height: 3px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.77, 0, 0.18, 1),
+              opacity 0.25s ease;
+  transform-origin: center;
+}
+
+/* ハンバーガー → × アニメーション */
+.menuToggleOpen span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menuToggleOpen span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.menuToggleOpen span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
 }
 
 .navOpen {
@@ -93,6 +109,42 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   gap: 1rem;
+  animation: menuSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* メニュースライドダウン */
+@keyframes menuSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* リンクのスタガーフェードイン */
+.navOpen a,
+.navOpen button {
+  animation: linkFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.navOpen a:nth-child(1) { animation-delay: 0.05s; }
+.navOpen a:nth-child(2) { animation-delay: 0.1s; }
+.navOpen a:nth-child(3) { animation-delay: 0.15s; }
+.navOpen a:nth-child(4) { animation-delay: 0.2s; }
+.navOpen button        { animation-delay: 0.25s; }
+
+@keyframes linkFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @media (max-width: 768px) {

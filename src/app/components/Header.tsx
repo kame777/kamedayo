@@ -31,7 +31,7 @@ export default function Header() {
         </nav>
 
         <button
-          className={styles.menuToggle}
+          className={`${styles.menuToggle} ${menuOpen ? styles.menuToggleOpen : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="メニュー"
           aria-expanded={menuOpen}
