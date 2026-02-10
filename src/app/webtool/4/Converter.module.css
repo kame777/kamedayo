@@ -37,13 +37,13 @@
 }
 
 .modeTabActive {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
   box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
 }
 
 .modeTabActive:hover {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
 }
 
@@ -65,7 +65,7 @@
 
 .dropZone:hover,
 .dropZoneActive {
-  border-color: #059669;
+  border-color: var(--focus-border);
   background: rgba(5, 150, 105, 0.06);
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(5, 150, 105, 0.1);
@@ -165,18 +165,18 @@
 }
 
 .formatBtnActive {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
   box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
 }
 
 .formatBtnActive:hover {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
 }
 
 .range {
-  accent-color: #059669;
+  accent-color: var(--focus-border);
   width: 180px;
   height: 6px;
 }
@@ -243,7 +243,7 @@
 }
 
 .fileSize strong {
-  color: #059669;
+  color: var(--primary);
 }
 
 .fileActions {
@@ -269,7 +269,7 @@
 
 .dlBtn {
   background: rgba(5, 150, 105, 0.08);
-  color: #059669;
+  color: var(--primary);
 }
 
 .dlBtn:hover {
@@ -278,7 +278,7 @@
 
 .removeBtn {
   background: rgba(239, 68, 68, 0.06);
-  color: #dc2626;
+  color: var(--error);
   font-size: 0.8rem;
 }
 
@@ -291,7 +291,7 @@
   width: 20px;
   height: 20px;
   border: 2px solid rgba(5, 150, 105, 0.2);
-  border-top-color: #059669;
+  border-top-color: var(--focus-border);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
@@ -333,7 +333,7 @@
 /* ===== Error Text ===== */
 .errorText {
   font-size: 0.75rem;
-  color: #dc2626;
+  color: var(--error);
   margin-top: 0.1rem;
 }
 
@@ -381,14 +381,14 @@
 }
 
 .buttonPrimary {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
   border-color: transparent;
   box-shadow: 0 4px 16px rgba(5, 150, 105, 0.2);
 }
 
 .buttonPrimary:hover {
-  background: linear-gradient(135deg, #047857, #065f46);
+  background: var(--btn-grad-hover);
   box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
 }
 

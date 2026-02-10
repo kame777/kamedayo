@@ -147,7 +147,7 @@
 }
 
 .profileItem dt {
-  color: #d97706;
+  color: var(--warning);
   font-weight: 600;
   min-width: 3rem;
 }

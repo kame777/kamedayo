@@ -71,7 +71,7 @@
 .date {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #059669;
+  color: var(--primary);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }

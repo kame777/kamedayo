@@ -35,6 +35,11 @@
   --skeleton-to: #f5f5f5;
   --label-muted: #6b7280;
   --header-bg: #0f3d24;
+  --error: #dc2626;
+  --warning: #d97706;
+  --btn-grad: linear-gradient(135deg, #059669, #047857);
+  --btn-grad-hover: linear-gradient(135deg, #047857, #065f46);
+  --focus-border: #059669;
 }
 
 /* ダークモード */
@@ -66,6 +71,11 @@
   --skeleton-to: #253530;
   --label-muted: #9ca3af;
   --header-bg: #0a2618;
+  --error: #f87171;
+  --warning: #fbbf24;
+  --btn-grad: linear-gradient(135deg, #34d399, #059669);
+  --btn-grad-hover: linear-gradient(135deg, #059669, #047857);
+  --focus-border: #34d399;
 }
 
 /* サイト全体で使えるユーティリティ */

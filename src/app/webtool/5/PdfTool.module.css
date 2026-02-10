@@ -41,13 +41,13 @@
 }
 
 .tabBtnActive {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
   box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
 }
 
 .tabBtnActive:hover {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
 }
 
@@ -85,7 +85,7 @@
 
 .dropZone:hover,
 .dropZoneActive {
-  border-color: #059669;
+  border-color: var(--focus-border);
   background: rgba(5, 150, 105, 0.06);
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(5, 150, 105, 0.1);
@@ -206,7 +206,7 @@
 
 .moveBtn:hover:not(:disabled) {
   background: rgba(5, 150, 105, 0.1);
-  color: #059669;
+  color: var(--primary);
 }
 
 .moveBtn:disabled {
@@ -216,7 +216,7 @@
 
 .removeBtn {
   background: rgba(239, 68, 68, 0.06);
-  color: #dc2626;
+  color: var(--error);
   font-size: 0.78rem;
 }
 
@@ -267,7 +267,7 @@
 
 .extractInput:focus {
   outline: none;
-  border-color: #059669;
+  border-color: var(--focus-border);
   box-shadow: 0 4px 18px rgba(5, 150, 105, 0.1);
 }
 
@@ -321,14 +321,14 @@
 }
 
 .buttonPrimary {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
   border-color: transparent;
   box-shadow: 0 4px 16px rgba(5, 150, 105, 0.2);
 }
 
 .buttonPrimary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #047857, #065f46);
+  background: var(--btn-grad-hover);
   box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
 }
 
@@ -375,7 +375,7 @@
 }
 
 .compressBtnActive {
-  border-color: #059669;
+  border-color: var(--focus-border);
   background: rgba(5, 150, 105, 0.04);
   box-shadow: 0 4px 16px rgba(5, 150, 105, 0.12);
 }
@@ -426,13 +426,13 @@
 }
 
 .dirBtnActive {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
   box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
 }
 
 .dirBtnActive:hover {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
 }
 
@@ -463,13 +463,13 @@
 }
 
 .fmtBtnActive {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
   box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
 }
 
 .fmtBtnActive:hover {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
 }
 
@@ -502,7 +502,7 @@
 }
 
 .greenText {
-  color: #059669 !important;
+  color: var(--primary) !important;
 }
 
 /* ===== Features ===== */

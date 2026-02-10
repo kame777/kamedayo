@@ -39,14 +39,14 @@
 }
 
 .buttonPrimary {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: var(--btn-grad);
   color: #fff;
   border-color: transparent;
   box-shadow: 0 4px 16px rgba(5, 150, 105, 0.2);
 }
 
 .buttonPrimary:hover {
-  background: linear-gradient(135deg, #047857, #065f46);
+  background: var(--btn-grad-hover);
   box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
 }
 
@@ -75,7 +75,7 @@
 
 .textarea:focus {
   outline: none;
-  border-color: #059669;
+  border-color: var(--focus-border);
   box-shadow: 0 4px 18px rgba(5, 150, 105, 0.1);
 }
 
@@ -115,7 +115,7 @@
 
 .counter p span {
   font-weight: 700;
-  color: #059669;
+  color: var(--primary);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
   background: rgba(5, 150, 105, 0.06);
   padding: 0.25rem 0.6rem;
