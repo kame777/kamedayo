@@ -1,11 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 
 export const runtime = "edge";
 
 export async function POST(req: NextRequest) {
   try {
-    const SHORT_IO_API_KEY = process.env.SHORT_IO_API_KEY || "";
-    const SHORT_IO_DOMAIN = process.env.SHORT_IO_DOMAIN || "";
+    let SHORT_IO_API_KEY = "";
+    let SHORT_IO_DOMAIN = "";
+
+    try {
+      // Cloudflare Pages runtime
+      const { env } = getRequestContext();
+      SHORT_IO_API_KEY = (env as Record<string, string>).SHORT_IO_API_KEY || "";
+      SHORT_IO_DOMAIN = (env as Record<string, string>).SHORT_IO_DOMAIN || "";
+    } catch {
+      // Local dev fallback
+      SHORT_IO_API_KEY = process.env.SHORT_IO_API_KEY || "";
+      SHORT_IO_DOMAIN = process.env.SHORT_IO_DOMAIN || "";
+    }
 
     if (!SHORT_IO_API_KEY || !SHORT_IO_DOMAIN) {
       return NextResponse.json(
