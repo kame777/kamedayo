@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import Hero from './components/Hero';
+import WaveDivider from './components/WaveDivider';
 import { FeaturesSkeleton, NewsSkeleton, KamesukiSkeleton } from './components/Skeleton';
 
 const Features = dynamic(() => import('./components/Features'), {
@@ -16,9 +17,10 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <Features />
+      <WaveDivider />
       <News />
       <KamesukiSection />
+      <Features />
     </main>
   );
 }

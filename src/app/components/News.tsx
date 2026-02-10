@@ -17,7 +17,7 @@ export default function News() {
         <div className={styles.card}>
           <h2 className={styles.title}>
             <span className={styles.titleIcon}>📢</span>
-            近況報告
+            お知らせ
           </h2>
           <ul className={styles.list}>
             {newsItems.map((item, i) => (

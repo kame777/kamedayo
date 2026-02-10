@@ -1,7 +1,7 @@
 /* ===== Features Section ===== */
 .features {
   padding: 5rem 1.5rem;
-  background: var(--page-bg);
+  background: linear-gradient(180deg, var(--page-grad-start) 0%, var(--page-grad-end) 100%);
   position: relative;
 }
 
@@ -77,7 +77,8 @@
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 60px var(--shadow);
+  box-shadow: 0 20px 60px var(--shadow), 0 0 0 1px rgba(52, 211, 153, 0.3);
+  border-color: rgba(52, 211, 153, 0.4);
 }
 
 /* Card glow on hover */
@@ -138,7 +139,7 @@
   gap: 0.35rem;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--card-color);
+  color: var(--primary);
 }
 
 .cardArrow {

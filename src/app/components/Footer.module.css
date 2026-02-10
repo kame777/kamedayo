@@ -1,8 +1,8 @@
 .footer {
-  background: linear-gradient(180deg, #1a3a2a 0%, #223d30 100%);
+  background: var(--footer-bg);
   color: #ffffff;
   padding: 3rem 2rem 1rem;
-  margin-top: 4rem;
+  margin-top: 0;
 }
 
 .container {

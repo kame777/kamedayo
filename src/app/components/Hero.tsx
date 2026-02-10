@@ -4,9 +4,33 @@ import styles from './Hero.module.css';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { tools } from '../data/tools';
+import { useCountUp } from '../hooks/useCountUp';
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const { count: toolCount, ref: toolCountRef } = useCountUp(tools.length, 1200, 400);
+  const { count: freeCount, ref: freeCountRef } = useCountUp(100, 1500, 600);
+
+  // パララックス効果
+  useEffect(() => {
+    let rafId = 0;
+    const handleScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (bgRef.current) {
+          const scrollY = window.scrollY;
+          bgRef.current.style.transform = `translateY(${scrollY * 0.3}px)`;
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -35,7 +59,7 @@ export default function Hero() {
   return (
     <section className={styles.hero} ref={heroRef}>
       {/* Animated background shapes */}
-      <div className={styles.bgShapes} aria-hidden="true">
+      <div className={styles.bgShapes} aria-hidden="true" ref={bgRef}>
         <div className={`${styles.shape} ${styles.shape1}`} />
         <div className={`${styles.shape} ${styles.shape2}`} />
         <div className={`${styles.shape} ${styles.shape3}`} />
@@ -78,7 +102,7 @@ export default function Hero() {
         {/* Stats row */}
         <div className={styles.stats}>
           <div className={styles.statItem}>
-            <span className={styles.statNumber}>{tools.length}+</span>
+            <span className={styles.statNumber} ref={toolCountRef}>{toolCount}+</span>
             <span className={styles.statLabel}>公開ツール</span>
           </div>
           <div className={styles.statDivider} />
@@ -88,7 +112,7 @@ export default function Hero() {
           </div>
           <div className={styles.statDivider} />
           <div className={styles.statItem}>
-            <span className={styles.statNumber}>100%</span>
+            <span className={styles.statNumber} ref={freeCountRef}>{freeCount}%</span>
             <span className={styles.statLabel}>無料</span>
           </div>
         </div>

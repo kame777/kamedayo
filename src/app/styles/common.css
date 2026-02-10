@@ -18,6 +18,8 @@
   --gutter-x: 2rem;
   /* Hero背景色 (ヘッダーが参照) */
   --hero-bg: rgba(6, 40, 20, 0.85);
+  --hero-solid: #064e3b;
+  --footer-bg: #1a3a2a;
 
   /* ダークモード対応 — 追加変数 */
   --border: rgba(0, 0, 0, 0.06);
@@ -49,6 +51,8 @@
   --accent: #1a2a1e;
   --shadow: rgba(0, 0, 0, 0.3);
   --hero-bg: rgba(4, 30, 16, 0.92);
+  --hero-solid: #0a2618;
+  --footer-bg: #1a2e24;
   --border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.12);
   --surface-alt: rgba(255, 255, 255, 0.04);
@@ -77,7 +81,39 @@
   border-radius: 8px;
   cursor: pointer;
   padding: 0.6rem 1rem;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* #1 ボタンシャイン効果 */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.25) 45%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.25) 55%,
+    transparent 60%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.btn:hover::after {
+  left: 125%;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--shadow);
 }
 
 .btn-primary {
