@@ -30,7 +30,7 @@
 .urlInput {
   width: 100%;
   padding: 0.85rem 1rem 0.85rem 2.8rem;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-strong);
   border-radius: 14px;
   font-size: 1rem;
   font-family: inherit;
@@ -41,7 +41,7 @@
 }
 
 .urlInput::placeholder {
-  color: #9ca3af;
+  color: var(--placeholder);
 }
 
 .urlInput:focus {
@@ -177,7 +177,7 @@
 .latestOriginal {
   margin-top: 0.6rem;
   font-size: 0.82rem;
-  color: #9ca3af;
+  color: var(--placeholder);
   word-break: break-all;
 }
 
@@ -208,8 +208,8 @@
 .clearBtn {
   padding: 0.35rem 0.8rem;
   background: transparent;
-  color: #9ca3af;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: var(--placeholder);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.8rem;
   cursor: pointer;
@@ -229,7 +229,7 @@
 
 .historyItem {
   background: var(--bg);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1rem 1.1rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
@@ -269,7 +269,7 @@
 
 .historyOriginal {
   font-size: 0.78rem;
-  color: #9ca3af;
+  color: var(--placeholder);
   margin: 0;
   word-break: break-all;
   overflow: hidden;
@@ -279,16 +279,16 @@
 
 .historyTime {
   font-size: 0.72rem;
-  color: #d1d5db;
+  color: var(--label-muted);
 }
 
 /* ===== Info ===== */
 .infoSection {
   background: var(--bg);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 1.25rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 12px var(--surface-alt);
 }
 
 .infoTitle {

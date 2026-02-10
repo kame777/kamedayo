@@ -21,7 +21,7 @@
   font-weight: 600;
   color: var(--muted);
   background: var(--bg);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border);
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -59,7 +59,7 @@
   background: var(--bg);
   padding: 2rem;
   border-radius: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -176,7 +176,7 @@
 /* Card footer */
 .cardFooter {
   padding-top: 0.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  border-top: 1px solid var(--border);
 }
 
 .cardLink {

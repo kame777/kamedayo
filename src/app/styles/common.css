@@ -18,6 +18,50 @@
   --gutter-x: 2rem;
   /* Hero背景色 (ヘッダーが参照) */
   --hero-bg: rgba(6, 40, 20, 0.85);
+
+  /* ダークモード対応 — 追加変数 */
+  --border: rgba(0, 0, 0, 0.06);
+  --border-strong: rgba(0, 0, 0, 0.08);
+  --surface-alt: rgba(0, 0, 0, 0.03);
+  --shadow-card: rgba(0, 0, 0, 0.04);
+  --link-color: #1e40af;
+  --link-visited: #4c1d95;
+  --link-hover: #1e3a8a;
+  --placeholder: #9ca3af;
+  --toggle-off: #d1d5db;
+  --skeleton-from: #e8e8e8;
+  --skeleton-to: #f5f5f5;
+  --label-muted: #6b7280;
+  --header-bg: #0f3d24;
+}
+
+/* ダークモード */
+[data-theme="dark"] {
+  --bg: #141e1a;
+  --surface: #1a2a22;
+  --text: #e0e8e4;
+  --muted: #8aaa8a;
+  --primary: #34d399;
+  --brand-grad-start: #34d399;
+  --brand-grad-end: #059669;
+  --page-grad-start: #0c1410;
+  --page-grad-end: #141e1a;
+  --accent: #1a2a1e;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --hero-bg: rgba(4, 30, 16, 0.92);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --surface-alt: rgba(255, 255, 255, 0.04);
+  --shadow-card: rgba(0, 0, 0, 0.2);
+  --link-color: #60a5fa;
+  --link-visited: #a78bfa;
+  --link-hover: #93c5fd;
+  --placeholder: #6b7280;
+  --toggle-off: #4b5563;
+  --skeleton-from: #1f2f27;
+  --skeleton-to: #253530;
+  --label-muted: #9ca3af;
+  --header-bg: #0a2618;
 }
 
 /* サイト全体で使えるユーティリティ */
@@ -45,7 +89,7 @@
 .btn-secondary {
   background: transparent;
   color: var(--text);
-  border: 1px solid rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
 }
 
 /* アクセシリティ補助 */

@@ -18,15 +18,15 @@
   padding: 2rem;
   border-radius: 20px;
   background: var(--bg);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px var(--shadow-card);
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 40px var(--shadow);
 }
 
 .cardIcon {
@@ -115,8 +115,8 @@
   padding: 2.5rem 2rem;
   border-radius: 20px;
   background: var(--bg);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px var(--shadow-card);
 }
 
 .faqTitle {
@@ -135,7 +135,7 @@
 
 .faqItem {
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border);
   overflow: hidden;
   transition: background 0.2s ease;
 }

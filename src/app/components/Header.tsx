@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './Header.module.css';
+import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,6 +22,14 @@ export default function Header() {
           kameテスト用サイト
         </Link>
 
+        <nav id="primary-nav" className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`} aria-label="メインメニュー">
+          <Link href="/" onClick={() => setMenuOpen(false)}>ホーム</Link>
+          <Link href="/about" onClick={() => setMenuOpen(false)}>私について</Link>
+          <Link href="/webtool" onClick={() => setMenuOpen(false)}>Webツール</Link>
+          <Link href="/contact" onClick={() => setMenuOpen(false)}>お問い合わせ</Link>
+          <ThemeToggle />
+        </nav>
+
         <button
           className={styles.menuToggle}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -32,13 +41,6 @@ export default function Header() {
           <span></span>
           <span></span>
         </button>
-
-        <nav id="primary-nav" className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`} aria-label="メインメニュー">
-          <Link href="/" onClick={() => setMenuOpen(false)}>ホーム</Link>
-          <Link href="/about" onClick={() => setMenuOpen(false)}>私について</Link>
-          <Link href="/webtool" onClick={() => setMenuOpen(false)}>Webツール</Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>お問い合わせ</Link>
-        </nav>
       </div>
     </header>
   );
