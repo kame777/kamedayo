@@ -3,6 +3,7 @@
 import styles from './Hero.module.css';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
+import { tools } from '../data/tools';
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -77,7 +78,7 @@ export default function Hero() {
         {/* Stats row */}
         <div className={styles.stats}>
           <div className={styles.statItem}>
-            <span className={styles.statNumber}>2+</span>
+            <span className={styles.statNumber}>{tools.length}+</span>
             <span className={styles.statLabel}>公開ツール</span>
           </div>
           <div className={styles.statDivider} />

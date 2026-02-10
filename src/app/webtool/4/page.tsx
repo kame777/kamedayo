@@ -69,7 +69,6 @@ export default function ExtensionConverter() {
   const [videoFormat, setVideoFormat] = useState<VideoOutputFormat>("mp4");
   const [quality, setQuality] = useState(92);
   const [isDragging, setIsDragging] = useState(false);
-  const [ffmpegLoaded, setFfmpegLoaded] = useState(false);
   const [ffmpegLoading, setFfmpegLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,7 +91,6 @@ export default function ExtensionConverter() {
         wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
       });
       ffmpegRef.current = ffmpeg;
-      setFfmpegLoaded(true);
       return ffmpeg;
     } catch {
       throw new Error("FFmpegの読み込みに失敗しました");

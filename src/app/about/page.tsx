@@ -263,7 +263,7 @@ function LinkCard({ icon, label, href }: { icon: string; label: string; href: st
       href={href}
       className={styles.linkCard}
       {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      data-no-external
+      data-no-external="true"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={icon} alt="" width={20} height={20} className={styles.linkCardIcon} />

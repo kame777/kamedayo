@@ -40,7 +40,13 @@ export default function ImageLightbox({ images }: Props) {
     <>
       <div className={styles.gallery}>
         {images.map((img, i) => (
-          <div key={img.src} className={styles.thumbWrap} onClick={() => setActiveIndex(i)}>
+          <button
+            key={img.src}
+            className={styles.thumbWrap}
+            onClick={() => setActiveIndex(i)}
+            type="button"
+            aria-label={`${img.alt}を拡大表示`}
+          >
             <Image
               src={img.src}
               alt={img.alt}
@@ -50,7 +56,7 @@ export default function ImageLightbox({ images }: Props) {
               loading="lazy"
               sizes="(max-width: 768px) 100vw, 800px"
             />
-          </div>
+          </button>
         ))}
       </div>
 

@@ -11,6 +11,12 @@
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: none;
+  padding: 0;
+  background: none;
+  display: block;
+  width: 100%;
+  text-align: left;
 }
 
 .thumbWrap:hover {

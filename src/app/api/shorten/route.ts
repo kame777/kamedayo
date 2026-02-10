@@ -3,8 +3,35 @@ import { getRequestContext } from "@cloudflare/next-on-pages";
 
 export const runtime = "edge";
 
+/* ── Simple in-memory rate limiter (per IP, 5 requests / 60s) ── */
+const RATE_LIMIT_WINDOW = 60_000; // 60 seconds
+const RATE_LIMIT_MAX = 5;
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
+    return false;
+  }
+  entry.count++;
+  return entry.count > RATE_LIMIT_MAX;
+}
+
 export async function POST(req: NextRequest) {
   try {
+    // Rate limiting
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+      || req.headers.get("cf-connecting-ip")
+      || "unknown";
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: "リクエストが多すぎます。しばらくしてから再試行してください。" },
+        { status: 429 }
+      );
+    }
+
     let SHORT_IO_API_KEY = "";
     let SHORT_IO_DOMAIN = "";
 

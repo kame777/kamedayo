@@ -18,6 +18,11 @@ export function useScrollReveal<T extends HTMLElement = HTMLElement>(
   const ref = useRef<T>(null);
   const optionsRef = useRef<IntersectionObserverInit>(options);
 
+  // options が変わったら ref を更新
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
+
   useEffect(() => {
     const container = ref.current;
     if (!container) return;
