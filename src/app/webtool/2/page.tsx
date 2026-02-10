@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import styles from "./PasswordGenerator.module.css";
 import HeroBanner from '../../components/HeroBanner';
 import { LETTERS, DIGITS, DEFAULT_SYMBOLS, WORD_LIST, MOBILE_BREAKPOINT } from '../../data/constants';
+import { useTabIndicator } from '../../hooks/useTabIndicator';
 
 type Mode = "random" | "memorable" | "pin";
 type CharItem = { char: string; type: "letter" | "number" | "symbol" };
@@ -37,6 +38,7 @@ const PasswordGenerator: React.FC = () => {
   const [coloredPassword, setColoredPassword] = useState<CharItem[]>([]);
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const { containerRef: selectorRef, indicatorStyle } = useTabIndicator(passwordType);
 
   useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
@@ -136,13 +138,15 @@ const PasswordGenerator: React.FC = () => {
         {/* Mode selector */}
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>パスワードの種類</h2>
-          <div className={styles.modeSelector}>
+          <div className={styles.modeSelector} ref={selectorRef}>
+            <div className={styles.modeIndicator} style={indicatorStyle} />
             {modes.map((m) => (
               <button
                 key={m.key}
                 type="button"
                 className={`${styles.modeBtn} ${passwordType === m.key ? styles.modeBtnActive : ""}`}
                 onClick={() => handlePasswordTypeChange(m.key)}
+                data-active={passwordType === m.key ? "true" : undefined}
               >
                 <span className={styles.modeIcon}>{m.icon}</span>
                 {isMobile ? m.shortLabel : m.label}

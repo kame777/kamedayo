@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import styles from "./DiffTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
+import { useTabIndicator } from '../../hooks/useTabIndicator';
 
 /* ───────── Types ───────── */
 type DiffLineType = "added" | "removed" | "unchanged";
@@ -202,6 +203,7 @@ export default function DiffTool() {
   const [isSampleOld, setIsSampleOld] = useState(true);
   const [isSampleNew, setIsSampleNew] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>("side");
+  const { containerRef: viewToggleRef, indicatorStyle: viewIndicatorStyle } = useTabIndicator(viewMode);
 
   const diff = useMemo(() => computeDiff(oldText, newText), [oldText, newText]);
 
@@ -505,16 +507,19 @@ export default function DiffTool() {
                 </span>
               </div>
 
-              <div className={styles.viewToggle}>
+              <div className={styles.viewToggle} ref={viewToggleRef}>
+                <div className={styles.viewIndicator} style={viewIndicatorStyle} />
                 <button
                   className={`${styles.viewBtn} ${viewMode === "side" ? styles.viewBtnActive : ""}`}
                   onClick={() => setViewMode("side")}
+                  data-active={viewMode === "side" ? "true" : undefined}
                 >
                   並列表示
                 </button>
                 <button
                   className={`${styles.viewBtn} ${viewMode === "unified" ? styles.viewBtnActive : ""}`}
                   onClick={() => setViewMode("unified")}
+                  data-active={viewMode === "unified" ? "true" : undefined}
                 >
                   統合表示
                 </button>

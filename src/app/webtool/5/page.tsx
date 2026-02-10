@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./PdfTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
+import { useTabIndicator } from '../../hooks/useTabIndicator';
 
 /* ═══════════════════ Types ═══════════════════ */
 type TabKey = "merge" | "split" | "extract" | "compress";
@@ -117,6 +118,7 @@ async function compressPdf(file: File, level: CompressLevel): Promise<Blob> {
 /* ═══════════════════ Component ═══════════════════ */
 export default function PdfTool() {
   const [tab, setTab] = useState<TabKey>("merge");
+  const { containerRef: tabBarRef, indicatorStyle: tabIndicatorStyle } = useTabIndicator(tab);
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -441,12 +443,14 @@ export default function PdfTool() {
 
       <main className={styles.container}>
         {/* ── Tabs ── */}
-        <div className={styles.tabBar}>
+        <div className={styles.tabBar} ref={tabBarRef}>
+          <div className={styles.tabIndicator} style={tabIndicatorStyle} />
           {TABS.map((t) => (
             <button
               key={t.key}
               className={`${styles.tabBtn} ${tab === t.key ? styles.tabBtnActive : ""}`}
               onClick={() => switchTab(t.key)}
+              data-active={tab === t.key ? "true" : undefined}
             >
               <span className={styles.tabIcon}>{t.icon}</span>
               {t.label}

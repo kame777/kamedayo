@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useRef } from "react";
 import styles from "./Converter.module.css";
 import HeroBanner from "../../components/HeroBanner";
+import { useTabIndicator } from '../../hooks/useTabIndicator';
 
 /* ───────── Types ───────── */
 type Mode = "image" | "video";
@@ -64,6 +65,7 @@ function uid(): string {
 /* ───────── Component ───────── */
 export default function ExtensionConverter() {
   const [mode, setMode] = useState<Mode>("image");
+  const { containerRef: modeTabsRef, indicatorStyle: modeIndicatorStyle } = useTabIndicator(mode);
   const [files, setFiles] = useState<FileItem[]>([]);
   const [imageFormat, setImageFormat] = useState<ImageOutputFormat>("png");
   const [videoFormat, setVideoFormat] = useState<VideoOutputFormat>("mp4");
@@ -417,16 +419,19 @@ export default function ExtensionConverter() {
 
       <main className={styles.container}>
         {/* Mode tabs */}
-        <div className={styles.modeTabs}>
+        <div className={styles.modeTabs} ref={modeTabsRef}>
+          <div className={styles.modeIndicator} style={modeIndicatorStyle} />
           <button
             className={`${styles.modeTab} ${mode === "image" ? styles.modeTabActive : ""}`}
             onClick={() => switchMode("image")}
+            data-active={mode === "image" ? "true" : undefined}
           >
             🖼️ 画像変換
           </button>
           <button
             className={`${styles.modeTab} ${mode === "video" ? styles.modeTabActive : ""}`}
             onClick={() => switchMode("video")}
+            data-active={mode === "video" ? "true" : undefined}
           >
             🎬 動画変換
           </button>

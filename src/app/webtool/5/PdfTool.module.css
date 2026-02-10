@@ -16,6 +16,21 @@
   margin-bottom: 1rem;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+.tabIndicator {
+  position: absolute;
+  top: 0.35rem;
+  left: 0;
+  height: calc(100% - 0.7rem);
+  border-radius: 10px;
+  background: var(--btn-grad);
+  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .tabBtn {
@@ -28,26 +43,28 @@
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.25s ease, transform 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
+  position: relative;
+  z-index: 1;
 }
 
 .tabBtn:hover {
-  background: rgba(5, 150, 105, 0.06);
   color: var(--text);
 }
 
+.tabBtn:active {
+  transform: scale(0.97);
+}
+
 .tabBtnActive {
-  background: var(--btn-grad);
   color: #fff;
-  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
 }
 
 .tabBtnActive:hover {
-  background: var(--btn-grad);
   color: #fff;
 }
 
