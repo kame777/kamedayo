@@ -15,23 +15,31 @@ type DiffResult = {
   rightNum?: number;
 };
 
+type PairedItem =
+  | DiffResult
+  | {
+      type: "modified";
+      leftLine: string;
+      rightLine: string;
+      leftNum: number;
+      rightNum: number;
+    };
+
 type ViewMode = "side" | "unified";
 
-/* ───────── LCS diff algorithm ───────── */
+/* ───────── LCS diff (line level) ───────── */
 function computeLCS(a: string[], b: string[]): number[][] {
   const m = a.length;
   const n = b.length;
   const dp: number[][] = Array.from({ length: m + 1 }, () =>
     new Array(n + 1).fill(0),
   );
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
+  for (let i = 1; i <= m; i++)
+    for (let j = 1; j <= n; j++)
       dp[i][j] =
         a[i - 1] === b[j - 1]
           ? dp[i - 1][j - 1] + 1
           : Math.max(dp[i - 1][j], dp[i][j - 1]);
-    }
-  }
   return dp;
 }
 
@@ -63,15 +71,16 @@ function computeDiff(oldText: string, newText: string): DiffResult[] {
       i--;
     }
   }
-
   return stack.reverse();
 }
 
-/* ───────── Inline char diff ───────── */
+/* ───────── Char-level LCS diff ───────── */
+type CharItem = { ch: string; hl: boolean };
+
 function charDiff(
   a: string,
   b: string,
-): { aChars: { ch: string; hl: boolean }[]; bChars: { ch: string; hl: boolean }[] } {
+): { aChars: CharItem[]; bChars: CharItem[] } {
   const m = a.length;
   const n = b.length;
   const dp: number[][] = Array.from({ length: m + 1 }, () =>
@@ -84,13 +93,10 @@ function charDiff(
           ? dp[i - 1][j - 1] + 1
           : Math.max(dp[i - 1][j], dp[i][j - 1]);
 
-  const aRes: { ch: string; hl: boolean }[] = [];
-  const bRes: { ch: string; hl: boolean }[] = [];
+  const aStack: CharItem[] = [];
+  const bStack: CharItem[] = [];
   let i = m,
     j = n;
-
-  const aStack: { ch: string; hl: boolean }[] = [];
-  const bStack: { ch: string; hl: boolean }[] = [];
 
   while (i > 0 || j > 0) {
     if (i > 0 && j > 0 && a[i - 1] === b[j - 1]) {
@@ -107,30 +113,94 @@ function charDiff(
     }
   }
 
-  aStack.reverse().forEach((c) => aRes.push(c));
-  bStack.reverse().forEach((c) => bRes.push(c));
-
-  return { aChars: aRes, bChars: bRes };
+  return { aChars: aStack.reverse(), bChars: bStack.reverse() };
 }
 
 /* ───────── Sample texts ───────── */
-const SAMPLE_OLD = `HTML（HyperText Markup Language）は、
-Webページの構造を定義するための言語です。
-見出し、段落、リンク、画像など、
-さまざまな要素をタグで記述します。
-ブラウザがHTMLを解釈して画面に表示します。`;
+const SAMPLE_OLD = `あのイーハトーヴォのすきとおった風、
+夏でも底に冷たさをもつ青いそら、
+うつくしい森で飾られたモリーオ市、
+郊外のぎらぎらひかる草の波。
+また そのなかでいっしょになった
+たくさんのひとたち、
+ファゼーロとロザーロ、
+羊飼のミーロや、顔の赤いこどもたち、
+地主のテーモ、山猫博士の
+ボーガント・デストゥパーゴなど、
+いまこの暗い巨きな石の建物の
+なかで考えていると、
+みんなむかし風のなつかしい
+青い幻燈のように思われます。`;
 
-const SAMPLE_NEW = `HTML（HyperText Markup Language）は、
-Webページの構造を定義するためのマークアップ言語です。
-見出し、段落、リンク、画像、動画など、
-さまざまな要素をタグで記述します。
-CSSと組み合わせてスタイルを指定します。
-ブラウザがHTMLを解釈してレンダリングします。`;
+const SAMPLE_NEW = `あのイーハトーヴォのすきとおった風、
+夏でも底に冷たさをもつ青い空、
+うつくしい森で飾られたモリーオ市、
+郊外のぎらぎらひかる草の波。
+そのなかでいっしょになった
+たくさんのひとたち、
+ファゼーロとロザーロ、
+羊飼のミーロや、顔の赤いこどもたち、
+地主のテーモ、山猫博士の
+ボーガント・デストゥパーゴなど。
+いまこの暗い巨きな石の建物の
+なかで考えていると、
+みんな昔風のなつかしい
+青い幻燈のように思われます。
+`;
+
+/* ───────── Pair removed+added into "modified" ───────── */
+function pairDiff(diff: DiffResult[]): PairedItem[] {
+  const result: PairedItem[] = [];
+  let i = 0;
+  while (i < diff.length) {
+    if (
+      diff[i].type === "removed" &&
+      i + 1 < diff.length &&
+      diff[i + 1].type === "added"
+    ) {
+      result.push({
+        type: "modified",
+        leftLine: diff[i].leftLine!,
+        rightLine: diff[i + 1].rightLine!,
+        leftNum: diff[i].leftNum!,
+        rightNum: diff[i + 1].rightNum!,
+      });
+      i += 2;
+    } else {
+      result.push(diff[i]);
+      i++;
+    }
+  }
+  return result;
+}
+
+/* ───────── Render helpers ───────── */
+function renderChars(chars: CharItem[], className: string) {
+  const groups: { hl: boolean; text: string }[] = [];
+  for (const c of chars) {
+    if (groups.length > 0 && groups[groups.length - 1].hl === c.hl) {
+      groups[groups.length - 1].text += c.ch;
+    } else {
+      groups.push({ hl: c.hl, text: c.ch });
+    }
+  }
+  return groups.map((g, i) =>
+    g.hl ? (
+      <span key={i} className={className}>
+        {g.text}
+      </span>
+    ) : (
+      <React.Fragment key={i}>{g.text}</React.Fragment>
+    ),
+  );
+}
 
 /* ───────── Component ───────── */
 export default function DiffTool() {
-  const [oldText, setOldText] = useState("");
-  const [newText, setNewText] = useState("");
+  const [oldText, setOldText] = useState(SAMPLE_OLD);
+  const [newText, setNewText] = useState(SAMPLE_NEW);
+  const [isSampleOld, setIsSampleOld] = useState(true);
+  const [isSampleNew, setIsSampleNew] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>("side");
 
   const diff = useMemo(() => computeDiff(oldText, newText), [oldText, newText]);
@@ -147,40 +217,15 @@ export default function DiffTool() {
     return { added, removed, unchanged };
   }, [diff]);
 
-  /* Pair consecutive removed + added for inline char diff */
-  const pairedDiff = useMemo(() => {
-    const result: (
-      | DiffResult
-      | { type: "modified"; leftLine: string; rightLine: string; leftNum: number; rightNum: number }
-    )[] = [];
-    let i = 0;
-    while (i < diff.length) {
-      if (
-        diff[i].type === "removed" &&
-        i + 1 < diff.length &&
-        diff[i + 1].type === "added"
-      ) {
-        result.push({
-          type: "modified",
-          leftLine: diff[i].leftLine!,
-          rightLine: diff[i + 1].rightLine!,
-          leftNum: diff[i].leftNum!,
-          rightNum: diff[i + 1].rightNum!,
-        });
-        i += 2;
-      } else {
-        result.push(diff[i]);
-        i++;
-      }
-    }
-    return result;
-  }, [diff]);
+  const paired = useMemo(() => pairDiff(diff), [diff]);
 
   const hasDiff = oldText.length > 0 || newText.length > 0;
 
   const handleClear = useCallback(() => {
     setOldText("");
     setNewText("");
+    setIsSampleOld(false);
+    setIsSampleNew(false);
   }, []);
 
   const handleSwap = useCallback(() => {
@@ -191,7 +236,207 @@ export default function DiffTool() {
   const handleSample = useCallback(() => {
     setOldText(SAMPLE_OLD);
     setNewText(SAMPLE_NEW);
+    setIsSampleOld(true);
+    setIsSampleNew(true);
   }, []);
+
+  const handleOldFocus = useCallback(() => {
+    if (isSampleOld) {
+      setOldText("");
+      setIsSampleOld(false);
+    }
+  }, [isSampleOld]);
+
+  const handleNewFocus = useCallback(() => {
+    if (isSampleNew) {
+      setNewText("");
+      setIsSampleNew(false);
+    }
+  }, [isSampleNew]);
+
+  /* ── Side-by-side render ── */
+  const renderSideBySide = () => (
+    <div className={styles.sideBySide}>
+      {/* Left pane */}
+      <div className={styles.diffPane}>
+        <div className={styles.diffPaneHeader}>変更前</div>
+        <div className={styles.diffLines}>
+          {paired.map((d, idx) => {
+            if (d.type === "unchanged") {
+              return (
+                <div key={idx} className={styles.diffLine}>
+                  <span className={styles.lineNum}>{d.leftNum}</span>
+                  <span className={styles.lineText}>{d.leftLine}</span>
+                </div>
+              );
+            }
+            if (d.type === "removed") {
+              return (
+                <div key={idx} className={styles.diffLine}>
+                  <span className={styles.lineNum}>{d.leftNum}</span>
+                  <span className={styles.lineText}>
+                    <span className={styles.hlRemoved}>{d.leftLine}</span>
+                  </span>
+                </div>
+              );
+            }
+            if (d.type === "modified") {
+              const md = d as {
+                leftLine: string;
+                rightLine: string;
+                leftNum: number;
+              };
+              const { aChars } = charDiff(md.leftLine, md.rightLine);
+              return (
+                <div key={idx} className={styles.diffLine}>
+                  <span className={styles.lineNum}>{md.leftNum}</span>
+                  <span className={styles.lineText}>
+                    {renderChars(aChars, styles.hlRemoved)}
+                  </span>
+                </div>
+              );
+            }
+            /* added → blank on left */
+            return (
+              <div key={idx} className={`${styles.diffLine} ${styles.lineBlank}`}>
+                <span className={styles.lineNum} />
+                <span className={styles.lineText} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Right pane */}
+      <div className={styles.diffPane}>
+        <div className={styles.diffPaneHeader}>変更後</div>
+        <div className={styles.diffLines}>
+          {paired.map((d, idx) => {
+            if (d.type === "unchanged") {
+              return (
+                <div key={idx} className={styles.diffLine}>
+                  <span className={styles.lineNum}>{d.rightNum}</span>
+                  <span className={styles.lineText}>{d.rightLine}</span>
+                </div>
+              );
+            }
+            if (d.type === "added") {
+              return (
+                <div key={idx} className={styles.diffLine}>
+                  <span className={styles.lineNum}>{d.rightNum}</span>
+                  <span className={styles.lineText}>
+                    <span className={styles.hlAdded}>{d.rightLine}</span>
+                  </span>
+                </div>
+              );
+            }
+            if (d.type === "modified") {
+              const md = d as {
+                leftLine: string;
+                rightLine: string;
+                rightNum: number;
+              };
+              const { bChars } = charDiff(md.leftLine, md.rightLine);
+              return (
+                <div key={idx} className={styles.diffLine}>
+                  <span className={styles.lineNum}>{md.rightNum}</span>
+                  <span className={styles.lineText}>
+                    {renderChars(bChars, styles.hlAdded)}
+                  </span>
+                </div>
+              );
+            }
+            /* removed → blank on right */
+            return (
+              <div key={idx} className={`${styles.diffLine} ${styles.lineBlank}`}>
+                <span className={styles.lineNum} />
+                <span className={styles.lineText} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+
+  /* ── Unified inline render ── */
+  const renderUnified = () => {
+    type Token = { text: string; type: "normal" | "removed" | "added" };
+    const tokens: Token[] = [];
+
+    for (let i = 0; i < paired.length; i++) {
+      const d = paired[i];
+
+      if (d.type === "unchanged") {
+        if (tokens.length > 0) tokens.push({ text: "\n", type: "normal" });
+        tokens.push({ text: d.leftLine!, type: "normal" });
+      } else if (d.type === "removed") {
+        if (tokens.length > 0) tokens.push({ text: "\n", type: "normal" });
+        tokens.push({ text: d.leftLine!, type: "removed" });
+      } else if (d.type === "added") {
+        if (tokens.length > 0) tokens.push({ text: "\n", type: "normal" });
+        tokens.push({ text: d.rightLine!, type: "added" });
+      } else if (d.type === "modified") {
+        const md = d as { leftLine: string; rightLine: string };
+        const { aChars, bChars } = charDiff(md.leftLine, md.rightLine);
+
+        if (tokens.length > 0) tokens.push({ text: "\n", type: "normal" });
+
+        /* Group consecutive chars by highlight state */
+        let buf = "";
+        let curHl = false;
+        for (const c of aChars) {
+          if (c.hl !== curHl) {
+            if (buf) tokens.push({ text: buf, type: curHl ? "removed" : "normal" });
+            buf = c.ch;
+            curHl = c.hl;
+          } else {
+            buf += c.ch;
+          }
+        }
+        if (buf) tokens.push({ text: buf, type: curHl ? "removed" : "normal" });
+
+        /* Add only the highlighted (new) chars from bChars */
+        buf = "";
+        curHl = false;
+        for (const c of bChars) {
+          if (c.hl !== curHl) {
+            if (buf && curHl) tokens.push({ text: buf, type: "added" });
+            buf = c.ch;
+            curHl = c.hl;
+          } else {
+            buf += c.ch;
+          }
+        }
+        if (buf && curHl) tokens.push({ text: buf, type: "added" });
+      }
+    }
+
+    return (
+      <div className={styles.unifiedPane}>
+        <div className={styles.unifiedText}>
+          {tokens.map((t, i) => {
+            if (t.text === "\n") return <br key={i} />;
+            if (t.type === "removed") {
+              return (
+                <span key={i} className={styles.inlineRemoved}>
+                  {t.text}
+                </span>
+              );
+            }
+            if (t.type === "added") {
+              return (
+                <span key={i} className={styles.inlineAdded}>
+                  {t.text}
+                </span>
+              );
+            }
+            return <React.Fragment key={i}>{t.text}</React.Fragment>;
+          })}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -223,9 +468,10 @@ export default function DiffTool() {
           <div className={styles.inputPane}>
             <label className={styles.inputLabel}>変更前（元のテキスト）</label>
             <textarea
-              className={styles.textarea}
+              className={`${styles.textarea} ${isSampleOld ? styles.textareaSample : ''}`}
               value={oldText}
               onChange={(e) => setOldText(e.target.value)}
+              onFocus={handleOldFocus}
               placeholder="ここに元のテキストを入力..."
               rows={10}
             />
@@ -233,9 +479,10 @@ export default function DiffTool() {
           <div className={styles.inputPane}>
             <label className={styles.inputLabel}>変更後（新しいテキスト）</label>
             <textarea
-              className={styles.textarea}
+              className={`${styles.textarea} ${isSampleNew ? styles.textareaSample : ''}`}
               value={newText}
               onChange={(e) => setNewText(e.target.value)}
+              onFocus={handleNewFocus}
               placeholder="ここに新しいテキストを入力..."
               rows={10}
             />
@@ -276,251 +523,7 @@ export default function DiffTool() {
 
             {/* Diff result */}
             <div className={styles.diffContainer}>
-              {viewMode === "side" ? (
-                <div className={styles.sideBySide}>
-                  {/* Left pane */}
-                  <div className={styles.diffPane}>
-                    <div className={styles.diffPaneHeader}>変更前</div>
-                    <div className={styles.diffLines}>
-                      {pairedDiff.map((d, idx) => {
-                        if (d.type === "unchanged") {
-                          return (
-                            <div
-                              key={idx}
-                              className={`${styles.diffLine} ${styles.lineUnchanged}`}
-                            >
-                              <span className={styles.lineNum}>{d.leftNum}</span>
-                              <span className={styles.lineText}>{d.leftLine}</span>
-                            </div>
-                          );
-                        }
-                        if (d.type === "removed") {
-                          return (
-                            <div
-                              key={idx}
-                              className={`${styles.diffLine} ${styles.lineRemoved}`}
-                            >
-                              <span className={styles.lineNum}>{d.leftNum}</span>
-                              <span className={styles.lineText}>
-                                <span className={styles.linePrefix}>−</span>
-                                {d.leftLine}
-                              </span>
-                            </div>
-                          );
-                        }
-                        if (d.type === "modified") {
-                          const { aChars } = charDiff(
-                            (d as { leftLine: string }).leftLine,
-                            (d as { rightLine: string }).rightLine,
-                          );
-                          return (
-                            <div
-                              key={idx}
-                              className={`${styles.diffLine} ${styles.lineRemoved}`}
-                            >
-                              <span className={styles.lineNum}>
-                                {(d as { leftNum: number }).leftNum}
-                              </span>
-                              <span className={styles.lineText}>
-                                <span className={styles.linePrefix}>−</span>
-                                {aChars.map((c, ci) => (
-                                  <span
-                                    key={ci}
-                                    className={c.hl ? styles.charHighlightRemoved : ""}
-                                  >
-                                    {c.ch}
-                                  </span>
-                                ))}
-                              </span>
-                            </div>
-                          );
-                        }
-                        /* added → blank on left */
-                        return (
-                          <div
-                            key={idx}
-                            className={`${styles.diffLine} ${styles.lineBlank}`}
-                          >
-                            <span className={styles.lineNum} />
-                            <span className={styles.lineText} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Right pane */}
-                  <div className={styles.diffPane}>
-                    <div className={styles.diffPaneHeader}>変更後</div>
-                    <div className={styles.diffLines}>
-                      {pairedDiff.map((d, idx) => {
-                        if (d.type === "unchanged") {
-                          return (
-                            <div
-                              key={idx}
-                              className={`${styles.diffLine} ${styles.lineUnchanged}`}
-                            >
-                              <span className={styles.lineNum}>{d.rightNum}</span>
-                              <span className={styles.lineText}>{d.rightLine}</span>
-                            </div>
-                          );
-                        }
-                        if (d.type === "added") {
-                          return (
-                            <div
-                              key={idx}
-                              className={`${styles.diffLine} ${styles.lineAdded}`}
-                            >
-                              <span className={styles.lineNum}>{d.rightNum}</span>
-                              <span className={styles.lineText}>
-                                <span className={styles.linePrefix}>+</span>
-                                {d.rightLine}
-                              </span>
-                            </div>
-                          );
-                        }
-                        if (d.type === "modified") {
-                          const { bChars } = charDiff(
-                            (d as { leftLine: string }).leftLine,
-                            (d as { rightLine: string }).rightLine,
-                          );
-                          return (
-                            <div
-                              key={idx}
-                              className={`${styles.diffLine} ${styles.lineAdded}`}
-                            >
-                              <span className={styles.lineNum}>
-                                {(d as { rightNum: number }).rightNum}
-                              </span>
-                              <span className={styles.lineText}>
-                                <span className={styles.linePrefix}>+</span>
-                                {bChars.map((c, ci) => (
-                                  <span
-                                    key={ci}
-                                    className={c.hl ? styles.charHighlightAdded : ""}
-                                  >
-                                    {c.ch}
-                                  </span>
-                                ))}
-                              </span>
-                            </div>
-                          );
-                        }
-                        /* removed → blank on right */
-                        return (
-                          <div
-                            key={idx}
-                            className={`${styles.diffLine} ${styles.lineBlank}`}
-                          >
-                            <span className={styles.lineNum} />
-                            <span className={styles.lineText} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* Unified view */
-                <div className={styles.unifiedPane}>
-                  <div className={styles.diffLines}>
-                    {pairedDiff.map((d, idx) => {
-                      if (d.type === "unchanged") {
-                        return (
-                          <div
-                            key={idx}
-                            className={`${styles.diffLine} ${styles.lineUnchanged}`}
-                          >
-                            <span className={styles.lineNum}>{d.leftNum}</span>
-                            <span className={styles.lineNum}>{d.rightNum}</span>
-                            <span className={styles.lineText}> {d.leftLine}</span>
-                          </div>
-                        );
-                      }
-                      if (d.type === "removed") {
-                        return (
-                          <div
-                            key={idx}
-                            className={`${styles.diffLine} ${styles.lineRemoved}`}
-                          >
-                            <span className={styles.lineNum}>{d.leftNum}</span>
-                            <span className={styles.lineNum} />
-                            <span className={styles.lineText}>
-                              <span className={styles.linePrefix}>−</span>
-                              {d.leftLine}
-                            </span>
-                          </div>
-                        );
-                      }
-                      if (d.type === "added") {
-                        return (
-                          <div
-                            key={idx}
-                            className={`${styles.diffLine} ${styles.lineAdded}`}
-                          >
-                            <span className={styles.lineNum} />
-                            <span className={styles.lineNum}>{d.rightNum}</span>
-                            <span className={styles.lineText}>
-                              <span className={styles.linePrefix}>+</span>
-                              {d.rightLine}
-                            </span>
-                          </div>
-                        );
-                      }
-                      /* modified → show both lines */
-                      const md = d as {
-                        leftLine: string;
-                        rightLine: string;
-                        leftNum: number;
-                        rightNum: number;
-                      };
-                      const { aChars, bChars } = charDiff(md.leftLine, md.rightLine);
-                      return (
-                        <React.Fragment key={idx}>
-                          <div
-                            className={`${styles.diffLine} ${styles.lineRemoved}`}
-                          >
-                            <span className={styles.lineNum}>{md.leftNum}</span>
-                            <span className={styles.lineNum} />
-                            <span className={styles.lineText}>
-                              <span className={styles.linePrefix}>−</span>
-                              {aChars.map((c, ci) => (
-                                <span
-                                  key={ci}
-                                  className={
-                                    c.hl ? styles.charHighlightRemoved : ""
-                                  }
-                                >
-                                  {c.ch}
-                                </span>
-                              ))}
-                            </span>
-                          </div>
-                          <div
-                            className={`${styles.diffLine} ${styles.lineAdded}`}
-                          >
-                            <span className={styles.lineNum} />
-                            <span className={styles.lineNum}>{md.rightNum}</span>
-                            <span className={styles.lineText}>
-                              <span className={styles.linePrefix}>+</span>
-                              {bChars.map((c, ci) => (
-                                <span
-                                  key={ci}
-                                  className={
-                                    c.hl ? styles.charHighlightAdded : ""
-                                  }
-                                >
-                                  {c.ch}
-                                </span>
-                              ))}
-                            </span>
-                          </div>
-                        </React.Fragment>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+              {viewMode === "side" ? renderSideBySide() : renderUnified()}
             </div>
           </>
         )}

@@ -43,8 +43,8 @@ export const tools: Tool[] = [
   {
     id: 4,
     icon: '🔄',
-    title: '画像変換ツール',
-    description: 'PNG・JPG・WebP・BMPなどの画像形式を相互変換。ブラウザ上で高速処理。',
+    title: '拡張子変換ツール',
+    description: '画像・動画ファイルの拡張子をブラウザ上で変換。PNG・JPG・WebP・MP4・WebMなど幅広く対応。',
     category: '公開中',
     status: 'live',
     url: '/webtool/4',
