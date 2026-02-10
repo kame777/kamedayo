@@ -137,6 +137,7 @@
 
 .formatSelector {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.35rem;
   padding: 0.25rem;
   border-radius: 10px;
