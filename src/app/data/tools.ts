@@ -60,6 +60,26 @@ export const tools: Tool[] = [
     url: '/webtool/5',
     color: '#a7f3d0',
   },
+  {
+    id: 6,
+    icon: '🔗',
+    title: '短縮URL作成ツール',
+    description: '長いURLをワンクリックで短縮。共有やSNS投稿に便利。',
+    category: '公開中',
+    status: 'live',
+    url: '/webtool/6',
+    color: '#67e8f9',
+  },
+  {
+    id: 7,
+    icon: '📱',
+    title: 'QRコード生成ツール',
+    description: 'テキストやURLからQRコードを即座に生成。PNG・SVGでダウンロード可能。',
+    category: '公開中',
+    status: 'live',
+    url: '/webtool/7',
+    color: '#38bdf8',
+  },
 ];
 
 export const newsItems = [
