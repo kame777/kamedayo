@@ -1,0 +1,466 @@
+/* ===== About Page ===== */
+
+/* ── Main ── */
+.main {
+  background: var(--page-bg);
+}
+
+/* ── Hero ── */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 7rem 1.5rem 3rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #031a09 0%, #064e3b 40%, #0d3320 70%, #052e16 100%);
+  color: #fff;
+  text-align: center;
+}
+
+.heroContent {
+  max-width: 760px;
+  z-index: 2;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.meta {
+  text-align: left;
+}
+
+.byline {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+}
+
+.tagline {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0.15rem 0 0;
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* ── Section ── */
+.section {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.section + .section {
+  border-top: 1px solid var(--border);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 1.75rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #064e3b, #0d3320);
+  color: #fff;
+  border-radius: 10px;
+}
+
+.titleIcon {
+  font-size: 1.2rem;
+}
+
+.subSectionTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 2rem 0 0.75rem;
+}
+
+/* ── Profile Card ── */
+.profileCard {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+}
+
+.profileImage {
+  flex-shrink: 0;
+  width: 220px;
+}
+
+.profileImg {
+  width: 220px;
+  height: 220px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.profileInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.profileHeading {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+}
+
+.profileList {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border-left: 3px solid var(--primary);
+  padding-left: 1rem;
+}
+
+.profileItem {
+  display: flex;
+  gap: 1rem;
+  padding: 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+.profileItem dt {
+  color: var(--warning);
+  font-weight: 600;
+  min-width: 3rem;
+}
+
+.profileItem dd {
+  margin: 0;
+  color: var(--text);
+}
+
+.hobbyList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 3px solid var(--primary);
+  padding-left: 1rem;
+}
+
+.hobbyList li {
+  padding: 0.15rem 0;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+/* ── Callout ── */
+.callout {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2d4a3e 0%, #355c4a 100%);
+  color: #ffffff;
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.callout a {
+  color: #6ee7b7 !important;
+  text-decoration: underline !important;
+}
+
+.calloutIcon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.calloutDate {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.25rem;
+}
+
+.calloutTitle {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #fff;
+}
+
+/* ── Activity Card ── */
+.activityCard {
+  margin-bottom: 1rem;
+}
+
+.activityBanner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(135deg, #1a2e1a 0%, #1f3a1f 100%);
+}
+
+.activityBannerText {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.activityCard .callout {
+  border-radius: 0 0 14px 14px;
+  margin-bottom: 0;
+}
+
+/* ── Skill Grid ── */
+.skillGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.skillCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #374151, #4b5563);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skillCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.skillIcon {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #f9fafb;
+  margin-bottom: 0.5rem;
+}
+
+.skillIconReact {
+  font-size: 2.5rem;
+  color: #61dafb;
+  margin-bottom: 0.5rem;
+}
+
+.skillLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f3f4f6;
+  margin: 0;
+}
+
+/* ── History Grid ── */
+.historyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.historyCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #4b5563, #6b7280);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.historyCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.historyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.historyLabel {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f3f4f6;
+  margin: 0;
+}
+
+/* ── Toggle / Details ── */
+.toggle {
+  margin-top: 0.75rem;
+}
+
+.toggle summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #a7f3d0;
+  padding: 0.3rem 0;
+  list-style: revert;
+}
+
+.toggle summary:hover {
+  color: #6ee7b7;
+}
+
+.toggleGallery {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.toggleImage {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Video Embed ── */
+.videoEmbed {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+}
+
+.videoEmbed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── Link Grid ── */
+.linkGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.linkCard {
+  display: flex !important;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text) !important;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.linkCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--shadow);
+}
+
+.linkCardIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.linkCardLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero {
+    padding: 5.5rem 1rem 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .profileCard {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .profileImage {
+    width: 160px;
+  }
+
+  .profileImagePlaceholder {
+    width: 160px;
+    height: 160px;
+    font-size: 3rem;
+  }
+
+  .profileList {
+    text-align: left;
+  }
+
+  .hobbyList {
+    text-align: left;
+  }
+
+  .skillGrid,
+  .historyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .linkGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .activityBannerText {
+    font-size: 1.2rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .linkGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -2,41 +2,67 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "./PasswordGenerator.module.css";
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import HeroBanner from '../../components/HeroBanner';
+import { LETTERS, DIGITS, DEFAULT_SYMBOLS, WORD_LIST, MOBILE_BREAKPOINT } from '../../data/constants';
+import { useTabIndicator } from '../../hooks/useTabIndicator';
 
 type Mode = "random" | "memorable" | "pin";
 type CharItem = { char: string; type: "letter" | "number" | "symbol" };
 
+const modes: { key: Mode; icon: string; label: string; shortLabel: string }[] = [
+  { key: "random", icon: "🔀", label: "ランダム", shortLabel: "乱数" },
+  { key: "memorable", icon: "👁️", label: "覚えやすい", shortLabel: "記憶" },
+  { key: "pin", icon: "#", label: "PIN", shortLabel: "PIN" },
+];
+
+/** crypto.getRandomValues を使った安全な乱数インデックス（rejection sampling で一様分布） */
+function secureRandomIndex(max: number): number {
+  const limit = Math.floor(0x100000000 / max) * max; // 2^32 以下で max の最大の倍数
+  let value: number;
+  do {
+    const array = new Uint32Array(1);
+    crypto.getRandomValues(array);
+    value = array[0];
+  } while (value >= limit);
+  return value % max;
+}
+
 const PasswordGenerator: React.FC = () => {
   const [passwordType, setPasswordType] = useState<Mode>("random");
-  const [passwordLength, setPasswordLength] = useState<number>(30);
+  const [passwordLength, setPasswordLength] = useState<number>(16);
+  const [prevLength, setPrevLength] = useState<number>(16);
   const [includeNumbers, setIncludeNumbers] = useState<boolean>(true);
   const [includeSymbols, setIncludeSymbols] = useState<boolean>(false);
-  const [customSymbols, setCustomSymbols] = useState<string>("!@#$%^&*()_-+=<>?");
+  const [customSymbols, setCustomSymbols] = useState<string>(DEFAULT_SYMBOLS);
   const [showSymbolSettings, setShowSymbolSettings] = useState<boolean>(false);
   const [generatedPassword, setGeneratedPassword] = useState<string>("");
   const [coloredPassword, setColoredPassword] = useState<CharItem[]>([]);
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(typeof window !== "undefined" ? window.innerWidth <= 640 : false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const { containerRef: selectorRef, indicatorStyle } = useTabIndicator(passwordType);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 640);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
   }, []);
 
   const handlePasswordTypeChange = (type: Mode) => {
+    if (type === "pin") {
+      setPrevLength(passwordLength);
+      setPasswordLength(6);
+    } else if (passwordType === "pin") {
+      setPasswordLength(prevLength);
+    }
     setPasswordType(type);
-    if (type === "pin") setPasswordLength(6);
   };
 
   const generatePassword = useCallback(() => {
-    const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const numbers = "0123456789";
     const symbols = customSymbols || "";
-    let allowedChars = letters;
-    if (includeNumbers) allowedChars += numbers;
+    let allowedChars = LETTERS;
+    if (includeNumbers) allowedChars += DIGITS;
     if (includeSymbols) allowedChars += symbols;
 
     let password = "";
@@ -44,40 +70,37 @@ const PasswordGenerator: React.FC = () => {
 
     if (passwordType === "random") {
       for (let i = 0; i < passwordLength; i++) {
-        const randomChar = allowedChars.charAt(Math.floor(Math.random() * allowedChars.length));
+        const randomChar = allowedChars.charAt(secureRandomIndex(allowedChars.length));
         password += randomChar;
-        if (numbers.includes(randomChar)) passwordArray.push({ char: randomChar, type: "number" });
+        if (DIGITS.includes(randomChar)) passwordArray.push({ char: randomChar, type: "number" });
         else if (symbols.includes(randomChar)) passwordArray.push({ char: randomChar, type: "symbol" });
         else passwordArray.push({ char: randomChar, type: "letter" });
       }
     } else if (passwordType === "memorable") {
-      const words = ["apple", "banana", "orange", "grape", "melon", "cherry", "lemon", "peach", "kiwi", "mango"];
       let remainingLength = passwordLength;
       while (remainingLength > 0) {
-        const randomWord = words[Math.floor(Math.random() * words.length)];
+        const randomWord = WORD_LIST[secureRandomIndex(WORD_LIST.length)];
         if (randomWord.length <= remainingLength) {
           const capitalizedWord = randomWord.charAt(0).toUpperCase() + randomWord.slice(1);
           password += capitalizedWord;
           for (const c of capitalizedWord) passwordArray.push({ char: c, type: "letter" });
           remainingLength -= randomWord.length;
-
           if (remainingLength > 0 && includeNumbers) {
-            const randomNum = numbers.charAt(Math.floor(Math.random() * numbers.length));
+            const randomNum = DIGITS.charAt(secureRandomIndex(DIGITS.length));
             password += randomNum;
             passwordArray.push({ char: randomNum, type: "number" });
             remainingLength--;
           }
-
           if (remainingLength > 0 && includeSymbols && symbols.length > 0) {
-            const randomSym = symbols.charAt(Math.floor(Math.random() * symbols.length));
+            const randomSym = symbols.charAt(secureRandomIndex(symbols.length));
             password += randomSym;
             passwordArray.push({ char: randomSym, type: "symbol" });
             remainingLength--;
           }
         } else {
-          const randomChar = allowedChars.charAt(Math.floor(Math.random() * allowedChars.length));
+          const randomChar = allowedChars.charAt(secureRandomIndex(allowedChars.length));
           password += randomChar;
-          if (numbers.includes(randomChar)) passwordArray.push({ char: randomChar, type: "number" });
+          if (DIGITS.includes(randomChar)) passwordArray.push({ char: randomChar, type: "number" });
           else if (symbols.includes(randomChar)) passwordArray.push({ char: randomChar, type: "symbol" });
           else passwordArray.push({ char: randomChar, type: "letter" });
           remainingLength--;
@@ -85,7 +108,7 @@ const PasswordGenerator: React.FC = () => {
       }
     } else if (passwordType === "pin") {
       for (let i = 0; i < 6; i++) {
-        const randomNum = numbers.charAt(Math.floor(Math.random() * numbers.length));
+        const randomNum = DIGITS.charAt(secureRandomIndex(DIGITS.length));
         password += randomNum;
         passwordArray.push({ char: randomNum, type: "number" });
       }
@@ -106,139 +129,145 @@ const PasswordGenerator: React.FC = () => {
       await navigator.clipboard.writeText(generatedPassword);
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
-    } catch {
-      // ignore
-    }
+    } catch { /* ignore */ }
   };
 
   return (
-    <div className={styles.passwordGenerator}>
-      <div className={styles.passwordContainer}>
-        <Header />
-        <h1 className={styles.title}>パスワードジェネレーター</h1>
-        <h2 className={styles.heading}>パスワードの種類を選択</h2>
+    <>
+      <HeroBanner
+        badge="🔐 Password Generator"
+        title="パスワード生成ツール"
+        subtitle="安全なパスワードをワンクリックで生成"
+      />
 
-        <div className={styles.passwordTypeSelector}>
-          <button
-            type="button"
-            className={`${styles.typeButton} ${passwordType === "random" ? styles.active : ""}`}
-            onClick={() => handlePasswordTypeChange("random")}
-          >
-            <span className={styles.icon} role="img" aria-label="random">🔀</span> {isMobile ? "乱数" : "ランダム"}
-          </button>
-
-          <button
-            type="button"
-            className={`${styles.typeButton} ${passwordType === "memorable" ? styles.active : ""}`}
-            onClick={() => handlePasswordTypeChange("memorable")}
-          >
-            <span className={styles.icon} role="img" aria-label="memorable">👁️</span> {isMobile ? "記憶" : "覚えやすい"}
-          </button>
-
-          <button
-            type="button"
-            className={`${styles.typeButton} ${passwordType === "pin" ? styles.active : ""}`}
-            onClick={() => handlePasswordTypeChange("pin")}
-          >
-            <span className={styles.icon}>#</span> PIN
-          </button>
-        </div>
-
-        <h2 className={styles.heading}>新しいパスワードをカスタマイズ</h2>
-
-        {passwordType !== "pin" ? (
-          <>
-            <div className={styles.optionRow}>
-              <label>文字数</label>
-              <div className={styles.lengthControl}>
-                <input
-                  type="range"
-                  min={4}
-                  max={64}
-                  value={passwordLength}
-                  onChange={(e) => setPasswordLength(Number(e.target.value))}
-                  className={styles.range}
-                />
-                <input
-                  type="number"
-                  min={4}
-                  max={64}
-                  value={passwordLength}
-                  onChange={(e) => setPasswordLength(Number(e.target.value))}
-                  className={styles.lengthInput}
-                />
-              </div>
-            </div>
-
-            <div className={styles.optionRow}>
-              <label>数字</label>
-              <div
-                role="button"
-                tabIndex={0}
-                className={`${styles.toggleSwitch} ${includeNumbers ? styles.active : ""}`}
-                onClick={() => setIncludeNumbers(!includeNumbers)}
-                onKeyDown={() => setIncludeNumbers(!includeNumbers)}
+      <main className={styles.container}>
+        {/* Mode selector */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>パスワードの種類</h2>
+          <div className={styles.modeSelector} ref={selectorRef}>
+            <div className={styles.modeIndicator} style={indicatorStyle} />
+            {modes.map((m) => (
+              <button
+                key={m.key}
+                type="button"
+                className={`${styles.modeBtn} ${passwordType === m.key ? styles.modeBtnActive : ""}`}
+                onClick={() => handlePasswordTypeChange(m.key)}
+                data-active={passwordType === m.key ? "true" : undefined}
               >
-                <div className={styles.toggleButton} />
-              </div>
-            </div>
-
-            <div className={styles.optionRow}>
-              <label>記号</label>
-              <div
-                role="button"
-                tabIndex={0}
-                className={`${styles.toggleSwitch} ${includeSymbols ? styles.active : ""}`}
-                onClick={() => {
-                  setIncludeSymbols(!includeSymbols);
-                  if (!includeSymbols) setShowSymbolSettings(true);
-                }}
-                onKeyDown={() => {
-                  setIncludeSymbols(!includeSymbols);
-                  if (!includeSymbols) setShowSymbolSettings(true);
-                }}
-              >
-                <div className={styles.toggleButton} />
-              </div>
-            </div>
-
-            {showSymbolSettings && includeSymbols && (
-              <div className={styles.symbolSettings}>
-                <label>使用する記号を入力してください：</label>
-                <input
-                  type="text"
-                  value={customSymbols}
-                  onChange={(e) => setCustomSymbols(e.target.value)}
-                  className={styles.symbolInput}
-                />
-              </div>
-            )}
-          </>
-        ) : (
-          <div className={styles.pinInfo}><p>PINは6桁の数字で生成されます</p></div>
-        )}
-
-        <h2 className={styles.heading}>生成されたパスワード</h2>
-
-        <div className={styles.generatedPassword}>
-          <div className={styles.passwordDisplay}>
-            {coloredPassword.map((item, idx) => (
-              <span key={idx} className={`${styles.char} ${styles[item.type]}`}>{item.char}</span>
+                <span className={styles.modeIcon}>{m.icon}</span>
+                {isMobile ? m.shortLabel : m.label}
+              </button>
             ))}
           </div>
         </div>
 
-        <div className={styles.buttonRow}>
-          <button type="button" className={styles.copyButton} onClick={copyToClipboard}>
-            {copySuccess ? "コピー済" : "パスワードをコピー"}
-          </button>
-          <button type="button" className={styles.refreshButton} onClick={generatePassword}>
-            {isMobile ? "更新" : "パスワードを更新"}
-          </button>
+        {/* Options */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>カスタマイズ</h2>
+          <div className={styles.optionsCard}>
+            {passwordType !== "pin" ? (
+              <>
+                <div className={styles.optionRow}>
+                  <label className={styles.optionLabel}>文字数</label>
+                  <div className={styles.lengthControl}>
+                    <input
+                      type="range"
+                      min={4}
+                      max={64}
+                      value={passwordLength}
+                      onChange={(e) => setPasswordLength(Number(e.target.value))}
+                      className={styles.range}
+                    />
+                    <input
+                      type="number"
+                      min={4}
+                      max={64}
+                      value={passwordLength}
+                      onChange={(e) => setPasswordLength(Number(e.target.value))}
+                      className={styles.lengthInput}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.optionRow}>
+                  <label className={styles.optionLabel}>数字を含む</label>
+                  <div
+                    role="switch"
+                    aria-checked={includeNumbers}
+                    tabIndex={0}
+                    className={`${styles.toggle} ${includeNumbers ? styles.toggleOn : ""}`}
+                    onClick={() => setIncludeNumbers(!includeNumbers)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIncludeNumbers(!includeNumbers); } }}
+                  >
+                    <div className={styles.toggleThumb} />
+                  </div>
+                </div>
+
+                <div className={styles.optionRow}>
+                  <label className={styles.optionLabel}>記号を含む</label>
+                  <div
+                    role="switch"
+                    aria-checked={includeSymbols}
+                    tabIndex={0}
+                    className={`${styles.toggle} ${includeSymbols ? styles.toggleOn : ""}`}
+                    onClick={() => {
+                      setIncludeSymbols(!includeSymbols);
+                      if (!includeSymbols) setShowSymbolSettings(true);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setIncludeSymbols(!includeSymbols);
+                        if (!includeSymbols) setShowSymbolSettings(true);
+                      }
+                    }}
+                  >
+                    <div className={styles.toggleThumb} />
+                  </div>
+                </div>
+
+                {showSymbolSettings && includeSymbols && (
+                  <div className={styles.symbolRow}>
+                    <label className={styles.optionLabel}>使用する記号</label>
+                    <input
+                      type="text"
+                      value={customSymbols}
+                      onChange={(e) => setCustomSymbols(e.target.value)}
+                      className={styles.symbolInput}
+                    />
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className={styles.pinNotice}>
+                <span className={styles.pinIcon}>📌</span>
+                PINは6桁の数字で生成されます
+              </div>
+            )}
+          </div>
         </div>
-            <Footer />
-      </div>
-    </div>
+
+        {/* Generated password */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>生成されたパスワード</h2>
+          <div className={styles.resultCard}>
+            <div className={styles.passwordDisplay}>
+              {coloredPassword.map((item, idx) => (
+                <span key={idx} className={`${styles.char} ${styles[item.type]}`}>{item.char}</span>
+              ))}
+            </div>
+            <div className={styles.resultActions}>
+              <button type="button" className={styles.copyBtn} onClick={copyToClipboard}>
+                {copySuccess ? "✅ コピー済み" : "📋 コピー"}
+              </button>
+              <button type="button" className={styles.refreshBtn} onClick={generatePassword}>
+                🔄 {isMobile ? "更新" : "再生成"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
   );
 };
 

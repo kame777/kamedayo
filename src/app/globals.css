@@ -11,12 +11,24 @@ html {
 }
 
 body {
-  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'LINE Seed JP', sans-serif;
   background: var(--page-bg);
-  color: #333;
+  color: var(--text);
   line-height: 1.6;
+}
+
+/* テーマ切替トランジション */
+html[data-theme-transition],
+html[data-theme-transition] *,
+html[data-theme-transition] *::before,
+html[data-theme-transition] *::after {
+  transition: background-color 0.4s ease,
+              background 0.4s ease,
+              color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease,
+              fill 0.3s ease,
+              stroke 0.3s ease !important;
 }
 
 /* Page transition */
@@ -44,18 +56,18 @@ a {
 /* 外部リンクだけ青くする */
 /* 外部リンクだけ青くする（Footer 内のリンクは data-no-external 属性で除外） */
 a[href^="http"]:not([data-no-external]) {
-  color: #1e40af; /* 青系の色 */
+  color: var(--link-color);
   text-decoration: underline;
   transition: color 150ms ease;
 }
 
 a[href^="http"]:not([data-no-external]):visited {
-  color: #4c1d95; /* 訪問済みリンクの色 */
+  color: var(--link-visited);
 }
 
 a[href^="http"]:not([data-no-external]):hover,
 a[href^="http"]:not([data-no-external]):focus {
-  color: #1e3a8a; /* ホバー/フォーカス時に少し濃くする */
+  color: var(--link-hover);
   text-decoration: underline;
   outline: none;
 }

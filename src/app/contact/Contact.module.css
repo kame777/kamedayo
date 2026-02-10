@@ -1,0 +1,200 @@
+/* ===== Container ===== */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem var(--gutter-x) 4rem;
+}
+
+/* ===== Cards Grid ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+/* ===== Card ===== */
+.card {
+  padding: 2rem;
+  border-radius: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px var(--shadow-card);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px var(--shadow);
+}
+
+.cardIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.05));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto 1.25rem;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+}
+
+.cardDesc {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0 0 1.25rem;
+}
+
+.cardBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(5, 150, 105, 0.3);
+}
+
+.cardBtnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 12px;
+  background: rgba(5, 150, 105, 0.08);
+  color: var(--primary);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(5, 150, 105, 0.15);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cardBtnSecondary:hover {
+  background: rgba(5, 150, 105, 0.14);
+  transform: translateY(-2px);
+}
+
+.cardArrow {
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.cardBtn:hover .cardArrow,
+.cardBtnSecondary:hover .cardArrow {
+  transform: translate(2px, -2px);
+}
+
+.cardNote {
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ===== FAQ Section ===== */
+.faq {
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px var(--shadow-card);
+}
+
+.faqTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.faqItem {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: background 0.2s ease;
+}
+
+.faqItem[open] {
+  background: rgba(5, 150, 105, 0.03);
+  border-color: rgba(5, 150, 105, 0.1);
+}
+
+.faqQuestion {
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+.faqQuestion::before {
+  content: '＋';
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  flex-shrink: 0;
+  width: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.faqItem[open] .faqQuestion::before {
+  content: '−';
+}
+
+.faqAnswer {
+  padding: 0 1.25rem 1rem 3rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .faq {
+    padding: 1.5rem 1.25rem;
+  }
+}

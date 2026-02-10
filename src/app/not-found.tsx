@@ -1,19 +1,55 @@
 import Link from 'next/link';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import styles from './not-found.module.css';
 
 export default function NotFound() {
   return (
-    <>
-      <Header />
+    <main className={styles.main}>
+        {/* Background shapes */}
+        <div className={styles.bgShapes} aria-hidden="true">
+          <div className={`${styles.shape} ${styles.shape1}`} />
+          <div className={`${styles.shape} ${styles.shape2}`} />
+          <div className={`${styles.shape} ${styles.shape3}`} />
+        </div>
 
-      <main style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: '3rem' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>404 — ページが見つかりません</h1>
-        <p style={{ marginBottom: '1.25rem' }}>お探しのページは存在しないか、移動した可能性があります。</p>
-        <Link href="/" style={{ color: '#fff', background: '#0070f3', padding: '0.6rem 1rem', borderRadius: 6, textDecoration: 'none' }}>ホームに戻る</Link>
+        <div className={styles.content}>
+          <div className={styles.errorCode}>404</div>
+          <h1 className={styles.title}>ページが見つかりません</h1>
+          <p className={styles.description}>
+            お探しのページは存在しないか、移動した可能性があります。
+          </p>
+
+          <div className={styles.buttons}>
+            <Link href="/" className={styles.primaryBtn}>
+              ホームに戻る
+            </Link>
+            <Link href="/webtool" className={styles.secondaryBtn}>
+              ツール一覧を見る
+            </Link>
+          </div>
+
+          {/* Quick links */}
+          <div className={styles.quickLinks}>
+            <p className={styles.quickLinksTitle}>よく訪問されるページ</p>
+            <div className={styles.linkGrid}>
+              <Link href="/about" className={styles.linkCard}>
+                <span className={styles.linkIcon}>👤</span>
+                <span>私について</span>
+              </Link>
+              <Link href="/webtool/1" className={styles.linkCard}>
+                <span className={styles.linkIcon}>📝</span>
+                <span>文字数カウンター</span>
+              </Link>
+              <Link href="/webtool/2" className={styles.linkCard}>
+                <span className={styles.linkIcon}>🔐</span>
+                <span>パスワード生成</span>
+              </Link>
+              <Link href="/contact" className={styles.linkCard}>
+                <span className={styles.linkIcon}>✉️</span>
+                <span>お問い合わせ</span>
+              </Link>
+            </div>
+          </div>
+        </div>
       </main>
-
-      <Footer />
-    </>
   );
 }

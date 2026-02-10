@@ -1,11 +1,12 @@
 .header {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  background: var(--header-bg);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
 }
+
 
 .container {
   max-width: var(--max-width);
@@ -19,26 +20,34 @@
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--brand-grad-start) 0%, var(--brand-grad-end) 100%);
+  background: linear-gradient(135deg, #34d399 0%, #059669 50%, #34d399 100%);
+  background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: logoGradient 3s ease-in-out infinite;
+}
+
+@keyframes logoGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }
 
 .nav {
   display: flex;
+  align-items: center;
   gap: 2rem;
 }
 
 .nav a {
-  font-weight: 500;
-  color: #666;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
   transition: color 0.3s ease;
   position: relative;
 }
 
 .nav a:hover {
-  color: var(--primary);
+  color: #34d399;
 }
 
 .nav a::after {
@@ -48,7 +57,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--primary);
+  background: linear-gradient(90deg, #34d399, #059669);
   transition: width 0.3s ease;
 }
 
@@ -64,27 +73,85 @@
   height: 24px;
   cursor: pointer;
   z-index: 200;
+  margin-left: auto;
 }
 
 .menuToggle span {
   width: 100%;
   height: 3px;
-  background: var(--text);
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.77, 0, 0.18, 1),
+              opacity 0.25s ease;
+  transform-origin: center;
+}
+
+/* ハンバーガー → × アニメーション */
+.menuToggleOpen span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menuToggleOpen span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.menuToggleOpen span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
 }
 
 .navOpen {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 70px;
+  top: 100%;
   left: 0;
   right: 0;
-  background: white;
+  background: rgba(3, 26, 9, 0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   gap: 1rem;
+  animation: menuSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* メニュースライドダウン */
+@keyframes menuSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* リンクのスタガーフェードイン */
+.navOpen a,
+.navOpen button {
+  animation: linkFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.navOpen a:nth-child(1) { animation-delay: 0.05s; }
+.navOpen a:nth-child(2) { animation-delay: 0.1s; }
+.navOpen a:nth-child(3) { animation-delay: 0.15s; }
+.navOpen a:nth-child(4) { animation-delay: 0.2s; }
+.navOpen button        { animation-delay: 0.25s; }
+
+@keyframes linkFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @media (max-width: 768px) {
@@ -103,5 +170,24 @@
 
   .container {
     padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  .container {
+    padding: 0.75rem;
+  }
+
+  .navOpen {
+    padding: 1.5rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .navOpen a {
+    font-size: 0.92rem;
   }
 }

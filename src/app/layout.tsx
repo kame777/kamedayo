@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import PageTransition from './components/PageTransition';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kamedayo.com'),
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
     url: 'https://kamedayo.com',
     title: 'kamedayo | Webツールと技術メモ',
     description: '個人が作る便利Webツールと技術メモのサイト。',
+
     siteName: 'kamedayo',
     images: [
       { url: '/logo512.png', width: 512, height: 512, alt: 'kamedayo' },
@@ -46,16 +48,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <head>
+        {/* FOUC 防止: ページ描画前にテーマを即座に適用 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t)}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark')}}catch(e){}})()`,
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=LINE+Seed+JP:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body>
-        <PageTransition>
+        <Header />
+        <div className="page-transition">
           {children}
-        </PageTransition>
+        </div>
+        <Footer />
       </body>
     </html>
   );
