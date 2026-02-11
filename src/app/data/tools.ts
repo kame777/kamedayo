@@ -76,9 +76,9 @@ export const tools: Tool[] = [
     id: 8,
     icon: '🍅',
     title: 'ポモドーロタイマー',
-    description: 'GitHubアカウントにログインすることで、データ同期・統計を閲覧可能。（実装予定）',
-    category: '開発中',
-    status: 'soon',
+    description: 'GitHubログインによるデータ同期・統計閲覧が可能。集中力を最大化します。',
+    category: '公開中',
+    status: 'live',
     url: '/webtool/8',
   },
 ];

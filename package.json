@@ -12,6 +12,8 @@
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.95.3",
     "autoprefixer": "^10.4.21",
     "docx": "^9.5.1",
     "heic2any": "^0.0.4",
@@ -24,7 +26,8 @@
     "pptxgenjs": "^4.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.16",
