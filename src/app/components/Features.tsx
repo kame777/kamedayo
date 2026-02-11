@@ -12,6 +12,8 @@ export default function Features() {
     { threshold: 0.1 },
   );
 
+  const liveTools = tools.filter((t) => t.status === 'live');
+
   return (
     <section className={styles.features} ref={sectionRef}>
       <div className={styles.container}>
@@ -24,7 +26,7 @@ export default function Features() {
         </div>
 
         <div className={styles.grid}>
-          {tools.map((tool) => (
+          {liveTools.map((tool) => (
             <Link href={tool.url} key={tool.id} className={styles.card} style={{ '--card-color': tool.color } as React.CSSProperties}>
               <div className={styles.cardGlow} />
               <div className={styles.cardIcon}>{tool.icon}</div>
