@@ -9,7 +9,8 @@ import { useCountUp } from '../hooks/useCountUp';
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
-  const { count: toolCount, ref: toolCountRef } = useCountUp(tools.length, 1200, 400);
+  const liveTools = tools.filter((t) => t.status === 'live');
+  const { count: toolCount, ref: toolCountRef } = useCountUp(liveTools.length, 1200, 400);
   const { count: freeCount, ref: freeCountRef } = useCountUp(100, 1500, 600);
 
   // パララックス効果

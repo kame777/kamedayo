@@ -12,6 +12,8 @@ export default function Features() {
     { threshold: 0.1 },
   );
 
+  const liveTools = tools.filter((t) => t.status === 'live');
+
   return (
     <section className={styles.features} ref={sectionRef}>
       <div className={styles.container}>
@@ -24,14 +26,13 @@ export default function Features() {
         </div>
 
         <div className={styles.grid}>
-          {tools.map((tool) => (
-            <Link href={tool.url} key={tool.id} className={styles.card} style={{ '--card-color': tool.color } as React.CSSProperties}>
-              <div className={styles.cardGlow} />
+          {liveTools.map((tool) => (
+            <Link href={tool.url} key={tool.id} className={styles.card}>
               <div className={styles.cardIcon}>{tool.icon}</div>
               <h3 className={styles.cardTitle}>{tool.title}</h3>
               <p className={styles.cardDesc}>{tool.description}</p>
               <span className={styles.cardLink}>
-                詳しく見る <span className={styles.cardArrow}>→</span>
+                使ってみる <span className={styles.cardArrow}>→</span>
               </span>
             </Link>
           ))}
