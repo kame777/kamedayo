@@ -6,7 +6,6 @@ export type Tool = {
   category: string;
   status: 'live' | 'soon';
   url: string;
-  color: string;
 };
 
 export const tools: Tool[] = [
@@ -18,7 +17,6 @@ export const tools: Tool[] = [
     category: '公開中',
     status: 'live',
     url: '/webtool/1',
-    color: '#059669',
   },
   {
     id: 2,
@@ -28,7 +26,6 @@ export const tools: Tool[] = [
     category: '公開中',
     status: 'live',
     url: '/webtool/2',
-    color: '#10b981',
   },
   {
     id: 3,
@@ -38,7 +35,6 @@ export const tools: Tool[] = [
     category: '公開中',
     status: 'live',
     url: '/webtool/3',
-    color: '#34d399',
   },
   {
     id: 4,
@@ -48,7 +44,6 @@ export const tools: Tool[] = [
     category: '公開中',
     status: 'live',
     url: '/webtool/4',
-    color: '#6ee7b7',
   },
   {
     id: 5,
@@ -58,7 +53,6 @@ export const tools: Tool[] = [
     category: '公開中',
     status: 'live',
     url: '/webtool/5',
-    color: '#a7f3d0',
   },
   {
     id: 6,
@@ -68,7 +62,6 @@ export const tools: Tool[] = [
     category: '公開中',
     status: 'live',
     url: '/webtool/6',
-    color: '#67e8f9',
   },
   {
     id: 7,
@@ -78,7 +71,6 @@ export const tools: Tool[] = [
     category: '公開中',
     status: 'live',
     url: '/webtool/7',
-    color: '#38bdf8',
   },
   {
     id: 8,
@@ -88,7 +80,6 @@ export const tools: Tool[] = [
     category: '開発中',
     status: 'soon',
     url: '/webtool/8',
-    color: '#38bdf8',
   },
 ];
 

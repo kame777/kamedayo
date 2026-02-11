@@ -44,7 +44,7 @@ export default function Page() {
 
                 <div className={styles.cardFooter}>
                   <span className={styles.cardLink}>
-                    {t.status === 'live' ? '使ってみる' : '詳細を見る'}
+                    {t.status === 'live' ? '使ってみる' : '乞うご期待'}
                     <span className={styles.cardArrow}>→</span>
                   </span>
                 </div>

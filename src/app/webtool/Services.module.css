@@ -81,21 +81,6 @@
   border-color: rgba(52, 211, 153, 0.25);
 }
 
-/* Card top glow */
-.cardGlow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--primary), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.card:hover .cardGlow {
-  opacity: 1;
-}
 
 /* Card header */
 .cardHeader {

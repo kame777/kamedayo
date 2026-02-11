@@ -27,13 +27,12 @@ export default function Features() {
 
         <div className={styles.grid}>
           {liveTools.map((tool) => (
-            <Link href={tool.url} key={tool.id} className={styles.card} style={{ '--card-color': tool.color } as React.CSSProperties}>
-              <div className={styles.cardGlow} />
+            <Link href={tool.url} key={tool.id} className={styles.card}>
               <div className={styles.cardIcon}>{tool.icon}</div>
               <h3 className={styles.cardTitle}>{tool.title}</h3>
               <p className={styles.cardDesc}>{tool.description}</p>
               <span className={styles.cardLink}>
-                詳しく見る <span className={styles.cardArrow}>→</span>
+                使ってみる <span className={styles.cardArrow}>→</span>
               </span>
             </Link>
           ))}
