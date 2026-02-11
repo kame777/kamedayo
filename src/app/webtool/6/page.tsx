@@ -149,7 +149,6 @@ export default function UrlShortenerPage() {
         {/* Input Section */}
         <div className={styles.inputSection}>
           <div className={styles.inputWrapper}>
-            <span className={styles.inputIcon}>🌐</span>
             <input
               ref={inputRef}
               type="url"
@@ -199,7 +198,7 @@ export default function UrlShortenerPage() {
               </a>
               <button
                 onClick={() => copyToClipboard(history[0].shortURL, history[0].id)}
-                className={styles.copyBtn}
+                className={`${styles.copyBtn} ${copiedId === history[0].id ? styles.copied : ""}`}
               >
                 {copiedId === history[0].id ? "✅ コピー済み" : "📋 コピー"}
               </button>
@@ -216,7 +215,7 @@ export default function UrlShortenerPage() {
             <div className={styles.historyHeader}>
               <h2 className={styles.historyTitle}>📜 変換履歴</h2>
               <button onClick={clearHistory} className={styles.clearBtn}>
-                履歴のクリア
+                履歴をクリア
               </button>
             </div>
             <div className={styles.historyList}>
@@ -232,7 +231,7 @@ export default function UrlShortenerPage() {
                     </a>
                     <button
                       onClick={() => copyToClipboard(entry.shortURL, entry.id)}
-                      className={styles.copyBtn}
+                      className={`${styles.copyBtn} ${copiedId === entry.id ? styles.copied : ""}`}
                     >
                       {copiedId === entry.id ? "✅ コピー済み" : "📋 コピー"}
                     </button>
