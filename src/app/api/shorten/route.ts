@@ -3,9 +3,9 @@ import { getRequestContext } from "@cloudflare/next-on-pages";
 
 export const runtime = "edge";
 
-/* ── Simple in-memory rate limiter (per IP, 5 requests / 60s) ── */
+/* ── Simple in-memory rate limiter (per IP, 3 requests / 60s) ── */
 const RATE_LIMIT_WINDOW = 60_000; // 60 seconds
-const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_MAX = 3;
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
 function isRateLimited(ip: string): boolean {
