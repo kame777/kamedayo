@@ -101,25 +101,6 @@ export default function UrlShortenerPage() {
     }
   }, []);
 
-  const removeEntry = useCallback((id: string) => {
-    setHistory((prev) => prev.filter((e) => e.id !== id));
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as any[];
-        if (Array.isArray(parsed)) {
-          const filtered = parsed.filter((it) => {
-            const key = it && typeof it === "object" ? (it.id || it.key) : null;
-            return key !== id;
-          });
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
-        }
-      }
-    } catch {
-      /* ignore */
-    }
-  }, []);
-
   // Load history from localStorage on mount
   useEffect(() => {
     try {
@@ -222,13 +203,6 @@ export default function UrlShortenerPage() {
               >
                 {copiedId === history[0].id ? "✅ コピー済み" : "📋 コピー"}
               </button>
-              <button
-                onClick={() => removeEntry(history[0].id)}
-                className={styles.clearBtn}
-                style={{ marginLeft: 8 }}
-              >
-                🗑️ 削除
-              </button>
             </div>
             <p className={styles.latestOriginal}>
               元のURL: <span>{history[0].originalURL}</span>
@@ -258,16 +232,9 @@ export default function UrlShortenerPage() {
                     </a>
                     <button
                       onClick={() => copyToClipboard(entry.shortURL, entry.id)}
-                      className={styles.copyBtnSmall}
+                      className={styles.copyBtn}
                     >
-                      {copiedId === entry.id ? "✅" : "📋"}
-                    </button>
-                    <button
-                      onClick={() => removeEntry(entry.id)}
-                      className={styles.copyBtnSmall}
-                      style={{ marginLeft: 6 }}
-                    >
-                      🗑️
+                      {copiedId === entry.id ? "✅ コピー済み" : "📋 コピー"}
                     </button>
                   </div>
                   <p className={styles.historyOriginal}>{entry.originalURL}</p>
