@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       || "unknown";
     if (isRateLimited(ip)) {
       return NextResponse.json(
-        { error: "リクエストが多すぎます。しばらくしてから再試行してください。" },
+        { error: "リクエストが多すぎます。しばらくしてから再試行してください。[429]" },
         { status: 429 }
       );
     }
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     if (!SHORT_IO_API_KEY || !SHORT_IO_DOMAIN) {
       return NextResponse.json(
         {
-          error: "サーバー設定エラー: APIキーまたはドメインが未設定です。",
+          error: "サーバー設定エラー: APIキーまたはドメインが未設定です。[500]",
           debug: {
             hasKey: !!SHORT_IO_API_KEY,
             hasDomain: !!SHORT_IO_DOMAIN,
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     if (!url || typeof url !== "string") {
       return NextResponse.json(
-        { error: "URLが指定されていません。" },
+        { error: "URLが指定されていません。[400]" },
         { status: 400 }
       );
     }
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
       }
     } catch {
       return NextResponse.json(
-        { error: "有効なURLを入力してください。" },
+        { error: "有効なURLを入力してください。[400]" },
         { status: 400 }
       );
     }
@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
       const errData = await response.json().catch(() => ({}));
       console.error("Short.io API error:", response.status, errData);
       return NextResponse.json(
-        { error: "短縮URLの生成に失敗しました。しばらくしてから再試行してください。" },
+        { error: "短縮URLの生成に失敗しました。しばらくしてから再試行してください。[502]" },
         { status: 502 }
       );
     }
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("Shorten API error:", err);
     return NextResponse.json(
-      { error: "サーバーエラーが発生しました。" },
+      { error: "サーバーエラーが発生しました。[500]" },
       { status: 500 }
     );
   }
