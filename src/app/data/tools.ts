@@ -80,6 +80,16 @@ export const tools: Tool[] = [
     url: '/webtool/7',
     color: '#38bdf8',
   },
+  {
+    id: 8,
+    icon: '🍅',
+    title: 'ポモドーロタイマー',
+    description: 'GitHubアカウントにログインすることで、統計データを管理可能。',
+    category: '開発中',
+    status: 'soon',
+    url: '/webtool/8',
+    color: '#38bdf8',
+  },
 ];
 
 export const newsItems = [
