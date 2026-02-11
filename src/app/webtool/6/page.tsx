@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./UrlShortener.module.css";
 import HeroBanner from "../../components/HeroBanner";
 
@@ -10,6 +10,8 @@ type ShortenedEntry = {
   shortURL: string;
   createdAt: string;
 };
+
+const STORAGE_KEY = "kamedayo:urlShortenerHistory";
 
 function isValidUrl(str: string): boolean {
   try {
@@ -92,7 +94,48 @@ export default function UrlShortenerPage() {
 
   const clearHistory = useCallback(() => {
     setHistory([]);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
   }, []);
+
+  // Load history from localStorage on mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as any[];
+        if (Array.isArray(parsed)) {
+          const normalized: ShortenedEntry[] = parsed
+            .map((it) => {
+              if (!it || typeof it !== "object") return null;
+              const id = it.id || it.key || (Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
+              const originalURL = it.originalURL || it.originalUrl || it.url || "";
+              const shortURL = it.shortURL || it.shortUrl || it.short || "";
+              const createdAt = it.createdAt || it.created_at || it.time || new Date().toLocaleString("ja-JP");
+              if (!originalURL || !shortURL) return null;
+              return { id, originalURL, shortURL, createdAt } as ShortenedEntry;
+            })
+            .filter((v): v is ShortenedEntry => v !== null);
+
+          if (normalized.length > 0) setHistory(normalized);
+        }
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  // Persist history to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    } catch {
+      /* ignore */
+    }
+  }, [history]);
 
   return (
     <>
@@ -106,7 +149,6 @@ export default function UrlShortenerPage() {
         {/* Input Section */}
         <div className={styles.inputSection}>
           <div className={styles.inputWrapper}>
-            <span className={styles.inputIcon}>🌐</span>
             <input
               ref={inputRef}
               type="url"
@@ -156,7 +198,7 @@ export default function UrlShortenerPage() {
               </a>
               <button
                 onClick={() => copyToClipboard(history[0].shortURL, history[0].id)}
-                className={styles.copyBtn}
+                className={`${styles.copyBtn} ${copiedId === history[0].id ? styles.copied : ""}`}
               >
                 {copiedId === history[0].id ? "✅ コピー済み" : "📋 コピー"}
               </button>
@@ -173,7 +215,7 @@ export default function UrlShortenerPage() {
             <div className={styles.historyHeader}>
               <h2 className={styles.historyTitle}>📜 変換履歴</h2>
               <button onClick={clearHistory} className={styles.clearBtn}>
-                クリア
+                履歴をクリア
               </button>
             </div>
             <div className={styles.historyList}>
@@ -189,9 +231,9 @@ export default function UrlShortenerPage() {
                     </a>
                     <button
                       onClick={() => copyToClipboard(entry.shortURL, entry.id)}
-                      className={styles.copyBtnSmall}
+                      className={`${styles.copyBtn} ${copiedId === entry.id ? styles.copied : ""}`}
                     >
-                      {copiedId === entry.id ? "✅" : "📋"}
+                      {copiedId === entry.id ? "✅ コピー済み" : "📋 コピー"}
                     </button>
                   </div>
                   <p className={styles.historyOriginal}>{entry.originalURL}</p>
@@ -207,8 +249,9 @@ export default function UrlShortenerPage() {
           <h2 className={styles.infoTitle}>💡 使い方</h2>
           <ul className={styles.infoList}>
             <li>短縮したいURLを入力して「短縮する」をクリック</li>
+            <li>元のURLは、https://url.kamedayo.com/xxxxxxという形に変換されます</li>
             <li>生成された短縮URLをコピーして共有</li>
-            <li>変換履歴はブラウザを閉じるとリセットされます</li>
+            <li>変換履歴はブラウザを閉じても保持されます（ローカルストレージ）</li>
           </ul>
         </div>
       </main>
