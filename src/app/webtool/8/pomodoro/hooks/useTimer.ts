@@ -29,10 +29,6 @@ export function useTimer() {
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const isSyncingRef = useRef(false);
 
-    // Sync settings.long_break_interval to totalSessions
-    useEffect(() => {
-        setTotalSessions(settings.long_break_interval);
-    }, [settings.long_break_interval, setTotalSessions]);
 
     // --- Utility: Get duration ---
     const getDuration = useCallback(
@@ -77,6 +73,55 @@ export function useTimer() {
     }, [user]);
 
     const hasPulledRef = useRef(false);
+    const prevSettingsRef = useRef(settings);
+
+    // Watch for setting changes to durations or interval, and force a reset if they change
+    useEffect(() => {
+        // Initially, just store the settings and wait for the first DB pull
+        if (!hasPulledRef.current) {
+            prevSettingsRef.current = settings;
+            // But we still want to keep totalSessions in sync
+            setTotalSessions(settings.long_break_interval);
+            return;
+        }
+
+        const s = settings;
+        const ps = prevSettingsRef.current;
+
+        const durableSettingsChanged = 
+            s.work_duration !== ps.work_duration ||
+            s.short_break_duration !== ps.short_break_duration ||
+            s.long_break_duration !== ps.long_break_duration ||
+            s.long_break_interval !== ps.long_break_interval;
+
+        if (durableSettingsChanged) {
+            const nextSeconds = s.work_duration * 60;
+            const nextSession = 1;
+            const nextPhase = 'work';
+            const nextStatus = 'idle';
+
+            // Reset both local store and ensure cloud is in sync
+            useTimerStore.setState({
+                phase: nextPhase,
+                remainingSeconds: nextSeconds,
+                currentSession: nextSession,
+                totalSessions: s.long_break_interval,
+                status: nextStatus
+            });
+
+            syncToCloud({
+                phase: nextPhase,
+                remainingSeconds: nextSeconds,
+                currentSession: nextSession,
+                status: nextStatus
+            }, true);
+
+            prevSettingsRef.current = settings;
+        } else {
+            // Even if not a "reset" change, keep totalSessions in sync
+            setTotalSessions(settings.long_break_interval);
+        }
+    }, [settings, setTotalSessions, syncToCloud]);
 
     // --- Cloud Sync: Pull initial state & Subscribe ---
     useEffect(() => {

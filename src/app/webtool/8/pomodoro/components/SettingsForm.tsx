@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { UserSettings } from '../types';
+import { UserSettings, DEFAULT_SETTINGS } from '../types';
 import { useNotification } from '../hooks/useNotification';
 import styles from './SettingsForm.module.css';
 
@@ -185,6 +185,18 @@ export default function SettingsForm({ settings, onUpdate, onTestSound }: Settin
                     </div>
                 </div>
             </section>
+
+            <button
+                className={styles.resetSettingsButton}
+                onClick={() => {
+                    if (confirm('設定を初期状態に戻しますか？')) {
+                        onUpdate(DEFAULT_SETTINGS);
+                    }
+                }}
+                type="button"
+            >
+                🔄 設定をデフォルトに戻す
+            </button>
         </div>
     );
 }
