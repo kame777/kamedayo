@@ -76,6 +76,8 @@ export function useTimer() {
         }
     }, [user]);
 
+    const hasPulledRef = useRef(false);
+
     // --- Cloud Sync: Pull initial state & Subscribe ---
     useEffect(() => {
         if (!user) return;
@@ -84,6 +86,16 @@ export function useTimer() {
 
         // 1. Initial Pull
         const fetchInitialState = async () => {
+            // Already pulled in this session or timer is active
+            if (hasPulledRef.current) return;
+            
+            const currentGlobalStatus = useTimerStore.getState().status;
+            // If timer is already running (e.g. from a previous page view), don't overwrite with old DB state
+            if (currentGlobalStatus === 'running') {
+                hasPulledRef.current = true;
+                return;
+            }
+
             const { data } = await supabase
                 .from('timer_state')
                 .select('*')
@@ -91,11 +103,15 @@ export function useTimer() {
                 .single();
 
             if (data) {
-                setPhase(data.phase as TimerPhase);
-                setStatus(data.status as TimerStatus);
-                setRemainingSeconds(data.remaining_seconds);
-                setCurrentSession(data.current_session);
+                // Double check status before applying to avoid race conditions
+                if (useTimerStore.getState().status !== 'running') {
+                    setPhase(data.phase as TimerPhase);
+                    setStatus(data.status as TimerStatus);
+                    setRemainingSeconds(data.remaining_seconds);
+                    setCurrentSession(data.current_session);
+                }
             }
+            hasPulledRef.current = true;
         };
         fetchInitialState();
 
@@ -112,6 +128,15 @@ export function useTimer() {
 
                     const newData = payload.new as any;
                     if (!newData) return;
+
+                    // 自分が「実行中」なら、他のデバイス/タブからの更新であっても上書きを慎重にする
+                    // (基本的には自分のローカルタイマーを優先)
+                    const currentStatus = useTimerStore.getState().status;
+                    if (currentStatus === 'running' && newData.status !== 'running') {
+                        // 自分が走っているのに、DBから「停止」が降ってきた場合は無視するか検討が必要
+                        // ここでは、自分が走っている間は秒数の大幅な巻き戻りを防ぐため同期をスキップ
+                        return;
+                    }
 
                     // サーバーからの値でストアを更新
                     useTimerStore.setState({
