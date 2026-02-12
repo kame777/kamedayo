@@ -16,3 +16,6 @@ yarn-error.log*
 # OS固有ファイル (Mac, Windows)
 .DS_Store
 Thumbs.db
+
+# 拡張機能リスト
+extensions.txt
