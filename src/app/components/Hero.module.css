@@ -337,6 +337,12 @@
 }
 
 /* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .mouseGlow {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
     min-height: 100svh;
