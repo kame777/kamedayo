@@ -1,6 +1,5 @@
-/* ===== Features Section ===== */
 .features {
-  padding: 5rem 1.5rem;
+  padding: 2.5rem 1.5rem;
   background: linear-gradient(180deg, var(--page-grad-start) 0%, var(--page-grad-end) 100%);
   position: relative;
 }
@@ -13,31 +12,31 @@
 /* ===== Section Header ===== */
 .sectionHeader {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .sectionBadge {
   display: inline-block;
-  padding: 0.35rem 1rem;
+  padding: 0.25rem 0.85rem;
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
   color: var(--primary);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   letter-spacing: 0.03em;
 }
 
 .sectionTitle {
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   font-weight: 800;
   color: var(--text);
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.25rem;
   letter-spacing: -0.01em;
 }
 
 .sectionSubtitle {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: var(--muted);
   margin: 0;
 }
@@ -45,15 +44,15 @@
 /* ===== Cards Grid ===== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
 }
 
 /* ===== Card ===== */
 .card {
   position: relative;
-  padding: 2rem;
-  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
   background: var(--bg);
   border: 1px solid var(--border);
   text-decoration: none;
@@ -83,14 +82,15 @@
 
 /* Card icon */
 .cardIcon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.05));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
   transition: transform 0.3s ease;
 }
 
@@ -100,17 +100,17 @@
 
 /* Card text */
 .cardTitle {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.35rem;
   color: var(--text);
 }
 
 .cardDesc {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   color: var(--muted);
-  line-height: 1.7;
-  margin: 0 0 1rem;
+  line-height: 1.5;
+  margin: 0 0 0.75rem;
 }
 
 /* Card link */
@@ -134,14 +134,23 @@
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .features {
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
+  }
+
+  .sectionHeader {
+    margin-bottom: 1.5rem;
   }
 
   .sectionTitle {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
 
   .grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1rem 1.25rem;
   }
 }

@@ -39,14 +39,16 @@ export default function Page() {
                   </span>
                 </div>
 
-                <h3 className={styles.cardTitle}>{t.title}</h3>
-                <p className={styles.cardDesc}>{t.description}</p>
+                <div className={styles.cardBody}>
+                  <h3 className={styles.cardTitle}>{t.title}</h3>
+                  <p className={styles.cardDesc}>{t.description}</p>
 
-                <div className={styles.cardFooter}>
-                  <span className={styles.cardLink}>
-                    {t.status === 'live' ? '使ってみる' : '乞うご期待'}
-                    <span className={styles.cardArrow}>→</span>
-                  </span>
+                  <div className={styles.cardFooter}>
+                    <span className={styles.cardLink}>
+                      {t.status === 'live' ? '使ってみる' : '乞うご期待'}
+                      <span className={styles.cardArrow}>→</span>
+                    </span>
+                  </div>
                 </div>
               </article>
             </Link>
