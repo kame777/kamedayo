@@ -80,6 +80,21 @@ export default function HomePage() {
 
         <Navigation />
       </div>
+
+      <div className="infoBox">
+        <h3 className="infoTitle">💡 使い方</h3>
+        <ul className="infoList">
+          <li className="infoItem">
+            GitHubアカウントでログインすると、設定や統計データがクラウドに同期されます
+          </li>
+          <li className="infoItem">
+            他のデバイスやブラウザでも、同じ設定でタイマーを利用できるようになります
+          </li>
+          <li className="infoItem">
+            作業時間や休憩時間を変更すると、タイマーは自動的にリセットされます
+          </li>
+        </ul>
+      </div>
     </>
   );
 }
