@@ -8,9 +8,10 @@ import styles from './SettingsForm.module.css';
 interface SettingsFormProps {
     settings: UserSettings;
     onUpdate: (partial: Partial<UserSettings>) => void;
+    onTestSound?: () => void;
 }
 
-export default function SettingsForm({ settings, onUpdate }: SettingsFormProps) {
+export default function SettingsForm({ settings, onUpdate, onTestSound }: SettingsFormProps) {
     const { requestPermission, isSupported } = useNotification();
     const [mounted, setMounted] = useState(false);
 
@@ -159,18 +160,29 @@ export default function SettingsForm({ settings, onUpdate }: SettingsFormProps) 
                     <label className={styles.label} htmlFor="sound-notification">
                         サウンド通知
                     </label>
-                    <button
-                        id="sound-notification"
-                        className={`${styles.toggle} ${settings.sound_notification ? styles.toggleOn : ''
-                            }`}
-                        onClick={() =>
-                            onUpdate({ sound_notification: !settings.sound_notification })
-                        }
-                        role="switch"
-                        aria-checked={settings.sound_notification}
-                    >
-                        <span className={styles.toggleThumb} />
-                    </button>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {onTestSound && (
+                            <button
+                                className={styles.testButton}
+                                onClick={onTestSound}
+                                type="button"
+                            >
+                                🔊 テスト再生
+                            </button>
+                        )}
+                        <button
+                            id="sound-notification"
+                            className={`${styles.toggle} ${settings.sound_notification ? styles.toggleOn : ''
+                                }`}
+                            onClick={() =>
+                                onUpdate({ sound_notification: !settings.sound_notification })
+                            }
+                            role="switch"
+                            aria-checked={settings.sound_notification}
+                        >
+                            <span className={styles.toggleThumb} />
+                        </button>
+                    </div>
                 </div>
             </section>
         </div>

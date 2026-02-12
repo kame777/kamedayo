@@ -133,18 +133,15 @@ export function useTimer() {
     const playSound = useCallback(() => {
         if (!settings.sound_notification) return;
         try {
-            const AudioContextClass = (window.AudioContext || (window as any).webkitAudioContext);
-            const audioCtx = new AudioContextClass();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.frequency.value = 880;
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.5);
-        } catch (e) { }
+            const audio = new Audio('/sounds/complete.mp3');
+            audio.volume = 0.5;
+            audio.play().catch(e => {
+                // Autoplay policy might block it if no user gesture yet
+                console.warn('Audio play failed (waiting for user gesture?):', e);
+            });
+        } catch (e) {
+            console.error('Audio initialization error:', e);
+        }
     }, [settings.sound_notification]);
 
     const showNotification = useCallback((title: string, body: string) => {
@@ -273,5 +270,5 @@ export function useTimer() {
         }, true);
     }, [phase, currentSession, totalSessions, getDuration, syncToCloud]);
 
-    return { phase, status, remainingSeconds, currentSession, totalSessions, start, pause, resetTimer, skip };
+    return { phase, status, remainingSeconds, currentSession, totalSessions, start, pause, resetTimer, skip, testSound: playSound };
 }

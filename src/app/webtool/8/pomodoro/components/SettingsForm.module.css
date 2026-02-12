@@ -119,3 +119,22 @@
         padding: 6px 8px;
     }
 }
+
+.testButton {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 12px;
+}
+
+.testButton:hover {
+    background: var(--surface-tertiary);
+    color: var(--text-primary);
+    border-color: var(--text-tertiary);
+}

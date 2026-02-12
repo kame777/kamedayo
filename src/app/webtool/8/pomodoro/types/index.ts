@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
   long_break_interval: 4,
   auto_start: false,
   browser_notification: false,
-  sound_notification: true,
+  sound_notification: false,
 };
 
 // ===== Session / Stats Types =====
