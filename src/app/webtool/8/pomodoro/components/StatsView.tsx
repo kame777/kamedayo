@@ -44,10 +44,11 @@ export default function StatsView({ stats, isLoading }: StatsViewProps) {
                     <div className={styles.statSub}>{formatMinutes(stats.total_minutes)}</div>
                 </div>
 
-                <div className={`${styles.statCard} ${styles.streakCard}`}>
-                    <div className={styles.streakIcon}>🔥</div>
+                <div className={`${styles.statCard} ${stats.streak_days > 0 ? styles.streakCard : ''}`}>
                     <div className={styles.statValue}>{stats.streak_days}</div>
-                    <div className={styles.statLabel}>連続日数</div>
+                    <div className={styles.statLabel}>
+                        {stats.streak_days > 0 && <span className={styles.streakIcon}>🔥</span>} 連続日数
+                    </div>
                 </div>
             </div>
 
