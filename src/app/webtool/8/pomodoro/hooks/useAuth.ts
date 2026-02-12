@@ -12,17 +12,19 @@ export function useAuth() {
         const supabase = createClient();
 
         // Get initial session
-        supabase.auth.getUser().then(({ data: { user } }) => {
-            setUser(user);
-            if (user) {
-                mergeLocalData(user.id);
+        supabase.auth.getUser().then((response: any) => {
+            const user = response.data?.user;
+            const typedUser = user as any;
+            setUser(typedUser);
+            if (typedUser) {
+                mergeLocalData(typedUser.id);
             }
         });
 
         // Listen for auth changes
         const {
             data: { subscription },
-        } = supabase.auth.onAuthStateChange((_event, session) => {
+        } = supabase.auth.onAuthStateChange((_event: string, session: any) => {
             setUser(session?.user ?? null);
             if (session?.user) {
                 mergeLocalData(session.user.id);
@@ -34,13 +36,19 @@ export function useAuth() {
 
     const signInWithGitHub = async () => {
         const supabase = createClient();
-        const callbackUrl = new URL('/auth/callback', window.location.origin);
-        callbackUrl.searchParams.set('next', window.location.pathname);
+
+        // Store intended destination in a cookie (valid for 10 mins)
+        // This avoids query param whitelist issues in Supabase
+        const next = window.location.pathname;
+        document.cookie = `sb_callback_next=${next}; path=/; max-age=600; SameSite=Lax`;
+
+        const origin = window.location.origin;
+        const callbackUrl = `${origin}/auth/callback`;
 
         await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: callbackUrl.toString(),
+                redirectTo: callbackUrl,
             },
         });
     };

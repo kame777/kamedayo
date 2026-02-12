@@ -7,8 +7,12 @@ export const runtime = 'edge'
 export async function GET(request: Request) {
     const { searchParams, origin } = new URL(request.url)
     const code = searchParams.get('code')
-    // if "next" is in search params, use it as the redirection URL
-    const next = searchParams.get('next') ?? '/webtool/8'
+
+    // Check cookie first for most reliable "next" destination
+    const cookieStore = cookies()
+    const cookieNext = cookieStore.get('sb_callback_next')?.value
+    const paramNext = searchParams.get('next')
+    const next = cookieNext ?? paramNext ?? '/webtool/8'
 
     if (code) {
         const cookieStore = cookies()
