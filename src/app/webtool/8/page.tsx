@@ -37,21 +37,12 @@ export default function HomePage() {
     }
   };
 
-  // Update document title with timer
-  useEffect(() => {
-    const minutes = Math.floor(remainingSeconds / 60);
-    const seconds = remainingSeconds % 60;
-    const timeStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    document.title = status === 'running'
-      ? `${timeStr} - ${PHASE_LABELS[phase]} | ポモドーロ`
-      : 'ポモドーロタイマー';
-  }, [remainingSeconds, status, phase]);
 
   return (
     <>
       <HeroBanner
         badge="🍅 Pomodoro"
-        title="ポモドーロ"
+        title="ポモドーロタイマー"
         subtitle="作業と休憩を管理して集中力を高める"
       >
         <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
