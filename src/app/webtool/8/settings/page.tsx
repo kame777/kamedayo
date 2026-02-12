@@ -10,7 +10,7 @@ import HeroBanner from '@/app/components/HeroBanner';
 
 export default function SettingsPage() {
     const { settings, updateSettings } = useSettings();
-    const { testSound } = useTimer();
+    const { testSound, testNotification } = useTimer();
 
     return (
         <>
@@ -26,7 +26,7 @@ export default function SettingsPage() {
 
             <div className="appShell">
                 <main className="pageContent">
-                    <SettingsForm settings={settings} onUpdate={updateSettings} onTestSound={testSound} />
+                    <SettingsForm settings={settings} onUpdate={updateSettings} onTestSound={testSound} onTestNotification={testNotification} />
                 </main>
 
                 <Navigation />

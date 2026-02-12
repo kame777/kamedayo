@@ -9,9 +9,10 @@ interface SettingsFormProps {
     settings: UserSettings;
     onUpdate: (partial: Partial<UserSettings>) => void;
     onTestSound?: () => void;
+    onTestNotification?: () => void;
 }
 
-export default function SettingsForm({ settings, onUpdate, onTestSound }: SettingsFormProps) {
+export default function SettingsForm({ settings, onUpdate, onTestSound, onTestNotification }: SettingsFormProps) {
     const { requestPermission, isSupported } = useNotification();
     const [mounted, setMounted] = useState(false);
 
@@ -143,17 +144,29 @@ export default function SettingsForm({ settings, onUpdate, onTestSound }: Settin
                             <span className={styles.hint}>（非対応ブラウザ）</span>
                         )}
                     </label>
-                    <button
-                        id="browser-notification"
-                        className={`${styles.toggle} ${settings.browser_notification ? styles.toggleOn : ''
-                            }`}
-                        onClick={handleBrowserNotificationToggle}
-                        disabled={!isSupported}
-                        role="switch"
-                        aria-checked={settings.browser_notification}
-                    >
-                        <span className={styles.toggleThumb} />
-                    </button>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {onTestNotification && (
+                            <button
+                                className={styles.testButton}
+                                onClick={onTestNotification}
+                                disabled={!settings.browser_notification}
+                                type="button"
+                            >
+                                🔔 テスト通知
+                            </button>
+                        )}
+                        <button
+                            id="browser-notification"
+                            className={`${styles.toggle} ${settings.browser_notification ? styles.toggleOn : ''
+                                }`}
+                            onClick={handleBrowserNotificationToggle}
+                            disabled={!isSupported}
+                            role="switch"
+                            aria-checked={settings.browser_notification}
+                        >
+                            <span className={styles.toggleThumb} />
+                        </button>
+                    </div>
                 </div>
 
                 <div className={styles.field}>

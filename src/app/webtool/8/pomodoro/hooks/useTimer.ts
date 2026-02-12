@@ -215,8 +215,15 @@ export function useTimer() {
     }, [settings.sound_notification]);
 
     const showNotification = useCallback((title: string, body: string) => {
-        if (!settings.browser_notification || Notification.permission !== 'granted') return;
-        new Notification(title, { body });
+        if (!settings.browser_notification || typeof window === 'undefined' || !('Notification' in window)) return;
+        
+        if (Notification.permission === 'granted') {
+            new Notification(title, { 
+                body,
+                icon: '/logo192.png',
+                silent: false // Sound is handled by playSound()
+            });
+        }
     }, [settings.browser_notification]);
 
     // --- Timer Core logic ---
@@ -340,5 +347,5 @@ export function useTimer() {
         }, true);
     }, [phase, currentSession, totalSessions, getDuration, syncToCloud]);
 
-    return { phase, status, remainingSeconds, currentSession, totalSessions, start, pause, resetTimer, skip, testSound: playSound };
+    return { phase, status, remainingSeconds, currentSession, totalSessions, start, pause, resetTimer, skip, testSound: playSound, testNotification: () => showNotification('テスト通知', 'これは通知のテストです') };
 }
