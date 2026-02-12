@@ -103,16 +103,6 @@
   color: var(--text-primary);
 }
 
-@media (max-width: 640px) {
-  .appShell {
-    max-width: 100%;
-    margin: 0;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-  }
-}
-
 .infoBox {
   background: var(--surface-primary);
   border: 1px solid var(--border-color);
@@ -155,4 +145,18 @@
   position: absolute;
   left: 0;
   color: var(--text-tertiary);
+}
+
+@media (max-width: 640px) {
+  .appShell {
+    max-width: calc(100% - 32px);
+    margin: 24px auto;
+    border-radius: 16px;
+  }
+
+  .infoBox {
+    max-width: calc(100% - 32px);
+    margin: 0 auto 40px;
+    padding: 20px;
+  }
 }
