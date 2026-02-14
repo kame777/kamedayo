@@ -1,8 +1,8 @@
 .nav {
     display: flex;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.4rem;
+    gap: 0.35rem;
+    padding: 0.35rem;
     background: var(--surface-primary);
     border: 1px solid var(--border);
     margin: 0 20px 24px;
@@ -13,9 +13,9 @@
 
 .indicator {
     position: absolute;
-    top: 0.4rem;
+    top: 0.35rem;
     left: 0;
-    height: calc(100% - 0.8rem);
+    height: calc(100% - 0.7rem);
     border-radius: 14px;
     background: var(--btn-grad);
     box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
@@ -34,13 +34,17 @@
     border-radius: 14px;
     text-decoration: none;
     color: var(--text-secondary);
-    transition: all 0.25s ease;
+    transition: color 0.25s ease, transform 0.15s ease;
     position: relative;
     z-index: 1;
 }
 
 .navItem:hover {
     color: var(--text-primary);
+}
+
+.navItem:active {
+    transform: scale(0.97);
 }
 
 .navItemActive {
@@ -59,10 +63,6 @@
     transition: transform 0.2s ease;
 }
 
-
-.navItem:hover .navIcon svg {
-    transform: scale(1.1);
-}
 
 /* Tooltip */
 .tooltip {

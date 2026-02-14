@@ -107,13 +107,9 @@
 }
 
 @media (max-width: 480px) {
-    .username {
-        display: none;
-    }
 
-    .userInfo {
-        padding: 2px;
-    }
+
+
 
     .authBtn {
         padding: 6px 12px;

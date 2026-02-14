@@ -42,11 +42,11 @@ import { useTabIndicator } from '@/app/hooks/useTabIndicator';
 
 export default function Navigation() {
     const pathname = usePathname();
-    const { containerRef, indicatorStyle } = useTabIndicator(pathname);
+    const { containerRef, indicatorStyle } = useTabIndicator(pathname, 'pomodoro-nav');
 
     return (
         <nav className={styles.nav} id="main-navigation" ref={containerRef}>
-            <div className={styles.indicator} style={indicatorStyle} />
+            <div className={styles.indicator} style={indicatorStyle} suppressHydrationWarning />
             {NAV_ITEMS.map((item) => (
                 <Link
                     key={item.href}
