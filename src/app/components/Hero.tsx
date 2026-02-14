@@ -120,6 +120,11 @@ export default function Hero() {
           </div>
           <div className={styles.statDivider} />
           <div className={styles.statItem}>
+            <span className={styles.statNumber}>OSS</span>
+            <span className={styles.statLabel}>GitHubで公開中</span>
+          </div>
+          <div className={styles.statDivider} />
+          <div className={styles.statItem}>
             <span className={styles.statNumber} ref={freeCountRef}>{freeCount}%</span>
             <span className={styles.statLabel}>無料</span>
           </div>
