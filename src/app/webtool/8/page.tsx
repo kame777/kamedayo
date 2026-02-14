@@ -10,6 +10,7 @@ import { TimerPhase } from '@/app/webtool/8/pomodoro/types';
 import { PHASE_LABELS } from '@/app/webtool/8/pomodoro/utils/constants';
 import HeroBanner from '@/app/components/HeroBanner';
 import { useEffect } from 'react';
+import SessionStatus from '@/app/webtool/8/pomodoro/components/SessionStatus';
 
 export default function HomePage() {
   const { settings } = useSettings();
@@ -67,6 +68,8 @@ export default function HomePage() {
             onReset={resetTimer}
             onSkip={skip}
           />
+
+          <SessionStatus />
         </main>
 
         <Navigation />
