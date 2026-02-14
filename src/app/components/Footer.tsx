@@ -18,9 +18,9 @@ export default function Footer() {
         <div className={styles.section}>
           <h4>サイト</h4>
           <ul>
-            <li><Link href="/about">私について</Link></li>
             <li><Link href="/contact">お問い合わせ</Link></li>
             <li><a data-no-external="true" href="https://status.kamedayo.com/" target='_blank' rel="noopener noreferrer">サイトステータス</a></li>
+            <li><a data-no-external="true" href="https://github.com/kame777/kamedayo/" target='_blank' rel="noopener noreferrer">ソースコード</a></li>
           </ul>
         </div>
         <div className={styles.section}>
