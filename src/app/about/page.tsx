@@ -1,4 +1,7 @@
 import styles from './About.module.css';
+export const metadata = {
+  title: '私について',
+};
 import Link from 'next/link';
 import Image from 'next/image';
 import ImageLightbox from '../components/ImageLightbox';

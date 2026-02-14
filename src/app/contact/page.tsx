@@ -1,5 +1,8 @@
 import HeroBanner from '../components/HeroBanner';
 import styles from './Contact.module.css';
+export const metadata = {
+  title: 'お問い合わせ',
+};
 
 export default function Contact() {
   return (
