@@ -3,7 +3,7 @@ import './globals.css';
 import ClientLayout from './ClientLayout';
 
 export const metadata: Metadata = {
-  title: 'kamedayo | Webツールと技術メモ',
+  title: 'kamedayo | ポモドーロタイマー',
   description:
     'ポモドーロ・テクニックで集中力を高める。作業と休憩を効果的に管理するWebタイマーアプリ。',
 };
