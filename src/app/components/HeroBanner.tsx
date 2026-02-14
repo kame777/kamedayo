@@ -1,7 +1,7 @@
 import styles from './HeroBanner.module.css';
 
 type HeroBannerProps = {
-  badge: string;
+  badge: string | React.ReactNode;
   title: string;
   subtitle: string;
   children?: React.ReactNode;
