@@ -88,3 +88,12 @@ export const newsItems = [
   { date: '2026/02/10', text: 'メインページを大幅リニューアルしました！' },
   { date: '2025/11/15', text: 'メインページリニューアルしました！' },
 ];
+
+export function buildTitle(name: string) {
+  return `kamedayo | ${name}`;
+}
+
+export function getTitleById(id: number) {
+  const t = tools.find((x) => x.id === id);
+  return t ? buildTitle(t.title) : 'kamedayo';
+}

@@ -6,6 +6,7 @@ import HeroBanner from '../../components/HeroBanner';
 import { LETTERS, DIGITS, DEFAULT_SYMBOLS, WORD_LIST, MOBILE_BREAKPOINT } from '../../data/constants';
 import { useTabIndicator } from '../../hooks/useTabIndicator';
 
+
 type Mode = "random" | "memorable" | "pin";
 type CharItem = { char: string; type: "letter" | "number" | "symbol" };
 
@@ -28,6 +29,7 @@ function secureRandomIndex(max: number): number {
 }
 
 const PasswordGenerator: React.FC = () => {
+  useEffect(() => { document.title = 'kamedayo | パスワード生成ツール'; }, []);
   const [passwordType, setPasswordType] = useState<Mode>("random");
   const [passwordLength, setPasswordLength] = useState<number>(16);
   const [prevLength, setPrevLength] = useState<number>(16);
