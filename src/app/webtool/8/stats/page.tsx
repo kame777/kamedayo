@@ -19,11 +19,7 @@ export default function StatsPage() {
                 badge="📊 Statistics"
                 title="統計"
                 subtitle="最近の作業記録を確認"
-            >
-                <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
-                    <AuthButton />
-                </div>
-            </HeroBanner>
+            />
 
             <div className="appShell">
                 <main className="pageContent">

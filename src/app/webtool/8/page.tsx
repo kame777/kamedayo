@@ -45,11 +45,7 @@ export default function HomePage() {
         badge="🍅 Pomodoro"
         title="ポモドーロタイマー"
         subtitle="作業と休憩を管理して集中力を高める"
-      >
-        <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
-          <AuthButton />
-        </div>
-      </HeroBanner>
+      />
 
       <div className="appShell">
         <main className="appContent">

@@ -5,6 +5,8 @@ import { UserSettings, DEFAULT_SETTINGS } from '../types';
 import { useNotification } from '../hooks/useNotification';
 import styles from './SettingsForm.module.css';
 
+import AuthButton from './AuthButton';
+
 interface SettingsFormProps {
     settings: UserSettings;
     onUpdate: (partial: Partial<UserSettings>) => void;
@@ -46,6 +48,18 @@ export default function SettingsForm({ settings, onUpdate, onTestSound, onTestNo
 
     return (
         <div className={styles.container}>
+            <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>👤 アカウント設定</h3>
+                <div className={styles.field} style={{ flexDirection: 'column', alignItems: 'stretch', gap: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <AuthButton />
+                    </div>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textAlign: 'center', lineHeight: '1.4' }}>
+                        ログインすると設定や統計データがクラウドに同期され、<br />デバイス間で共有できます。
+                    </p>
+                </div>
+            </section>
+
             <section className={styles.section}>
                 <h3 className={styles.sectionTitle}>⏱️ タイマー設定</h3>
 

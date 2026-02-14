@@ -18,11 +18,7 @@ export default function SettingsPage() {
                 badge="⚙️ Settings"
                 title="設定"
                 subtitle="タイマーの動作を自分好みにカスタマイズ"
-            >
-                <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
-                    <AuthButton />
-                </div>
-            </HeroBanner>
+            />
 
             <div className="appShell">
                 <main className="pageContent">
