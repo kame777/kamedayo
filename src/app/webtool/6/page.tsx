@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./UrlShortener.module.css";
 import HeroBanner from "../../components/HeroBanner";
 import { useUrlShortener } from "./hooks/useUrlShortener";
@@ -9,7 +9,9 @@ import { LatestResult } from "./components/LatestResult";
 import { HistorySection } from "./components/HistorySection";
 import { InfoSection } from "./components/InfoSection";
 
+
 export default function UrlShortenerPage() {
+  useEffect(() => { document.title = 'kamedayo | 短縮URL作成ツール'; }, []);
   const {
     url,
     loading,

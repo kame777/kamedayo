@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://kamedayo.com'),
   title: {
     default: 'kamedayo | Webツールと技術メモ',
-    template: '%s | kamedayo',
+    template: 'kamedayo | %s',
   },
   description: '個人が作る便利Webツールと技術メモのサイト。Next.jsで構築しています。',
   openGraph: {

@@ -4,6 +4,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./QrGenerator.module.css";
 import HeroBanner from "../../components/HeroBanner";
 
+
 type ErrorCorrectionLevel = "L" | "M" | "Q" | "H";
 
 // ===== Minimal QR Code Generator (no external deps) =====
@@ -521,6 +522,7 @@ function matrixToSvg(
 
 export default function QrGeneratorPage() {
   const [text, setText] = useState("");
+  useEffect(() => { document.title = 'kamedayo | QRコード生成ツール'; }, []);
   const [ecl, setEcl] = useState<ErrorCorrectionLevel>("M");
   const [fgColor, setFgColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");

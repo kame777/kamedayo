@@ -5,6 +5,7 @@ import styles from "./PdfTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
 import { useTabIndicator } from '../../hooks/useTabIndicator';
 
+
 /* ═══════════════════ Types ═══════════════════ */
 type TabKey = "merge" | "split" | "extract" | "compress";
 type CompressLevel = "low" | "medium" | "high";
@@ -117,6 +118,7 @@ async function compressPdf(file: File, level: CompressLevel): Promise<Blob> {
 
 /* ═══════════════════ Component ═══════════════════ */
 export default function PdfTool() {
+  useEffect(() => { document.title = 'kamedayo | PDFツール'; }, []);
   const [tab, setTab] = useState<TabKey>("merge");
   const { containerRef: tabBarRef, indicatorStyle: tabIndicatorStyle } = useTabIndicator(tab);
   const [files, setFiles] = useState<FileEntry[]>([]);

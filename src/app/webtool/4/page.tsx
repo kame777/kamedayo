@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./Converter.module.css";
 import HeroBanner from "../../components/HeroBanner";
 import { useTabIndicator } from '../../hooks/useTabIndicator';
+
 
 /* ───────── Types ───────── */
 type Mode = "image" | "video";
@@ -64,6 +65,7 @@ function uid(): string {
 
 /* ───────── Component ───────── */
 export default function ExtensionConverter() {
+  useEffect(() => { document.title = 'kamedayo | 拡張子変換ツール'; }, []);
   const [mode, setMode] = useState<Mode>("image");
   const { containerRef: modeTabsRef, indicatorStyle: modeIndicatorStyle } = useTabIndicator(mode);
   const [files, setFiles] = useState<FileItem[]>([]);
