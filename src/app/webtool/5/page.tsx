@@ -7,7 +7,7 @@ import { useTabIndicator } from '../../hooks/useTabIndicator';
 
 
 /* ═══════════════════ Types ═══════════════════ */
-type TabKey = "merge" | "split" | "extract" | "compress";
+type TabKey = "merge" | "split" | "extract" | "compress" | "img2pdf" | "pdf2img";
 type CompressLevel = "low" | "medium" | "high";
 
 type FileEntry = {
@@ -24,6 +24,8 @@ const TABS: { key: TabKey; icon: string; label: string }[] = [
   { key: "split", icon: "✂️", label: "分割" },
   { key: "extract", icon: "📄", label: "抽出" },
   { key: "compress", icon: "🗜️", label: "圧縮" },
+  { key: "img2pdf", icon: "🖼️", label: "画像→PDF" },
+  { key: "pdf2img", icon: "📷", label: "PDF→画像" },
 ];
 
 const COMPRESS_OPTIONS: { value: CompressLevel; label: string; desc: string }[] = [
@@ -33,6 +35,8 @@ const COMPRESS_OPTIONS: { value: CompressLevel; label: string; desc: string }[] 
 ];
 
 const PDF_ACCEPT = "application/pdf,.pdf";
+const IMAGE_ACCEPT = "image/jpeg,image/png,image/webp,image/gif,image/bmp,.jpg,.jpeg,.png,.webp,.gif,.bmp";
+const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/bmp"];
 
 /* ═══════════════════ Helpers ═══════════════════ */
 function fmt(bytes: number): string {
@@ -63,11 +67,59 @@ async function getPdfJs() {
   return _pdfjs as typeof import("pdfjs-dist");
 }
 
+async function getJSZip() {
+  const mod = await import("jszip");
+  return mod.default;
+}
+
 async function getPageCount(file: File): Promise<number> {
   const PDFDocument = await getPdfLib();
   const buf = await file.arrayBuffer();
   const doc = await PDFDocument.load(buf, { ignoreEncryption: true });
   return doc.getPageCount();
+}
+
+/* ═══════════════════ Image embed helper ═══════════════════ */
+async function imageFileToEmbedData(
+  file: File,
+): Promise<{ data: Uint8Array; width: number; height: number; format: "jpg" | "png" }> {
+  const isJpeg = file.type === "image/jpeg";
+  const isPng = file.type === "image/png";
+
+  if (isJpeg || isPng) {
+    // Read directly for JPEG/PNG — no canvas conversion needed
+    const dims = await new Promise<{ width: number; height: number }>((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => { URL.revokeObjectURL(url); resolve({ width: img.naturalWidth, height: img.naturalHeight }); };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("画像読み込み失敗")); };
+      img.src = url;
+    });
+    const buf = await file.arrayBuffer();
+    return { data: new Uint8Array(buf), width: dims.width, height: dims.height, format: isJpeg ? "jpg" : "png" };
+  }
+
+  // WebP / GIF / BMP / other → convert to PNG via canvas
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = img.naturalWidth;
+      c.height = img.naturalHeight;
+      const ctx = c.getContext("2d")!;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0);
+      c.toBlob(async (blob) => {
+        URL.revokeObjectURL(url);
+        if (!blob) { reject(new Error("変換失敗")); return; }
+        resolve({ data: new Uint8Array(await blob.arrayBuffer()), width: img.naturalWidth, height: img.naturalHeight, format: "png" });
+      }, "image/png");
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("画像読み込み失敗")); };
+    img.src = url;
+  });
 }
 
 /* ═══════════════════ PDF Compress ═══════════════════ */
@@ -157,36 +209,36 @@ export default function PdfTool() {
   /* ── Add files ── */
   const addFiles = useCallback(
     async (fileList: FileList | File[]) => {
-      const arr = Array.from(fileList).filter(
-        (f) =>
-          f.type === "application/pdf" ||
-          f.name.toLowerCase().endsWith(".pdf"),
-      );
+      clearResult(); // #109: clear previous result when new files are loaded
+
+      const isImg2Pdf = tab === "img2pdf";
+      const arr = Array.from(fileList).filter((f) => {
+        if (isImg2Pdf) {
+          return IMAGE_TYPES.includes(f.type) || /\.(jpg|jpeg|png|webp|gif|bmp)$/i.test(f.name);
+        }
+        return f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
+      });
 
       const items: FileEntry[] = [];
       for (const f of arr) {
         let pageCount: number | undefined;
-        try {
-          pageCount = await getPageCount(f);
-        } catch {
-          pageCount = 0;
+        if (!isImg2Pdf) {
+          try {
+            pageCount = await getPageCount(f);
+          } catch {
+            pageCount = 0;
+          }
         }
-        items.push({
-          id: uid(),
-          file: f,
-          name: f.name,
-          size: f.size,
-          pageCount,
-        });
+        items.push({ id: uid(), file: f, name: f.name, size: f.size, pageCount });
       }
 
-      if (tab === "merge") {
+      if (tab === "merge" || tab === "img2pdf") {
         setFiles((prev) => [...prev, ...items]);
       } else {
         setFiles(items.slice(0, 1));
       }
     },
-    [tab],
+    [tab, clearResult],
   );
 
   /* ── Drag & drop ── */
@@ -269,29 +321,25 @@ export default function PdfTool() {
         pages.forEach((p) => merged.addPage(p));
       }
       const bytes = await merged.save();
-      const blob = new Blob([new Uint8Array(bytes)], {
-        type: "application/pdf",
-      });
+      const blob = new Blob([new Uint8Array(bytes)], { type: "application/pdf" });
       clearResult();
       setResultUrl(URL.createObjectURL(blob));
       setResultSize(blob.size);
       setResultName("merged.pdf");
     } catch (err) {
-      alert(
-        "結合に失敗しました: " +
-          (err instanceof Error ? err.message : "不明なエラー"),
-      );
+      alert("結合に失敗しました: " + (err instanceof Error ? err.message : "不明なエラー"));
     } finally {
       setProcessing(false);
     }
   }, [files, clearResult]);
 
-  /* ── SPLIT ── */
+  /* ── SPLIT (ZIP download) ── */
   const handleSplit = useCallback(async () => {
     if (files.length !== 1) return;
     setProcessing(true);
     try {
       const PDFDocument = await getPdfLib();
+      const JSZip = await getJSZip();
       const buf = await files[0].file.arrayBuffer();
       const src = await PDFDocument.load(buf, { ignoreEncryption: true });
       const total = src.getPageCount();
@@ -302,31 +350,27 @@ export default function PdfTool() {
         return;
       }
 
+      const zip = new JSZip();
       for (let i = 0; i < total; i++) {
         const newDoc = await PDFDocument.create();
         const [page] = await newDoc.copyPages(src, [i]);
         newDoc.addPage(page);
         const bytes = await newDoc.save();
-        const blob = new Blob([new Uint8Array(bytes)], {
-          type: "application/pdf",
-        });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `page_${i + 1}.pdf`;
-        a.click();
-        URL.revokeObjectURL(url);
-        await new Promise((r) => setTimeout(r, 200));
+        zip.file(`page_${i + 1}.pdf`, bytes);
       }
+
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      clearResult();
+      setResultUrl(URL.createObjectURL(zipBlob));
+      setResultSize(zipBlob.size);
+      const baseName = files[0].name.replace(/\.pdf$/i, "");
+      setResultName(`${baseName}_split.zip`);
     } catch (err) {
-      alert(
-        "分割に失敗しました: " +
-          (err instanceof Error ? err.message : "不明なエラー"),
-      );
+      alert("分割に失敗しました: " + (err instanceof Error ? err.message : "不明なエラー"));
     } finally {
       setProcessing(false);
     }
-  }, [files]);
+  }, [files, clearResult]);
 
   /* ── EXTRACT ── */
   const handleExtract = useCallback(async () => {
@@ -346,18 +390,13 @@ export default function PdfTool() {
       const pages = await newDoc.copyPages(src, indices);
       pages.forEach((p) => newDoc.addPage(p));
       const bytes = await newDoc.save();
-      const blob = new Blob([new Uint8Array(bytes)], {
-        type: "application/pdf",
-      });
+      const blob = new Blob([new Uint8Array(bytes)], { type: "application/pdf" });
       clearResult();
       setResultUrl(URL.createObjectURL(blob));
       setResultSize(blob.size);
       setResultName("extracted.pdf");
     } catch (err) {
-      alert(
-        "抽出に失敗しました: " +
-          (err instanceof Error ? err.message : "不明なエラー"),
-      );
+      alert("抽出に失敗しました: " + (err instanceof Error ? err.message : "不明なエラー"));
     } finally {
       setProcessing(false);
     }
@@ -374,14 +413,74 @@ export default function PdfTool() {
       setResultSize(blob.size);
       setResultName("compressed.pdf");
     } catch (err) {
-      alert(
-        "圧縮に失敗しました: " +
-          (err instanceof Error ? err.message : "不明なエラー"),
-      );
+      alert("圧縮に失敗しました: " + (err instanceof Error ? err.message : "不明なエラー"));
     } finally {
       setProcessing(false);
     }
   }, [files, compressLevel, clearResult]);
+
+  /* ── IMG2PDF ── */
+  const handleImg2Pdf = useCallback(async () => {
+    if (files.length === 0) return;
+    setProcessing(true);
+    try {
+      const PDFDocument = await getPdfLib();
+      const doc = await PDFDocument.create();
+      for (const f of files) {
+        const { data, width, height, format } = await imageFileToEmbedData(f.file);
+        const img = format === "jpg" ? await doc.embedJpg(data) : await doc.embedPng(data);
+        const page = doc.addPage([width, height]);
+        page.drawImage(img, { x: 0, y: 0, width, height });
+      }
+      const bytes = await doc.save();
+      const blob = new Blob([new Uint8Array(bytes)], { type: "application/pdf" });
+      clearResult();
+      setResultUrl(URL.createObjectURL(blob));
+      setResultSize(blob.size);
+      setResultName("images.pdf");
+    } catch (err) {
+      alert("変換に失敗しました: " + (err instanceof Error ? err.message : "不明なエラー"));
+    } finally {
+      setProcessing(false);
+    }
+  }, [files, clearResult]);
+
+  /* ── PDF2IMG ── */
+  const handlePdf2Img = useCallback(async () => {
+    if (files.length !== 1) return;
+    setProcessing(true);
+    try {
+      const pdfjsLib = await getPdfJs();
+      const JSZip = await getJSZip();
+      const pdf = await pdfjsLib.getDocument({
+        data: new Uint8Array(await files[0].file.arrayBuffer()),
+      }).promise;
+
+      const zip = new JSZip();
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const pg = await pdf.getPage(i);
+        const vp = pg.getViewport({ scale: 2.0 });
+        const c = document.createElement("canvas");
+        c.width = Math.floor(vp.width);
+        c.height = Math.floor(vp.height);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await pg.render({ canvasContext: c.getContext("2d")!, viewport: vp } as any).promise;
+        const blob = await new Promise<Blob>((r) => c.toBlob((b) => r(b!), "image/png"));
+        zip.file(`page_${i}.png`, await blob.arrayBuffer());
+      }
+
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      clearResult();
+      setResultUrl(URL.createObjectURL(zipBlob));
+      setResultSize(zipBlob.size);
+      const baseName = files[0].name.replace(/\.pdf$/i, "");
+      setResultName(`${baseName}_images.zip`);
+    } catch (err) {
+      alert("変換に失敗しました: " + (err instanceof Error ? err.message : "不明なエラー"));
+    } finally {
+      setProcessing(false);
+    }
+  }, [files, clearResult]);
 
   /* ── Download result ── */
   const downloadResult = useCallback(() => {
@@ -393,45 +492,40 @@ export default function PdfTool() {
   }, [resultUrl, resultName]);
 
   /* ── Derived ── */
-  const multiple = tab === "merge";
+  const multiple = tab === "merge" || tab === "img2pdf";
+  const isImageTab = tab === "img2pdf";
   const totalPages = files.reduce((s, f) => s + (f.pageCount ?? 0), 0);
 
   const canProcess = (() => {
     switch (tab) {
-      case "merge":
-        return files.length >= 2;
-      case "split":
-        return files.length === 1 && (files[0].pageCount ?? 0) > 1;
-      case "extract":
-        return files.length === 1 && extractPages.trim().length > 0;
-      case "compress":
-        return files.length === 1;
+      case "merge":    return files.length >= 2;
+      case "split":    return files.length === 1 && (files[0].pageCount ?? 0) > 1;
+      case "extract":  return files.length === 1 && extractPages.trim().length > 0;
+      case "compress": return files.length === 1;
+      case "img2pdf":  return files.length >= 1;
+      case "pdf2img":  return files.length === 1;
     }
   })();
 
   const handleAction = (() => {
     switch (tab) {
-      case "merge":
-        return handleMerge;
-      case "split":
-        return handleSplit;
-      case "extract":
-        return handleExtract;
-      case "compress":
-        return handleCompress;
+      case "merge":    return handleMerge;
+      case "split":    return handleSplit;
+      case "extract":  return handleExtract;
+      case "compress": return handleCompress;
+      case "img2pdf":  return handleImg2Pdf;
+      case "pdf2img":  return handlePdf2Img;
     }
   })();
 
   const actionLabel = (() => {
     switch (tab) {
-      case "merge":
-        return "📑 結合する";
-      case "split":
-        return "✂️ 分割する";
-      case "extract":
-        return "📄 抽出する";
-      case "compress":
-        return "🗜️ 圧縮する";
+      case "merge":    return "📑 結合する";
+      case "split":    return "✂️ 分割する";
+      case "extract":  return "📄 抽出する";
+      case "compress": return "🗜️ 圧縮する";
+      case "img2pdf":  return "🖼️ PDF変換する";
+      case "pdf2img":  return "📷 画像変換する";
     }
   })();
 
@@ -455,7 +549,7 @@ export default function PdfTool() {
               data-active={tab === t.key ? "true" : undefined}
             >
               <span className={styles.tabIcon}>{t.icon}</span>
-              {t.label}
+              <span className={styles.tabLabel}>{t.label}</span>
             </button>
           ))}
         </div>
@@ -463,24 +557,22 @@ export default function PdfTool() {
         {/* ── Tab description ── */}
         <div className={styles.tabDesc}>
           {tab === "merge" && (
-            <p>
-              複数のPDFファイルを1つに結合します。ドラッグで順序を変更できます。
-            </p>
+            <p>複数のPDFファイルを1つに結合します。ドラッグで順序を変更できます。</p>
           )}
           {tab === "split" && (
-            <p>
-              PDFの各ページを個別のファイルに分割してダウンロードします。
-            </p>
+            <p>PDFの各ページを個別のファイルに分割してZIPでダウンロードします。</p>
           )}
           {tab === "extract" && (
-            <p>
-              指定したページ番号のみを抽出して新しいPDFを作成します。
-            </p>
+            <p>指定したページ番号のみを抽出して新しいPDFを作成します。</p>
           )}
           {tab === "compress" && (
-            <p>
-              PDFファイルのサイズを圧縮します。圧縮レベルを選択できます。
-            </p>
+            <p>PDFファイルのサイズを圧縮します。圧縮レベルを選択できます。</p>
+          )}
+          {tab === "img2pdf" && (
+            <p>画像ファイル（JPEG・PNG・WebP・GIF）をPDFに変換します。複数枚まとめて変換可能です。</p>
+          )}
+          {tab === "pdf2img" && (
+            <p>PDFの各ページをPNG画像に変換してZIPでダウンロードします。</p>
           )}
         </div>
 
@@ -511,18 +603,22 @@ export default function PdfTool() {
           <input
             ref={inputRef}
             type="file"
-            accept={PDF_ACCEPT}
+            accept={isImageTab ? IMAGE_ACCEPT : PDF_ACCEPT}
             multiple={multiple}
             className={styles.fileInput}
             onChange={handleInputChange}
           />
-          <span className={styles.dropIcon}>📄</span>
+          <span className={styles.dropIcon}>{isImageTab ? "🖼️" : "📄"}</span>
           <p className={styles.dropText}>
-            PDFをドラッグ＆ドロップ、またはクリックして選択
+            {isImageTab
+              ? "画像をドラッグ＆ドロップ、またはクリックして選択"
+              : "PDFをドラッグ＆ドロップ、またはクリックして選択"}
           </p>
           <p className={styles.dropHint}>
             {tab === "merge"
               ? "複数ファイル選択可能"
+              : tab === "img2pdf"
+              ? "JPEG・PNG・WebP・GIF対応（複数選択可）"
               : "1つのPDFファイルを選択"}
           </p>
         </div>
@@ -532,7 +628,9 @@ export default function PdfTool() {
           <div className={styles.fileList}>
             {files.map((f, idx) => (
               <div key={f.id} className={styles.fileCard}>
-                <div className={styles.fileIcon}>📄</div>
+                <div className={styles.fileIcon}>
+                  {f.file.type.startsWith("image/") ? "🖼️" : "📄"}
+                </div>
                 <div className={styles.fileInfo}>
                   <span className={styles.fileName}>{f.name}</span>
                   <span className={styles.fileMeta}>
@@ -541,7 +639,7 @@ export default function PdfTool() {
                   </span>
                 </div>
                 <div className={styles.fileActions}>
-                  {tab === "merge" && (
+                  {(tab === "merge" || tab === "img2pdf") && (
                     <>
                       <button
                         className={styles.moveBtn}
@@ -573,6 +671,11 @@ export default function PdfTool() {
             {tab === "merge" && (
               <div className={styles.fileSummary}>
                 {files.length}ファイル · 合計{totalPages}ページ
+              </div>
+            )}
+            {tab === "img2pdf" && (
+              <div className={styles.fileSummary}>
+                {files.length}ファイル
               </div>
             )}
           </div>
@@ -681,6 +784,11 @@ export default function PdfTool() {
             <span className={styles.featureIcon}>✂️</span>
             <h3>結合・分割・抽出</h3>
             <p>複数PDFの結合、ページごと分割、必要ページの抽出。</p>
+          </div>
+          <div className={styles.featureCard}>
+            <span className={styles.featureIcon}>🖼️</span>
+            <h3>画像変換</h3>
+            <p>画像からPDF作成、PDFをPNG画像に変換。</p>
           </div>
         </div>
       </main>
