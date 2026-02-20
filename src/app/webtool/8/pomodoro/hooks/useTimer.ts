@@ -77,11 +77,30 @@ export function useTimer() {
 
     // Watch for setting changes to durations or interval, and force a reset if they change
     useEffect(() => {
-        // Initially, just store the settings and wait for the first DB pull
+        // Initially, set initial values from settings only for guest mode
         if (!hasPulledRef.current) {
             prevSettingsRef.current = settings;
-            // But we still want to keep totalSessions in sync
-            setTotalSessions(settings.long_break_interval);
+
+            // For guest mode, initialize from settings
+            if (!user) {
+                const nextSeconds = settings.work_duration * 60;
+                const nextSession = 1;
+                const nextPhase = 'work';
+                const nextStatus = 'idle';
+
+                useTimerStore.setState({
+                    phase: nextPhase,
+                    remainingSeconds: nextSeconds,
+                    currentSession: nextSession,
+                    totalSessions: settings.long_break_interval,
+                    status: nextStatus
+                });
+
+                hasPulledRef.current = true;
+            } else {
+                // For authenticated users, only set totalSessions and wait for DB pull
+                setTotalSessions(settings.long_break_interval);
+            }
             return;
         }
 
@@ -245,11 +264,21 @@ export function useTimer() {
         const nextSeconds = getDuration(nextPhase);
         const nextStatus = settings.auto_start ? 'running' : 'idle';
 
-        // Local Update
-        reset(nextSeconds); // status を idle にしつつ秒数をリセット
-        setPhase(nextPhase);
-        setCurrentSession(nextSession);
-        if (nextStatus === 'running') setStatus('running');
+        // Local Update: set all fields atomically with idle status first.
+        // React 18 batches synchronous Zustand updates into one render, so
+        // reset(idle) + setStatus(running) would both land as "running" and
+        // useEffect([status]) would never re-fire to restart the interval.
+        // By always committing idle first, the effect detects running→idle,
+        // then setTimeout triggers idle→running in the next tick.
+        useTimerStore.setState({
+            remainingSeconds: nextSeconds,
+            phase: nextPhase,
+            currentSession: nextSession,
+            status: 'idle',
+        });
+        if (nextStatus === 'running') {
+            setTimeout(() => setStatus('running'), 0);
+        }
 
         // Sync (handleComplete は重要なので force 同期)
         await syncToCloud({
@@ -261,39 +290,99 @@ export function useTimer() {
 
         // Save Stat
         if (phase === 'work') {
+            const activeTodoId = useTimerStore.getState().activeTodoId;
+
             const sessionData = {
                 id: generateId(),
                 session_type: phase,
                 duration: getDuration(phase),
-                completed_at: new Date().toISOString()
+                completed_at: new Date().toISOString(),
+                todo_id: activeTodoId || undefined
             };
+
             if (user) {
                 const supabase = createClient();
                 await supabase.from('pomodoro_sessions').insert({ user_id: user.id, ...sessionData });
+
+                // Update todo time in cloud
+                if (activeTodoId) {
+                    // Fetch current todo
+                    const { data: todo } = await supabase
+                        .from('todos')
+                        .select('total_time_spent')
+                        .eq('id', activeTodoId)
+                        .single();
+
+                    if (todo) {
+                        await supabase
+                            .from('todos')
+                            .update({
+                                total_time_spent: todo.total_time_spent + sessionData.duration,
+                                updated_at: new Date().toISOString()
+                            })
+                            .eq('id', activeTodoId);
+                    }
+                }
             } else {
                 saveSessionLocal(sessionData);
+
+                // Update todo time locally
+                if (activeTodoId) {
+                    const { loadTodosLocal, saveTodosLocal } = await import('../utils/storage');
+                    const todos = loadTodosLocal();
+                    const updated = todos.map(t =>
+                        t.id === activeTodoId
+                            ? { ...t, total_time_spent: t.total_time_spent + sessionData.duration, updated_at: new Date().toISOString() }
+                            : t
+                    );
+                    saveTodosLocal(updated);
+                }
             }
         }
     }, [phase, currentSession, totalSessions, settings, getDuration, playSound, showNotification, setPhase, setCurrentSession, setStatus, reset, syncToCloud, user]);
 
+    // Store callbacks in refs to avoid recreating interval
+    const tickRef = useRef(tick);
+    const handleCompleteRef = useRef(handleComplete);
+    const syncToCloudRef = useRef(syncToCloud);
+
     useEffect(() => {
+        tickRef.current = tick;
+        handleCompleteRef.current = handleComplete;
+        syncToCloudRef.current = syncToCloud;
+    }, [tick, handleComplete, syncToCloud]);
+
+    useEffect(() => {
+        // 既存のインターバルをクリア
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+        }
+
         if (status === 'running') {
             intervalRef.current = setInterval(() => {
                 const currentSeconds = useTimerStore.getState().remainingSeconds;
                 if (currentSeconds <= 1) {
-                    clearInterval(intervalRef.current!);
-                    handleComplete();
+                    if (intervalRef.current) {
+                        clearInterval(intervalRef.current);
+                        intervalRef.current = null;
+                    }
+                    handleCompleteRef.current();
                 } else {
-                    tick();
+                    tickRef.current();
                     // 定期同期
-                    if (currentSeconds % 10 === 0) syncToCloud();
+                    if (currentSeconds % 10 === 0) syncToCloudRef.current();
                 }
             }, 1000);
-        } else {
-            if (intervalRef.current) clearInterval(intervalRef.current);
         }
-        return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
-    }, [status, tick, handleComplete, syncToCloud]);
+
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+        };
+    }, [status]);
 
     // --- Handlers ---
     const start = useCallback(() => {

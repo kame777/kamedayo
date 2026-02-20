@@ -1,16 +1,14 @@
 'use client';
 
-import { useSettings } from '@/app/webtool/8/pomodoro/hooks/useSettings';
-import { useTimer } from '@/app/webtool/8/pomodoro/hooks/useTimer';
-import SettingsForm from '@/app/webtool/8/pomodoro/components/SettingsForm';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function SettingsPage() {
-    const { settings, updateSettings } = useSettings();
-    const { testSound, testNotification } = useTimer();
+    const router = useRouter();
 
-    return (
-        <main className="pageContent">
-             <SettingsForm settings={settings} onUpdate={updateSettings} onTestSound={testSound} onTestNotification={testNotification} />
-        </main>
-    );
+    useEffect(() => {
+        router.replace('/webtool/8');
+    }, [router]);
+
+    return null;
 }

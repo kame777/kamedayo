@@ -5,8 +5,6 @@ import { useSettings } from '@/app/webtool/8/pomodoro/hooks/useSettings';
 import TimerDisplay from '@/app/webtool/8/pomodoro/components/TimerDisplay';
 import TimerControls from '@/app/webtool/8/pomodoro/components/TimerControls';
 import { TimerPhase } from '@/app/webtool/8/pomodoro/types';
-import { PHASE_LABELS } from '@/app/webtool/8/pomodoro/utils/constants';
-import { useEffect } from 'react';
 import SessionStatus from '@/app/webtool/8/pomodoro/components/SessionStatus';
 
 export default function HomePage() {

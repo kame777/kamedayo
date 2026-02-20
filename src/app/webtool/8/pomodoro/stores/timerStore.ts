@@ -7,6 +7,7 @@ interface TimerStore {
     remainingSeconds: number;
     currentSession: number;
     totalSessions: number;
+    activeTodoId: string | null;
 
     // Actions
     setPhase: (phase: TimerPhase) => void;
@@ -15,6 +16,7 @@ interface TimerStore {
     tick: () => void;
     setCurrentSession: (session: number) => void;
     setTotalSessions: (total: number) => void;
+    setActiveTodoId: (id: string | null) => void;
     reset: (durationSeconds: number) => void;
 }
 
@@ -24,6 +26,7 @@ export const useTimerStore = create<TimerStore>((set) => ({
     remainingSeconds: 25 * 60,
     currentSession: 1,
     totalSessions: 4,
+    activeTodoId: null,
 
     setPhase: (phase) => set({ phase }),
     setStatus: (status) => set({ status }),
@@ -34,6 +37,7 @@ export const useTimerStore = create<TimerStore>((set) => ({
         })),
     setCurrentSession: (session) => set({ currentSession: session }),
     setTotalSessions: (total) => set({ totalSessions: total }),
+    setActiveTodoId: (id) => set({ activeTodoId: id }),
     reset: (durationSeconds) =>
         set({
             remainingSeconds: durationSeconds,

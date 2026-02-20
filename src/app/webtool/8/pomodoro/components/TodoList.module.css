@@ -1,0 +1,30 @@
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.empty p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.emptyHint {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  margin-top: 8px !important;
+}

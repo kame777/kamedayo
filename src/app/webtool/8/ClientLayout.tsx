@@ -1,16 +1,35 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import HeroBanner from '@/app/components/HeroBanner';
 import Navigation from '@/app/webtool/8/pomodoro/components/Navigation';
+import TodoPanel from '@/app/webtool/8/pomodoro/components/TodoPanel';
+import SettingsModal from '@/app/webtool/8/pomodoro/components/SettingsModal';
+import StatsModal from '@/app/webtool/8/pomodoro/components/StatsModal';
+import { useAuth } from '@/app/webtool/8/pomodoro/hooks/useAuth';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
 }
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
+  useAuth(); // Initialize auth state globally on page load
   const pathname = usePathname();
   const isHomePage = pathname === '/webtool/8';
+
+  // Modal states
+  const [isStatsOpen, setIsStatsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isTodoPanelOpen, setIsTodoPanelOpen] = useState(false);
+
+  // Load panel state from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('pomodoro-todo-panel-open');
+    if (saved) {
+      setIsTodoPanelOpen(saved === 'true');
+    }
+  }, []);
 
   // Determine HeroBanner props based on current path
   const getHeroProps = () => {
@@ -69,7 +88,13 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
       <div className="appShell">
         {children}
-        <Navigation />
+        <Navigation
+          onTasksClick={() => setIsTodoPanelOpen(!isTodoPanelOpen)}
+          onStatsClick={() => setIsStatsOpen(true)}
+          onSettingsClick={() => setIsSettingsOpen(true)}
+          isStatsActive={isStatsOpen}
+          isSettingsActive={isSettingsOpen}
+        />
       </div>
 
       {isHomePage && (
@@ -95,6 +120,10 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           </ul>
         </div>
       )}
+
+      <StatsModal isOpen={isStatsOpen} onClose={() => setIsStatsOpen(false)} />
+      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <TodoPanel isOpen={isTodoPanelOpen} onToggle={() => setIsTodoPanelOpen(!isTodoPanelOpen)} />
     </>
   );
 }

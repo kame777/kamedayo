@@ -33,7 +33,7 @@ export function useTabIndicator<T>(activeKey: T, persistenceKey?: string) {
 
     const containerRect = container.getBoundingClientRect();
     const btnRect = activeBtn.getBoundingClientRect();
-    
+
     const newStyle = {
       transform: `translateX(${btnRect.left - containerRect.left}px)`,
       width: `${btnRect.width}px`,

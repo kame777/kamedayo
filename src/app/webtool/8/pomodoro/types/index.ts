@@ -43,6 +43,7 @@ export interface PomodoroSession {
   duration: number; // seconds
   completed_at: string; // ISO 8601
   created_at: string;
+  todo_id?: string; // Optional link to todo item
 }
 
 export interface Stats {
@@ -54,6 +55,21 @@ export interface Stats {
   total_minutes: number;
   streak_days: number;
   recent_sessions: PomodoroSession[];
+}
+
+// ===== Todo Types =====
+
+export interface TodoItem {
+  id: string;
+  user_id: string;
+  title: string;
+  description?: string;
+  completed: boolean;
+  total_time_spent: number; // cumulative seconds
+  estimated_pomodoros?: number; // optional estimate
+  created_at: string; // ISO 8601
+  updated_at: string; // ISO 8601
+  order_index: number; // for manual sorting
 }
 
 // ===== Auth Types =====
