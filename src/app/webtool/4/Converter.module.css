@@ -15,8 +15,6 @@
   margin-bottom: 1.5rem;
   width: fit-content;
   max-width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   position: relative;
   overflow: hidden;
 }
@@ -47,6 +45,9 @@
   transition: color 0.25s ease, transform 0.15s ease;
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .modeTab:hover {
@@ -98,13 +99,15 @@
 }
 
 .dropIcon {
-  font-size: 2.5rem;
   margin-bottom: 0.75rem;
+  color: var(--muted);
+  opacity: 0.6;
 }
 
 .dropZoneCompact .dropIcon {
-  font-size: 1.5rem;
   margin-bottom: 0.25rem;
+  transform: scale(0.65);
+  transform-origin: center;
 }
 
 .dropText {
@@ -281,7 +284,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 0.9rem;
   transition: all 0.15s ease;
 }
 
@@ -297,7 +299,6 @@
 .removeBtn {
   background: rgba(239, 68, 68, 0.06);
   color: var(--error);
-  font-size: 0.8rem;
 }
 
 .removeBtn:hover {
@@ -312,6 +313,7 @@
   border-top-color: var(--focus-border);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
+  flex-shrink: 0;
 }
 
 @keyframes spin {
@@ -319,7 +321,9 @@
 }
 
 .errorBadge {
-  font-size: 1rem;
+  color: var(--error);
+  display: flex;
+  align-items: center;
 }
 
 /* ===== Video Icon ===== */
@@ -329,7 +333,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  font-size: 1.5rem;
+  color: var(--muted);
   background: rgba(5, 150, 105, 0.05);
 }
 
@@ -348,6 +352,32 @@
   margin-bottom: 1rem;
 }
 
+/* ===== Progress Bar ===== */
+.progressTrack {
+  height: 3px;
+  background: var(--surface-alt);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 0.3rem;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--btn-grad);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.progressPct {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  white-space: nowrap;
+  min-width: 34px;
+  text-align: center;
+}
+
 /* ===== Error Text ===== */
 .errorText {
   font-size: 0.75rem;
@@ -364,8 +394,7 @@
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
-  margin-right: 0.3rem;
-  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 /* ===== Action Bar ===== */
@@ -381,12 +410,15 @@
   cursor: pointer;
   background: var(--bg);
   color: var(--text);
-  border: 1px solid var(--border);
+  border: 1.5px solid color-mix(in srgb, var(--text) 14%, transparent);
   border-radius: 12px;
   transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
   font-weight: 600;
   font-size: 0.92rem;
-  box-shadow: 0 2px 8px var(--surface-alt);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .button:hover {
@@ -398,51 +430,68 @@
   transform: translateY(0);
 }
 
+.button:disabled {
+  opacity: 1;
+  cursor: not-allowed;
+  transform: none;
+  background: var(--surface-alt);
+  color: var(--muted);
+  border-color: var(--border);
+  box-shadow: none;
+}
+
 .buttonPrimary {
   background: var(--btn-grad);
   color: #fff;
   border-color: transparent;
-  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.2);
+  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
 }
 
-.buttonPrimary:hover {
+.buttonPrimary:hover:not(:disabled) {
   background: var(--btn-grad-hover);
-  box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
+  box-shadow: 0 6px 24px rgba(5, 150, 105, 0.35);
 }
 
-/* ===== Features ===== */
+.buttonPrimary:disabled {
+  background: rgba(5, 150, 105, 0.08);
+  color: var(--primary);
+  border: 1.5px dashed rgba(5, 150, 105, 0.3);
+  box-shadow: none;
+}
+
+/* ===== Tip Banner ===== */
 .features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  /* single tip banner */
 }
 
 .featureCard {
-  padding: 1.5rem;
-  border-radius: 16px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  background: rgba(5, 150, 105, 0.05);
+  border: 1px solid rgba(5, 150, 105, 0.15);
 }
 
 .featureIcon {
-  font-size: 1.75rem;
-  display: block;
-  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
 }
 
 .featureCard h3 {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--text);
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.1rem;
 }
 
 .featureCard p {
   font-size: 0.82rem;
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0;
 }
 
@@ -475,10 +524,6 @@
     padding: 2rem 1rem;
   }
 
-  .dropIcon {
-    font-size: 2rem;
-  }
-
   .dropText {
     font-size: 0.88rem;
   }
@@ -497,7 +542,24 @@
     font-size: 0.8rem;
   }
 
-  .features {
-    grid-template-columns: 1fr;
+  .actionBar {
+    flex-direction: column;
+  }
+
+  .button {
+    justify-content: center;
+  }
+
+  .featureCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem 1.25rem;
+    gap: 0.5rem;
+    background: rgba(5, 150, 105, 0.08);
+    border-color: rgba(5, 150, 105, 0.22);
+  }
+
+  .featureCard h3 {
+    font-size: 0.9rem;
   }
 }
