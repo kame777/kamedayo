@@ -14,8 +14,12 @@ type Props = {
 
 const STORAGE_KEY = 'blog-editor-draft';
 
+function todayJST() {
+  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(new Date());
+}
+
 function getDefaultFrontmatter() {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayJST();
   return `---
 title: ""
 date: "${today}"
@@ -37,7 +41,10 @@ export default function MarkdownEditor({ initialSlug, initialMarkdown, onSave, o
     if (initialMarkdown) return initialMarkdown;
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) return saved;
+      if (saved) {
+        // localStorage に古い日付が残っている場合は今日の JST 日付で上書き
+        return saved.replace(/^date: ".+?"$/m, `date: "${todayJST()}"`);
+      }
     }
     return getDefaultFrontmatter();
   });
