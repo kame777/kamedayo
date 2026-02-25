@@ -10,6 +10,7 @@ function getEnvVars() {
   let ghToken = '';
   let ghOwner = '';
   let ghRepo = '';
+  let ghBranch = '';
 
   try {
     const { env } = getRequestContext();
@@ -18,21 +19,23 @@ function getEnvVars() {
     ghToken = e.GITHUB_TOKEN ?? '';
     ghOwner = e.GITHUB_REPO_OWNER ?? '';
     ghRepo = e.GITHUB_REPO_NAME ?? '';
+    ghBranch = e.GITHUB_BRANCH ?? 'main';
   } catch {
     ownerUsername = process.env.GITHUB_OWNER_USERNAME ?? '';
     ghToken = process.env.GITHUB_TOKEN ?? '';
     ghOwner = process.env.GITHUB_REPO_OWNER ?? '';
     ghRepo = process.env.GITHUB_REPO_NAME ?? '';
+    ghBranch = process.env.GITHUB_BRANCH ?? 'main';
   }
 
-  return { ownerUsername, ghToken, ghOwner, ghRepo };
+  return { ownerUsername, ghToken, ghOwner, ghRepo, ghBranch };
 }
 
 export async function POST(req: NextRequest) {
   const session = await auth();
   const username = (session as { githubUsername?: string } | null)?.githubUsername;
 
-  const { ownerUsername, ghToken, ghOwner, ghRepo } = getEnvVars();
+  const { ownerUsername, ghToken, ghOwner, ghRepo, ghBranch } = getEnvVars();
 
   if (!username || username !== ownerUsername) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -48,12 +51,12 @@ export async function POST(req: NextRequest) {
   const rawBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
   const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
   const filePath = `public/blog/images/${safeName}`;
-  const env = { token: ghToken, owner: ghOwner, repo: ghRepo };
+  const env = { token: ghToken, owner: ghOwner, repo: ghRepo, branch: ghBranch };
 
   try {
     const sha = await getFileSha(env, filePath);
     await upsertFile(env, filePath, rawBase64, `Upload blog image: ${safeName}`, sha);
-    const rawUrl = `https://raw.githubusercontent.com/${ghOwner}/${ghRepo}/main/${filePath}`;
+    const rawUrl = `https://raw.githubusercontent.com/${ghOwner}/${ghRepo}/${ghBranch}/${filePath}`;
     return NextResponse.json({ url: rawUrl, staticPath: `/blog/images/${safeName}` });
   } catch (e) {
     console.error(e);
