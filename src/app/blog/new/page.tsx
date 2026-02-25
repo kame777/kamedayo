@@ -17,7 +17,7 @@ export default function NewPostPage() {
     return (
       <div className={styles.loginPrompt}>
         <p>この機能はオーナーのみ利用できます。</p>
-        <button className={styles.loginBtn} onClick={() => signIn('github')}>
+        <button className={styles.loginBtn} onClick={() => signIn('github', { callbackUrl: '/blog/new' })}>
           GitHubでログイン
         </button>
       </div>

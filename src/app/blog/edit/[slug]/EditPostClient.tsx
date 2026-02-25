@@ -39,7 +39,7 @@ export default function EditPostClient({ params }: { params: { slug: string } })
     return (
       <div className={styles.loginPrompt}>
         <p>この機能はオーナーのみ利用できます。</p>
-        <button className={styles.loginBtn} onClick={() => signIn('github')}>
+        <button className={styles.loginBtn} onClick={() => signIn('github', { callbackUrl: `/blog/edit/${params.slug}` })}>
           GitHubでログイン
         </button>
       </div>
