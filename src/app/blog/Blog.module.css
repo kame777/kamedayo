@@ -41,3 +41,88 @@
   padding: 4rem 0;
   font-size: 1rem;
 }
+
+/* ── フィルター ── */
+.filterBar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  min-width: 2.2rem;
+  flex-shrink: 0;
+}
+
+.filterPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.filterPill {
+  font-size: 0.78rem;
+  padding: 0.22em 0.75em;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+.filterPill:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filterPillActive {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.filterResult {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.clearFilter {
+  font-size: 0.75rem;
+  padding: 0.15em 0.65em;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.clearFilter:hover {
+  border-color: var(--text);
+  color: var(--text);
+}

@@ -40,6 +40,17 @@
   --btn-grad: linear-gradient(135deg, #059669, #047857);
   --btn-grad-hover: linear-gradient(135deg, #047857, #065f46);
   --focus-border: #059669;
+
+  /* シンタックスハイライト (GitHub Light 風) */
+  --hl-comment:  #6e7781;
+  --hl-keyword:  #cf222e;
+  --hl-string:   #0a3069;
+  --hl-number:   #0550ae;
+  --hl-function: #8250df;
+  --hl-attr:     #116329;
+  --hl-literal:  #0550ae;
+  --hl-deletion: #82071e;
+  --hl-addition: #116329;
 }
 
 /* ダークモード */
@@ -76,6 +87,17 @@
   --btn-grad: linear-gradient(135deg, #34d399, #059669);
   --btn-grad-hover: linear-gradient(135deg, #059669, #047857);
   --focus-border: #34d399;
+
+  /* シンタックスハイライト (GitHub Dark 風) */
+  --hl-comment:  #8b949e;
+  --hl-keyword:  #ff7b72;
+  --hl-string:   #a5d6ff;
+  --hl-number:   #79c0ff;
+  --hl-function: #d2a8ff;
+  --hl-attr:     #7ee787;
+  --hl-literal:  #79c0ff;
+  --hl-deletion: #ffdcd7;
+  --hl-addition: #aff5b4;
 }
 
 /* サイト全体で使えるユーティリティ */

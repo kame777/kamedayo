@@ -6,7 +6,7 @@ export default function PostCard({ post, delay = 0, isDraft = false }: { post: P
   return (
     <Link href={`/blog/${post.slug}`} className={styles.linkReset}>
       <article
-        className={`${styles.card}${isDraft ? ` ${styles.visible}` : ''}`}
+        className={styles.card}
         style={{ '--delay': `${delay}ms` } as React.CSSProperties}
       >
         <div className={styles.cardMeta}>

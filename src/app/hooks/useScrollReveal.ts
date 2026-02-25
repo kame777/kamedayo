@@ -14,6 +14,7 @@ export function useScrollReveal<T extends HTMLElement = HTMLElement>(
   selector: string,
   visibleClass: string,
   options: IntersectionObserverInit = { threshold: 0.1 },
+  resetKey?: unknown,
 ) {
   const ref = useRef<T>(null);
   const optionsRef = useRef<IntersectionObserverInit>(options);
@@ -43,7 +44,7 @@ export function useScrollReveal<T extends HTMLElement = HTMLElement>(
     targets.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [selector, visibleClass]);
+  }, [selector, visibleClass, resetKey]);
 
   return ref;
 }

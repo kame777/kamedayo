@@ -1,0 +1,96 @@
+/* ============================================================
+   Syntax Highlighting — CSS 変数ベースでライト/ダーク両対応
+   rehype-highlight が付与する .hljs-* クラスをスタイリング
+   ============================================================ */
+
+.hljs {
+  color: var(--text);
+  background: transparent;
+}
+
+/* コメント / ドキュメントコメント */
+.hljs-comment,
+.hljs-quote {
+  color: var(--hl-comment);
+  font-style: italic;
+}
+
+/* キーワード (if, for, return, function, class …) */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: var(--hl-keyword);
+  font-weight: 600;
+}
+
+/* 文字列・テンプレートリテラル */
+.hljs-string,
+.hljs-doctag,
+.hljs-regexp,
+.hljs-template-tag {
+  color: var(--hl-string);
+}
+
+/* 数値・真偽値・null */
+.hljs-number,
+.hljs-literal,
+.hljs-params {
+  color: var(--hl-number);
+}
+
+/* 関数名・クラス名・セクション */
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.function_,
+.hljs-section {
+  color: var(--hl-function);
+  font-weight: 600;
+}
+
+/* 組み込み型・型名 */
+.hljs-built_in,
+.hljs-type,
+.hljs-class .hljs-title {
+  color: var(--hl-literal);
+}
+
+/* 属性・変数・プロパティ */
+.hljs-attr,
+.hljs-attribute,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: var(--hl-attr);
+}
+
+/* メタ情報・デコレータ */
+.hljs-meta,
+.hljs-meta .hljs-keyword {
+  color: var(--hl-comment);
+}
+
+/* HTML タグ名 */
+.hljs-name,
+.hljs-tag {
+  color: var(--hl-keyword);
+}
+
+/* Diff: 追加・削除 */
+.hljs-addition {
+  color: var(--hl-addition);
+  background: rgba(46, 160, 67, 0.1);
+  border-radius: 2px;
+}
+
+.hljs-deletion {
+  color: var(--hl-deletion);
+  background: rgba(248, 81, 73, 0.1);
+  border-radius: 2px;
+}
+
+/* 強調 */
+.hljs-emphasis { font-style: italic; }
+.hljs-strong  { font-weight: 700; }
+
+/* リンク */
+.hljs-link { text-decoration: underline; }

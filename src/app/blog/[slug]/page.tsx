@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { getAllPostSlugs, getPostBySlug } from '../lib/posts';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
 import HeroBanner from '../../components/HeroBanner';
 import EditButton from '../components/EditButton';
 import DraftBanner from './DraftBanner';
-import { CalendarIcon } from '../components/BlogIcons';
 import type { Metadata } from 'next';
 import styles from './Post.module.css';
 
@@ -41,7 +41,7 @@ export default function PostPage({ params }: Props) {
   return (
     <>
       <HeroBanner
-        badge={<><CalendarIcon size={15} /> {post.date}</>}
+        badge={post.slug}
         title={post.title}
         subtitle={post.summary}
       />
@@ -75,7 +75,7 @@ export default function PostPage({ params }: Props) {
             )}
           </header>
           <div className={styles.prose}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>{post.content}</ReactMarkdown>
           </div>
         </article>
       </main>

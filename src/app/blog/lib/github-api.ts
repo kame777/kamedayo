@@ -20,7 +20,7 @@ export async function getFileSha(
   env: GitHubEnv,
   filePath: string,
 ): Promise<string | null> {
-  const url = `${GITHUB_API}/repos/${env.owner}/${env.repo}/contents/${filePath}`;
+  const url = `${GITHUB_API}/repos/${env.owner}/${env.repo}/contents/${filePath}?ref=${env.branch}`;
   const res = await fetch(url, { headers: headers(env.token) });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`GitHub GET ${filePath} failed: ${res.status}`);

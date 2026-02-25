@@ -5,6 +5,7 @@
 }
 
 @import './styles/common.css';
+@import './styles/highlight.css';
 
 html {
   scroll-behavior: smooth;
