@@ -63,6 +63,19 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
     router.push(`/blog/${slug}`);
   };
 
+  const handleDelete = async () => {
+    const res = await fetch('/api/blog/delete', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug: params.slug }),
+    });
+    if (!res.ok) {
+      const data = await res.json() as { error?: string };
+      throw new Error(data.error ?? 'Delete failed');
+    }
+    router.push('/blog');
+  };
+
   return (
     <>
       {loadError && (
@@ -74,6 +87,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
         initialSlug={params.slug}
         initialMarkdown={initialMarkdown}
         onSave={handleSave}
+        onDelete={handleDelete}
       />
     </>
   );

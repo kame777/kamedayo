@@ -27,6 +27,24 @@ export async function getFileSha(
   return json.sha;
 }
 
+export async function deleteFile(
+  env: GitHubEnv,
+  filePath: string,
+  sha: string,
+  commitMessage: string,
+): Promise<void> {
+  const url = `${GITHUB_API}/repos/${env.owner}/${env.repo}/contents/${filePath}`;
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: headers(env.token),
+    body: JSON.stringify({ message: commitMessage, sha, branch: 'main' }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`GitHub DELETE ${filePath} failed: ${res.status} ${err}`);
+  }
+}
+
 export async function upsertFile(
   env: GitHubEnv,
   filePath: string,

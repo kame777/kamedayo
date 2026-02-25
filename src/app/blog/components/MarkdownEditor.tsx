@@ -9,6 +9,7 @@ type Props = {
   initialSlug?: string;
   initialMarkdown?: string;
   onSave: (slug: string, markdown: string) => Promise<void>;
+  onDelete?: () => Promise<void>;
 };
 
 const STORAGE_KEY = 'blog-editor-draft';
@@ -30,7 +31,7 @@ ogDescription: ""
 `;
 }
 
-export default function MarkdownEditor({ initialSlug, initialMarkdown, onSave }: Props) {
+export default function MarkdownEditor({ initialSlug, initialMarkdown, onSave, onDelete }: Props) {
   const [slug, setSlug] = useState(initialSlug ?? '');
   const [markdown, setMarkdown] = useState(() => {
     if (initialMarkdown) return initialMarkdown;
@@ -41,6 +42,7 @@ export default function MarkdownEditor({ initialSlug, initialMarkdown, onSave }:
     return getDefaultFrontmatter();
   });
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -110,6 +112,19 @@ export default function MarkdownEditor({ initialSlug, initialMarkdown, onSave }:
     setSuccess(false);
   };
 
+  const handleDelete = async () => {
+    if (!onDelete) return;
+    if (!window.confirm('この記事を削除しますか？この操作は取り消せません。')) return;
+    setDeleting(true);
+    setError(null);
+    try {
+      await onDelete();
+    } catch {
+      setError('削除に失敗しました。');
+      setDeleting(false);
+    }
+  };
+
   const handleSave = async () => {
     if (!slug) {
       setError('スラッグを入力してください');
@@ -174,6 +189,17 @@ export default function MarkdownEditor({ initialSlug, initialMarkdown, onSave }:
           >
             リセット
           </button>
+          {onDelete && (
+            <button
+              type="button"
+              className={styles.deleteBtn}
+              onClick={handleDelete}
+              disabled={deleting}
+              title="記事を削除"
+            >
+              {deleting ? '削除中...' : '削除'}
+            </button>
+          )}
           <button
             type="button"
             className={styles.saveBtn}
