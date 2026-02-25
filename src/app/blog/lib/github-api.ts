@@ -4,6 +4,7 @@ export type GitHubEnv = {
   token: string;
   owner: string;
   repo: string;
+  branch: string;
 };
 
 function headers(token: string): HeadersInit {
@@ -37,7 +38,7 @@ export async function deleteFile(
   const res = await fetch(url, {
     method: 'DELETE',
     headers: headers(env.token),
-    body: JSON.stringify({ message: commitMessage, sha, branch: 'main' }),
+    body: JSON.stringify({ message: commitMessage, sha, branch: env.branch }),
   });
   if (!res.ok) {
     const err = await res.text();
@@ -56,7 +57,7 @@ export async function upsertFile(
   const body: Record<string, unknown> = {
     message: commitMessage,
     content: contentBase64,
-    branch: 'main',
+    branch: env.branch,
   };
   if (sha) body.sha = sha;
   const res = await fetch(url, {

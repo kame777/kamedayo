@@ -10,6 +10,7 @@ function getEnvVars() {
   let ghToken = '';
   let ghOwner = '';
   let ghRepo = '';
+  let ghBranch = '';
 
   try {
     const { env } = getRequestContext();
@@ -18,21 +19,23 @@ function getEnvVars() {
     ghToken = e.GITHUB_TOKEN ?? '';
     ghOwner = e.GITHUB_REPO_OWNER ?? '';
     ghRepo = e.GITHUB_REPO_NAME ?? '';
+    ghBranch = e.GITHUB_BRANCH ?? 'main';
   } catch {
     ownerUsername = process.env.GITHUB_OWNER_USERNAME ?? '';
     ghToken = process.env.GITHUB_TOKEN ?? '';
     ghOwner = process.env.GITHUB_REPO_OWNER ?? '';
     ghRepo = process.env.GITHUB_REPO_NAME ?? '';
+    ghBranch = process.env.GITHUB_BRANCH ?? 'main';
   }
 
-  return { ownerUsername, ghToken, ghOwner, ghRepo };
+  return { ownerUsername, ghToken, ghOwner, ghRepo, ghBranch };
 }
 
 export async function POST(req: NextRequest) {
   const session = await auth();
   const username = (session as { githubUsername?: string } | null)?.githubUsername;
 
-  const { ownerUsername, ghToken, ghOwner, ghRepo } = getEnvVars();
+  const { ownerUsername, ghToken, ghOwner, ghRepo, ghBranch } = getEnvVars();
 
   if (!username || username !== ownerUsername) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -50,7 +53,7 @@ export async function POST(req: NextRequest) {
   }
 
   const filePath = `content/blog/${slug}.md`;
-  const env = { token: ghToken, owner: ghOwner, repo: ghRepo };
+  const env = { token: ghToken, owner: ghOwner, repo: ghRepo, branch: ghBranch };
 
   try {
     const sha = await getFileSha(env, filePath);
