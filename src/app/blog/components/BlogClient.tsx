@@ -7,6 +7,7 @@ import { PlusIcon } from './BlogIcons';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import type { PostMeta } from '../lib/types';
 import styles from '../Blog.module.css';
+import cardStyles from './PostCard.module.css';
 
 type Props = { posts: PostMeta[] };
 
@@ -16,8 +17,8 @@ export default function BlogClient({ posts }: Props) {
   const isOwner = username === process.env.NEXT_PUBLIC_GITHUB_REPO_OWNER;
 
   const gridRef = useScrollReveal<HTMLDivElement>(
-    `.${styles.card}`,
-    styles.visible,
+    `.${cardStyles.card}`,
+    cardStyles.visible,
     { threshold: 0.08 },
   );
 
