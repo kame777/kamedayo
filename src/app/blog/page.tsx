@@ -5,7 +5,7 @@ import { PenIcon } from './components/BlogIcons';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'ブログ | kamedayo',
+  title: 'ブログ',
   description: 'kamedayoのブログ記事一覧です。',
   openGraph: {
     title: 'kamedayo | ブログ',
