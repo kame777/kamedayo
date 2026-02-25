@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import HeroBanner from '../../components/HeroBanner';
 import EditButton from '../components/EditButton';
+import DraftBanner from './DraftBanner';
 import { CalendarIcon } from '../components/BlogIcons';
 import type { Metadata } from 'next';
 import styles from './Post.module.css';
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function PostPage({ params }: Props) {
   const post = getPostBySlug(params.slug);
-  if (!post || post.draft) notFound();
+  if (!post) notFound();
 
   const showUpdated = post.updatedAt && post.updatedAt !== post.date;
 
@@ -49,6 +50,7 @@ export default function PostPage({ params }: Props) {
           <Link href="/blog" className={styles.backLink}>← ブログ一覧へ</Link>
           <EditButton slug={post.slug} />
         </div>
+        {post.draft && <DraftBanner />}
         <article>
           <header className={styles.postHeader}>
             <div className={styles.metaRow}>

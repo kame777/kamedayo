@@ -22,6 +22,8 @@ export default function BlogClient({ posts }: Props) {
     { threshold: 0.08 },
   );
 
+  const visiblePosts = isOwner ? posts : posts.filter((p) => !p.draft);
+
   return (
     <main className={styles.container}>
       {isOwner && (
@@ -33,15 +35,16 @@ export default function BlogClient({ posts }: Props) {
         </div>
       )}
 
-      {posts.length === 0 ? (
+      {visiblePosts.length === 0 ? (
         <p className={styles.empty}>記事はまだありません。</p>
       ) : (
         <div className={styles.grid} ref={gridRef}>
-          {posts.map((post, index) => (
+          {visiblePosts.map((post, index) => (
             <PostCard
               key={post.slug}
               post={post}
               delay={index * 100}
+              isDraft={isOwner && post.draft}
             />
           ))}
         </div>

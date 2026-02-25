@@ -191,3 +191,17 @@
 .prose strong {
   font-weight: 700;
 }
+
+.draftBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}

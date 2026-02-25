@@ -82,3 +82,13 @@
   padding: 0.15em 0.5em;
   border-radius: 4px;
 }
+
+.draftBadge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  padding: 0.1em 0.55em;
+  border-radius: 99px;
+}
