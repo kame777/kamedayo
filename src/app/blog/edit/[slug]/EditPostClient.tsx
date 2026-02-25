@@ -11,22 +11,27 @@ export default function EditPostClient({ params }: { params: { slug: string } })
   const router = useRouter();
   const [initialMarkdown, setInitialMarkdown] = useState<string | null>(null);
   const [loadError, setLoadError] = useState(false);
+  const [loadErrorMsg, setLoadErrorMsg] = useState('');
 
   useEffect(() => {
     if (!session) return;
     const owner = process.env.NEXT_PUBLIC_GITHUB_REPO_OWNER ?? '';
     const repo = process.env.NEXT_PUBLIC_GITHUB_REPO_NAME ?? '';
-    fetch(
-      `https://raw.githubusercontent.com/${owner}/${repo}/main/content/blog/${params.slug}.md`,
-      { cache: 'no-store' }
-    )
+    const branch = process.env.NEXT_PUBLIC_GITHUB_BRANCH ?? 'main';
+    const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/content/blog/${params.slug}.md`;
+    console.log('[EditPost] fetching:', url);
+    fetch(url, { cache: 'no-store' })
       .then((r) => {
-        if (!r.ok) throw new Error('Not found');
+        console.log('[EditPost] status:', r.status, r.statusText);
+        if (!r.ok) throw new Error(`HTTP ${r.status}: ${r.statusText}`);
         return r.text();
       })
       .then(setInitialMarkdown)
-      .catch(() => {
+      .catch((e: unknown) => {
+        const msg = e instanceof Error ? e.message : String(e);
+        console.error('[EditPost] load error:', msg, '\nURL:', url);
         setLoadError(true);
+        setLoadErrorMsg(`${msg}  (${url})`);
         setInitialMarkdown('');
       });
   }, [session, params.slug]);
@@ -79,8 +84,9 @@ export default function EditPostClient({ params }: { params: { slug: string } })
   return (
     <>
       {loadError && (
-        <p style={{ padding: '0.5rem 1rem', color: 'var(--error)', fontSize: '0.85rem', background: 'rgba(220,38,38,0.08)' }}>
+        <p style={{ padding: '0.5rem 1rem', color: 'var(--error)', fontSize: '0.85rem', background: 'rgba(220,38,38,0.08)', wordBreak: 'break-all' }}>
           GitHubから記事を読み込めませんでした。内容は空になっています。
+          {loadErrorMsg && <><br /><code style={{ fontSize: '0.8em', opacity: 0.85 }}>{loadErrorMsg}</code></>}
         </p>
       )}
       <MarkdownEditor
