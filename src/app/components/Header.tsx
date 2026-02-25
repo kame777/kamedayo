@@ -26,6 +26,7 @@ export default function Header() {
           <Link href="/" onClick={() => setMenuOpen(false)}>ホーム</Link>
           <Link href="/about" onClick={() => setMenuOpen(false)}>私について</Link>
           <Link href="/webtool" onClick={() => setMenuOpen(false)}>Webツール</Link>
+          <Link href="/blog" onClick={() => setMenuOpen(false)}>ブログ</Link>
           <Link href="/contact" onClick={() => setMenuOpen(false)}>お問い合わせ</Link>
           <ThemeToggle />
         </nav>

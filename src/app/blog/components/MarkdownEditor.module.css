@@ -1,0 +1,242 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 80px);
+  background: var(--bg);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.slugInput {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.slugInput:focus {
+  border-color: var(--focus-border);
+}
+
+.slugInput:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.toolbarButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.toolbarButtons button {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.toolbarButtons button:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.toolbarButtons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.imageBtn {
+  color: var(--muted) !important;
+}
+
+.resetBtn {
+  color: var(--error) !important;
+  border-color: rgba(220, 38, 38, 0.3) !important;
+}
+
+.resetBtn:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.08) !important;
+  border-color: var(--error) !important;
+  color: var(--error) !important;
+}
+
+.saveBtn {
+  background: var(--btn-grad) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  padding: 0.35rem 1rem !important;
+}
+
+.saveBtn:hover:not(:disabled) {
+  background: var(--btn-grad-hover) !important;
+  color: #fff !important;
+}
+
+.error {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: var(--error);
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.successMsg {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: var(--primary);
+  background: rgba(22, 163, 74, 0.08);
+}
+
+.panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+.editor {
+  resize: none;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  padding: 1.25rem;
+  background: var(--surface);
+  color: var(--text);
+  border: none;
+  border-right: 1px solid var(--border);
+  outline: none;
+  overflow-y: auto;
+}
+
+.preview {
+  overflow-y: auto;
+  padding: 1.5rem 2rem;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+}
+
+/* プレビュー内のマークダウンスタイル */
+.preview h1,
+.preview h2,
+.preview h3,
+.preview h4 {
+  color: var(--text);
+  margin: 2rem 0 0.75rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.preview h1 { font-size: 1.75rem; }
+.preview h2 { font-size: 1.4rem; }
+.preview h3 { font-size: 1.15rem; }
+
+.preview p { margin: 0 0 1.25rem; }
+
+.preview a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+.preview code {
+  background: var(--surface-alt);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-family: monospace;
+}
+
+.preview pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.preview pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+.preview blockquote {
+  border-left: 4px solid var(--primary);
+  padding-left: 1rem;
+  color: var(--muted);
+  margin: 1.5rem 0;
+}
+
+.preview ul,
+.preview ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.preview li {
+  margin-bottom: 0.4rem;
+}
+
+.preview img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.preview hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.preview th,
+.preview td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.preview th {
+  background: var(--surface);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .panes {
+    grid-template-columns: 1fr;
+  }
+
+  .preview {
+    display: none;
+  }
+}
