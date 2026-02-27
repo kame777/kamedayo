@@ -104,7 +104,7 @@ export default function BlogClient({ posts }: Props) {
 
           {hasActiveFilter && (
             <div className={styles.filterResult}>
-              <span>{filteredPosts.length}件</span>
+              <span>{selectedTags.length + (selectedYear ? 1 : 0)}件</span>
               <button
                 className={styles.clearFilter}
                 onClick={() => { setSelectedYear(null); setSelectedTags([]); }}
