@@ -205,3 +205,13 @@
   border-radius: 10px;
   margin-bottom: 1.5rem;
 }
+
+@media (max-width: 640px) {
+  .container {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .prose h1 { font-size: 1.4rem; }
+  .prose h2 { font-size: 1.2rem; }
+  .prose h3 { font-size: 1.05rem; }
+}
