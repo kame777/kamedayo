@@ -94,9 +94,9 @@
 }
 
 .filterPillActive {
-  background: var(--primary);
+  background: transparent;
   border-color: var(--primary);
-  color: #fff;
+  color: var(--primary);
   font-weight: 600;
 }
 
