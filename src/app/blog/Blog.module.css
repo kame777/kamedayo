@@ -88,9 +88,11 @@
   line-height: 1.6;
 }
 
-.filterPill:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+@media (hover: hover) {
+  .filterPill:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
 }
 
 .filterPillActive {
@@ -122,9 +124,11 @@
   transition: border-color 0.15s, color 0.15s;
 }
 
-.clearFilter:hover {
-  border-color: var(--text);
-  color: var(--text);
+@media (hover: hover) {
+  .clearFilter:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
 }
 
 @media (max-width: 640px) {
