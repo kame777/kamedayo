@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import styles from "./DiffTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
 import { useTabIndicator } from '../../hooks/useTabIndicator';
+
 
 /* ───────── Types ───────── */
 type DiffLineType = "added" | "removed" | "unchanged";
@@ -198,6 +199,7 @@ function renderChars(chars: CharItem[], className: string) {
 
 /* ───────── Component ───────── */
 export default function DiffTool() {
+  useEffect(() => { document.title = 'kamedayo | 文章比較ツール'; }, []);
   const [oldText, setOldText] = useState(SAMPLE_OLD);
   const [newText, setNewText] = useState(SAMPLE_NEW);
   const [isSampleOld, setIsSampleOld] = useState(true);

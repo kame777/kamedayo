@@ -37,6 +37,13 @@ export default function Hero() {
     const hero = heroRef.current;
     if (!hero) return;
 
+    // タッチデバイス（モバイル・タブレット）または画面幅が 1024px 未満の場合は
+    // パフォーマンスとユーザー体験向上のためポインター追従を無効化
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    const isSmallScreen = window.innerWidth < 1024;
+    
+    if (isTouchDevice || isSmallScreen) return;
+
     let rafId = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -110,6 +117,11 @@ export default function Hero() {
           <div className={styles.statItem}>
             <span className={styles.statNumber}>Next.js</span>
             <span className={styles.statLabel}>フレームワーク</span>
+          </div>
+          <div className={styles.statDivider} />
+          <div className={styles.statItem}>
+            <span className={styles.statNumber}>OSS</span>
+            <span className={styles.statLabel}>GitHubで公開中</span>
           </div>
           <div className={styles.statDivider} />
           <div className={styles.statItem}>

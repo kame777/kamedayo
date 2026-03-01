@@ -1,5 +1,6 @@
-'use client';
+"use client";
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import HeroBanner from '../components/HeroBanner';
 import styles from './Services.module.css';
@@ -7,6 +8,9 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { tools } from '../data/tools';
 
 export default function Page() {
+  useEffect(() => {
+    document.title = 'kamedayo | ツール一覧';
+  }, []);
   const gridRef = useScrollReveal<HTMLDivElement>(
     `.${styles.card}`,
     styles.visible,
@@ -39,14 +43,16 @@ export default function Page() {
                   </span>
                 </div>
 
-                <h3 className={styles.cardTitle}>{t.title}</h3>
-                <p className={styles.cardDesc}>{t.description}</p>
+                <div className={styles.cardBody}>
+                  <h3 className={styles.cardTitle}>{t.title}</h3>
+                  <p className={styles.cardDesc}>{t.description}</p>
 
-                <div className={styles.cardFooter}>
-                  <span className={styles.cardLink}>
-                    {t.status === 'live' ? '使ってみる' : '乞うご期待'}
-                    <span className={styles.cardArrow}>→</span>
-                  </span>
+                  <div className={styles.cardFooter}>
+                    <span className={styles.cardLink}>
+                      {t.status === 'live' ? '使ってみる' : '乞うご期待'}
+                      <span className={styles.cardArrow}>→</span>
+                    </span>
+                  </div>
                 </div>
               </article>
             </Link>

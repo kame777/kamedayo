@@ -1,9 +1,72 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./Converter.module.css";
 import HeroBanner from "../../components/HeroBanner";
 import { useTabIndicator } from '../../hooks/useTabIndicator';
+
+/* ───────── SVG Icons ───────── */
+type IconProps = { size?: number };
+
+const ConvertIcon = ({ size = 18 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+  </svg>
+);
+
+const ImageModeIcon = ({ size = 18 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+  </svg>
+);
+
+const VideoModeIcon = ({ size = 18 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="2" y="6" width="15" height="12" rx="2"/><path d="m22 8-4 4 4 4V8z"/>
+  </svg>
+);
+
+const FolderIcon = ({ size = 18 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+  </svg>
+);
+
+const FilmIcon = ({ size = 18 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M17 7h5M2 17h5M17 17h5"/>
+  </svg>
+);
+
+const TrashIcon = ({ size = 18 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+  </svg>
+);
+
+const DownloadIcon = ({ size = 18 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>
+);
+
+const LockIcon = ({ size = 18 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </svg>
+);
+
+const CloseIcon = ({ size = 14 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+);
+
+const ErrorIcon = ({ size = 18 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+  </svg>
+);
 
 /* ───────── Types ───────── */
 type Mode = "image" | "video";
@@ -64,6 +127,7 @@ function uid(): string {
 
 /* ───────── Component ───────── */
 export default function ExtensionConverter() {
+  useEffect(() => { document.title = 'kamedayo | 拡張子変換ツール'; }, []);
   const [mode, setMode] = useState<Mode>("image");
   const { containerRef: modeTabsRef, indicatorStyle: modeIndicatorStyle } = useTabIndicator(mode);
   const [files, setFiles] = useState<FileItem[]>([]);
@@ -87,7 +151,7 @@ export default function ExtensionConverter() {
       const { FFmpeg } = await import("@ffmpeg/ffmpeg");
       const { toBlobURL } = await import("@ffmpeg/util");
       const ffmpeg = new FFmpeg();
-      const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
+      const baseURL = "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd";
       await ffmpeg.load({
         coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
         wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
@@ -286,21 +350,29 @@ export default function ExtensionConverter() {
 
         await ffmpeg.writeFile(inputName, await fetchFile(item.file));
 
+        /* Progress tracking */
+        const handleProgress = ({ progress }: { progress: number; time: number }) => {
+          if (!Number.isFinite(progress) || progress <= 0) return;
+          const pct = Math.min(99, Math.round(progress * 100));
+          setFiles(prev => prev.map(f => f.id === item.id ? { ...f, progress: pct } : f));
+        };
+        ffmpeg.on('progress', handleProgress);
+
         /* Build FFmpeg args based on target format */
         const args: string[] = ["-i", inputName];
 
         switch (videoFormat) {
           case "mp4":
-            args.push("-c:v", "libx264", "-preset", "fast", "-crf", "23", "-c:a", "aac", "-movflags", "+faststart");
+            args.push("-c:v", "mpeg4", "-q:v", "5", "-c:a", "aac");
             break;
           case "webm":
-            args.push("-c:v", "libvpx", "-crf", "30", "-b:v", "0", "-c:a", "libvorbis");
+            args.push("-c:v", "libvpx", "-b:v", "1M", "-c:a", "libvorbis");
             break;
           case "avi":
-            args.push("-c:v", "mpeg4", "-q:v", "5", "-c:a", "mp3");
+            args.push("-c:v", "mpeg4", "-q:v", "5", "-c:a", "aac");
             break;
           case "mov":
-            args.push("-c:v", "libx264", "-c:a", "aac", "-movflags", "+faststart");
+            args.push("-c:v", "mpeg4", "-q:v", "5", "-c:a", "aac");
             break;
           case "gif":
             args.push(
@@ -311,7 +383,7 @@ export default function ExtensionConverter() {
             );
             break;
           case "mp3":
-            args.push("-vn", "-c:a", "libmp3lame", "-q:a", "2");
+            args.push("-vn", "-c:a", "libmp3lame", "-q:a", "4");
             break;
           case "wav":
             args.push("-vn", "-c:a", "pcm_s16le");
@@ -319,7 +391,11 @@ export default function ExtensionConverter() {
         }
 
         args.push("-y", outputName);
-        await ffmpeg.exec(args);
+        try {
+          await ffmpeg.exec(args);
+        } finally {
+          ffmpeg.off('progress', handleProgress);
+        }
 
         const data = await ffmpeg.readFile(outputName);
         const blob = new Blob([data], { type: "application/octet-stream" });
@@ -412,7 +488,7 @@ export default function ExtensionConverter() {
   return (
     <>
       <HeroBanner
-        badge="🔄 Converter"
+        badge={<><ConvertIcon size={14} /> Converter</>}
         title="拡張子変換ツール"
         subtitle="画像・動画ファイルをブラウザ上で自在に変換"
       />
@@ -426,14 +502,16 @@ export default function ExtensionConverter() {
             onClick={() => switchMode("image")}
             data-active={mode === "image" ? "true" : undefined}
           >
-            🖼️ 画像変換
+            <ImageModeIcon size={15} />
+            <span>画像変換</span>
           </button>
           <button
             className={`${styles.modeTab} ${mode === "video" ? styles.modeTabActive : ""}`}
             onClick={() => switchMode("video")}
             data-active={mode === "video" ? "true" : undefined}
           >
-            🎬 動画変換
+            <VideoModeIcon size={15} />
+            <span>動画変換</span>
           </button>
         </div>
 
@@ -453,7 +531,9 @@ export default function ExtensionConverter() {
             className={styles.fileInput}
             onChange={handleInputChange}
           />
-          <span className={styles.dropIcon}>{mode === "image" ? "📁" : "🎞️"}</span>
+          <span className={styles.dropIcon}>
+            {mode === "image" ? <FolderIcon size={36} /> : <FilmIcon size={36} />}
+          </span>
           <p className={styles.dropText}>
             {mode === "image"
               ? "画像をドラッグ＆ドロップ、またはクリックして選択"
@@ -527,7 +607,7 @@ export default function ExtensionConverter() {
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={f.preview} alt={f.name} />
                     ) : (
-                      <span className={styles.videoIcon}>🎬</span>
+                      <span className={styles.videoIcon}><VideoModeIcon size={22} /></span>
                     )}
                   </div>
                   <div className={styles.fileInfo}>
@@ -541,6 +621,11 @@ export default function ExtensionConverter() {
                         </>
                       )}
                     </span>
+                    {f.status === "converting" && f.progress != null && f.progress > 0 && (
+                      <div className={styles.progressTrack}>
+                        <div className={styles.progressFill} style={{ width: `${f.progress}%` }} />
+                      </div>
+                    )}
                     {f.status === "error" && f.error && (
                       <span className={styles.errorText}>{f.error}</span>
                     )}
@@ -554,14 +639,16 @@ export default function ExtensionConverter() {
                           downloadFile(f);
                         }}
                       >
-                        ⬇️
+                        <DownloadIcon size={15} />
                       </button>
                     )}
                     {f.status === "converting" && (
-                      <span className={styles.spinner} />
+                      f.progress != null && f.progress > 0
+                        ? <span className={styles.progressPct}>{f.progress}%</span>
+                        : <span className={styles.spinner} />
                     )}
                     {f.status === "error" && (
-                      <span className={styles.errorBadge}>❌</span>
+                      <span className={styles.errorBadge}><ErrorIcon size={18} /></span>
                     )}
                     <button
                       className={styles.removeBtn}
@@ -570,7 +657,7 @@ export default function ExtensionConverter() {
                         removeFile(f.id);
                       }}
                     >
-                      ✕
+                      <CloseIcon size={12} />
                     </button>
                   </div>
                 </div>
@@ -580,14 +667,14 @@ export default function ExtensionConverter() {
             {/* Action buttons */}
             <div className={styles.actionBar}>
               <button className={styles.button} onClick={clearAll}>
-                🗑️ すべてクリア
+                <TrashIcon size={15} /> すべてクリア
               </button>
               {hasPending && !isConverting && (
                 <button
                   className={`${styles.button} ${styles.buttonPrimary}`}
                   onClick={convertAll}
                 >
-                  🔄 変換する
+                  <ConvertIcon size={15} /> 変換する
                 </button>
               )}
               {isConverting && (
@@ -603,34 +690,21 @@ export default function ExtensionConverter() {
                   className={`${styles.button} ${styles.buttonPrimary}`}
                   onClick={downloadAll}
                 >
-                  ⬇️ すべてダウンロード
+                  <DownloadIcon size={15} /> すべてダウンロード
                 </button>
               )}
             </div>
           </>
         )}
 
-        {/* Features section */}
+        {/* Tip banner */}
         <div className={styles.features}>
           <div className={styles.featureCard}>
-            <span className={styles.featureIcon}>🔒</span>
-            <h3>プライバシー安全</h3>
-            <p>すべてブラウザ上で処理。ファイルはサーバーにアップロードされません。</p>
-          </div>
-          <div className={styles.featureCard}>
-            <span className={styles.featureIcon}>⚡</span>
-            <h3>高速変換</h3>
-            <p>画像はCanvas API、動画はFFmpeg WASMでネイティブ処理。</p>
-          </div>
-          <div className={styles.featureCard}>
-            <span className={styles.featureIcon}>📦</span>
-            <h3>バッチ処理</h3>
-            <p>複数ファイルを一括で変換。まとめてダウンロードも可能。</p>
-          </div>
-          <div className={styles.featureCard}>
-            <span className={styles.featureIcon}>🎬</span>
-            <h3>画像 &amp; 動画</h3>
-            <p>PNG・JPG・WebP等の画像からMP4・WebM等の動画まで幅広く対応。</p>
+            <div className={styles.featureIcon}><LockIcon size={20} /></div>
+            <div>
+              <h3>完全ローカル処理</h3>
+              <p>すべてブラウザ上で処理。ファイルはサーバーにアップロードされません。</p>
+            </div>
           </div>
         </div>
       </main>

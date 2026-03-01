@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useMemo, useCallback } from "react";
+import React, { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import styles from "./TextCounter.module.css";
 import HeroBanner from '../../components/HeroBanner';
+
 
 type Stats = {
   totalCharCount: number;
@@ -50,6 +51,7 @@ function computeStats(t: string): Stats {
 }
 
 const TextCounter: React.FC = () => {
+  useEffect(() => { document.title = 'kamedayo | 文字数カウンター'; }, []);
   const [text, setText] = useState("");
   const [selectedText, setSelectedText] = useState("");
   const [copied, setCopied] = useState(false);

@@ -1,7 +1,8 @@
+import type { ReactNode } from 'react';
 import styles from './HeroBanner.module.css';
 
 type HeroBannerProps = {
-  badge: string | React.ReactNode;
+  badge: ReactNode;
   title: string;
   subtitle: string;
   children?: React.ReactNode;

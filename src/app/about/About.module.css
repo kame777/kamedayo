@@ -1,7 +1,13 @@
 /* ===== About Page ===== */
 
-/* ── Main ── */
+/* ── Colour Tokens (About 固有) ── */
 .main {
+  --about-hero-from:    #031a09;
+  --about-hero-to:      #064e3b;
+  --about-accent:       #064e3b;
+  --about-accent-dark:  #0d3320;
+  --about-callout-bg:   linear-gradient(135deg, #2d4a3e 0%, #355c4a 100%);
+  --about-callout-link: #6ee7b7;
   background: var(--page-bg);
 }
 
@@ -14,7 +20,7 @@
   padding: 7rem 1.5rem 3rem;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #031a09 0%, #064e3b 40%, #0d3320 70%, #052e16 100%);
+  background: linear-gradient(135deg, var(--about-hero-from) 0%, var(--about-hero-to) 40%, var(--about-accent-dark) 70%, #052e16 100%);
   color: #fff;
   text-align: center;
 }
@@ -67,33 +73,34 @@
 .section {
   max-width: 860px;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 4rem 1.5rem;
 }
 
 .section + .section {
   border-top: 1px solid var(--border);
 }
 
+/* セクションタイトル: 背景グラデーションをやめ、左ボーダー＋テキストのみ */
 .sectionTitle {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: var(--text);
-  margin: 0 0 1.75rem;
-  padding: 0.75rem 1.25rem;
-  background: linear-gradient(135deg, #064e3b, #0d3320);
-  color: #fff;
-  border-radius: 10px;
+  margin: 0 0 2rem;
+  padding: 0.4rem 0 0.4rem 1rem;
+  border-left: 4px solid var(--about-accent);
+  background: none;
+  border-radius: 0;
 }
 
 .titleIcon {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .subSectionTitle {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text);
   margin: 2rem 0 0.75rem;
@@ -104,17 +111,17 @@
   display: flex;
   gap: 2.5rem;
   align-items: flex-start;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
 }
 
 .profileImage {
   flex-shrink: 0;
-  width: 220px;
+  width: 200px;
 }
 
 .profileImg {
-  width: 220px;
-  height: 220px;
+  width: 200px;
+  height: 200px;
   border-radius: 16px;
   object-fit: cover;
   box-shadow: 0 4px 20px var(--shadow);
@@ -126,30 +133,41 @@
 }
 
 .profileHeading {
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: var(--text);
-  margin: 0 0 0.5rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.75rem;
+}
+
+.profileHeading + .profileHeading,
+.hobbyList + .profileHeading {
+  margin-top: 1.5rem;
 }
 
 .profileList {
-  margin: 0 0 1.25rem;
+  margin: 0 0 0;
   padding: 0;
-  border-left: 3px solid var(--primary);
-  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .profileItem {
   display: flex;
   gap: 1rem;
-  padding: 0.2rem 0;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
   font-size: 0.95rem;
+  background: var(--surface);
 }
 
 .profileItem dt {
-  color: var(--warning);
+  color: var(--muted);
   font-weight: 600;
   min-width: 3rem;
+  flex-shrink: 0;
 }
 
 .profileItem dd {
@@ -161,74 +179,88 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  border-left: 3px solid var(--primary);
-  padding-left: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .hobbyList li {
-  padding: 0.15rem 0;
-  font-size: 0.95rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 500;
   color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
 }
 
 /* ── Callout ── */
 .callout {
   display: flex;
   gap: 0.75rem;
-  padding: 1rem 1.25rem;
+  padding: 1.1rem 1.25rem;
   border-radius: 10px;
-  background: linear-gradient(135deg, #2d4a3e 0%, #355c4a 100%);
+  background: var(--about-callout-bg);
   color: #ffffff;
-  margin-bottom: 1rem;
-  line-height: 1.7;
-  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.75;
+  font-size: 0.93rem;
+}
+
+.callout > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.callout p {
+  margin: 0;
+}
+
+.callout p + p {
+  margin-top: 0.4rem;
 }
 
 .callout a {
-  color: #6ee7b7 !important;
+  color: var(--about-callout-link) !important;
   text-decoration: underline !important;
 }
 
-.calloutIcon {
-  font-size: 1.2rem;
-  flex-shrink: 0;
-  margin-top: 0.1rem;
-}
-
 .calloutDate {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem !important;
 }
 
 .calloutTitle {
   font-weight: 700;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem !important;
   color: #fff;
 }
 
 /* ── Activity Card ── */
 .activityCard {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
 }
 
 .activityBanner {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem 1.5rem;
-  border-radius: 14px 14px 0 0;
-  background: linear-gradient(135deg, #1a2e1a 0%, #1f3a1f 100%);
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, var(--about-accent-dark) 0%, var(--about-accent) 100%);
 }
 
 .activityBannerText {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #fff;
 }
 
 .activityCard .callout {
-  border-radius: 0 0 14px 14px;
+  border-radius: 0;
   margin-bottom: 0;
 }
 
@@ -237,7 +269,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .skillCard {
@@ -281,7 +313,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .historyCard {
@@ -301,8 +333,13 @@
 }
 
 .historyIcon {
-  font-size: 2.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 0.5rem;
+  color: #f3f4f6;
 }
 
 .historyLabel {
@@ -310,6 +347,14 @@
   font-weight: 600;
   color: #f3f4f6;
   margin: 0;
+}
+
+/* ── Link Grid ── */
+.linkGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 /* ── Toggle / Details ── */
@@ -330,26 +375,12 @@
   color: #6ee7b7;
 }
 
-.toggleGallery {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-}
-
-.toggleImage {
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-}
-
 /* ── Video Embed ── */
 .videoEmbed {
   position: relative;
   width: 100%;
   padding-bottom: 56.25%;
   margin-top: 0.75rem;
-  margin-bottom: 0;
   border-radius: 10px;
   overflow: hidden;
   background: #000;
@@ -364,48 +395,6 @@
   border: none;
 }
 
-/* ── Link Grid ── */
-.linkGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-}
-
-.linkCard {
-  display: flex !important;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--text) !important;
-  text-decoration: none !important;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  font-size: 0.92rem;
-  font-weight: 500;
-}
-
-.linkCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px var(--shadow);
-}
-
-.linkCardIcon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  border-radius: 4px;
-  object-fit: contain;
-}
-
-.linkCardLabel {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .hero {
@@ -416,29 +405,27 @@
     font-size: 2rem;
   }
 
+  .section {
+    padding: 2.5rem 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+  }
+
   .profileCard {
     flex-direction: column;
     align-items: center;
-    text-align: center;
     gap: 1.25rem;
   }
 
   .profileImage {
-    width: 160px;
+    width: 140px;
   }
 
-  .profileImagePlaceholder {
-    width: 160px;
-    height: 160px;
-    font-size: 3rem;
-  }
-
-  .profileList {
-    text-align: left;
-  }
-
-  .hobbyList {
-    text-align: left;
+  .profileImg {
+    width: 140px;
+    height: 140px;
   }
 
   .skillGrid,
@@ -446,20 +433,38 @@
     grid-template-columns: 1fr;
   }
 
-  .linkGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .activityBannerText {
     font-size: 1.2rem;
   }
 
-  .sectionTitle {
-    font-size: 1.3rem;
+  .linkGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .profileCard {
+    text-align: center;
+  }
+
+  /* リスト本体を fit-content で中央寄せし、内部は左揃えを保つ */
+  .profileList {
+    width: fit-content;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .hobbyList {
+    justify-content: center;
+    text-align: left;
   }
 }
 
 @media (max-width: 480px) {
+  .title {
+    font-size: 1.7rem;
+  }
+
   .linkGrid {
     grid-template-columns: 1fr;
   }
