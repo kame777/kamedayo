@@ -44,21 +44,23 @@
 /* ===== Grid ===== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
 }
 
 .linkReset {
   color: inherit;
   text-decoration: none;
+  display: flex;
 }
 
 /* ===== Card ===== */
 .card {
   position: relative;
   background: var(--bg);
-  padding: 2rem;
-  border-radius: 20px;
+  padding: 1.25rem;
+  border-radius: 16px;
+  width: 100%;
   border: 1px solid var(--border);
   overflow: hidden;
   display: flex;
@@ -66,7 +68,7 @@
   gap: 0.75rem;
   opacity: 0;
   transform: translateY(24px);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .card.visible {
@@ -76,7 +78,6 @@
 }
 
 .card:hover {
-  transform: translateY(-6px);
   box-shadow: 0 20px 60px rgba(5, 150, 105, 0.1);
   border-color: rgba(52, 211, 153, 0.25);
 }
@@ -232,6 +233,12 @@
 }
 
 /* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
