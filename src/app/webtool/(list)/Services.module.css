@@ -44,21 +44,23 @@
 /* ===== Grid ===== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
 }
 
 .linkReset {
   color: inherit;
   text-decoration: none;
+  display: flex;
 }
 
 /* ===== Card ===== */
 .card {
   position: relative;
   background: var(--bg);
-  padding: 2rem;
-  border-radius: 20px;
+  padding: 1.25rem;
+  border-radius: 16px;
+  width: 100%;
   border: 1px solid var(--border);
   overflow: hidden;
   display: flex;

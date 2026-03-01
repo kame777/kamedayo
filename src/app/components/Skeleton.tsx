@@ -33,6 +33,27 @@ export function KamesukiSkeleton() {
   );
 }
 
+export function WebToolGridSkeleton() {
+  return (
+    <div className={styles.webToolGridOnly}>
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className={styles.webToolCard}>
+          <div className={styles.webToolCardHeader}>
+            <div className={`${styles.skeleton} ${styles.webToolIcon}`} />
+            <div className={`${styles.skeleton} ${styles.webToolBadge}`} />
+          </div>
+          <div className={styles.webToolCardBody}>
+            <div className={`${styles.skeleton} ${styles.webToolTitle}`} />
+            <div className={`${styles.skeleton} ${styles.webToolDesc1}`} />
+            <div className={`${styles.skeleton} ${styles.webToolDesc2}`} />
+            <div className={`${styles.skeleton} ${styles.webToolFooterLine}`} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function WebToolSkeleton() {
   return (
     <div className={styles.webToolWrap}>
