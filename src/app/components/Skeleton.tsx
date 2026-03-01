@@ -9,7 +9,7 @@ export function FeaturesSkeleton() {
         <div className={`${styles.skeleton} ${styles.featuresHeaderSub}`} />
       </div>
       <div className={styles.featuresGrid}>
-        {[1, 2, 3].map((i) => (
+        {Array.from({ length: 8 }).map((_, i) => (
           <div key={i} className={`${styles.skeleton} ${styles.featureCard}`} />
         ))}
       </div>
