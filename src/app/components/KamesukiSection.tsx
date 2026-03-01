@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import styles from '../kamesuki/Kamesuki.module.css';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
@@ -16,25 +17,20 @@ export default function KamesukiSection() {
         <div className={styles.card}>
           <div className={styles.cardAccent} aria-hidden="true" />
           <div className={styles.iconWrap}>
-            <span className={styles.icon}>🐢</span>
+            <Image src="/misskey-icon.webp" alt="かめすきー" width={48} height={48} className={styles.icon} />
           </div>
           <h2 className={styles.title}>かめすきー</h2>
           <p className={styles.tagline}>Misskey インスタンス</p>
 
-          <div className={styles.info}>
-            <div className={styles.infoItem}>
-              <span className={styles.infoIcon}>🔒</span>
-              <div>
-                <strong>招待制</strong>
-                <p>原則として一般開放していません。参加を希望される方はX(旧Twitter)またはMisskeyのDMでご連絡ください。</p>
-              </div>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.infoIcon}>⚠️</span>
-              <div>
-                <strong>注意事項</strong>
-                <p>個人管理のため、予期せぬ障害やデータ消失が発生する可能性があります。データの保証はできません。</p>
-              </div>
+          <div className={styles.eosNotice}>
+            <svg className={styles.eosIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div className={styles.eosText}>
+              <strong>サービス終了のお知らせ</strong>
+              <p>かめすきーは 2026年3月31日 をもってサービスを終了します。長らくのご利用ありがとうございました。</p>
             </div>
           </div>
 
@@ -45,7 +41,7 @@ export default function KamesukiSection() {
             className={styles.visitBtn}
             data-no-external="true"
           >
-            かめすきーを見る
+            サイトを見る
             <span className={styles.visitArrow}>↗</span>
           </a>
         </div>
