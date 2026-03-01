@@ -174,3 +174,90 @@
   height: 15px;
   margin-top: 0.5rem;
 }
+
+/* ── WebTool skeleton responsive ── */
+@media (max-width: 1024px) {
+  .webToolGrid,
+  .webToolGridOnly {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .webToolGrid,
+  .webToolGridOnly {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .webToolGrid {
+    padding: 1.5rem 0.75rem 3rem;
+  }
+
+  .webToolCard {
+    padding: 1.1rem;
+    border-radius: 14px;
+    gap: 0.5rem;
+  }
+
+  .webToolCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .webToolIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .webToolBadge {
+    width: 44px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .webToolGrid,
+  .webToolGridOnly {
+    grid-template-columns: 1fr;
+  }
+
+  .webToolGrid {
+    padding: 1rem 1rem 3rem;
+  }
+
+  .webToolCard {
+    padding: 1.25rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .webToolCardHeader {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .webToolIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .webToolBadge {
+    display: none;
+  }
+
+  .webToolCardBody {
+    flex: 1;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .webToolFooterLine {
+    margin-top: 0.2rem;
+  }
+}
