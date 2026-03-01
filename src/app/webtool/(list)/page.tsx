@@ -1,21 +1,29 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import HeroBanner from '../components/HeroBanner';
+import HeroBanner from '../../components/HeroBanner';
 import styles from './Services.module.css';
-import { useScrollReveal } from '../hooks/useScrollReveal';
-import { tools } from '../data/tools';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
+import { tools } from '../../data/tools';
+import { WebToolSkeleton } from '../../components/Skeleton';
 
 export default function Page() {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     document.title = 'kamedayo | ツール一覧';
+    setMounted(true);
   }, []);
+
   const gridRef = useScrollReveal<HTMLDivElement>(
     `.${styles.card}`,
     styles.visible,
     { threshold: 0.1 },
+    mounted,
   );
+
+  if (!mounted) return <WebToolSkeleton />;
 
   return (
     <>
