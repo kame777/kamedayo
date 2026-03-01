@@ -1,0 +1,260 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { UserSettings, DEFAULT_SETTINGS } from '../types';
+import { useNotification } from '../hooks/useNotification';
+import styles from './SettingsForm.module.css';
+
+import AuthButton from './AuthButton';
+
+interface SettingsFormProps {
+    settings: UserSettings;
+    onUpdate: (partial: Partial<UserSettings>) => void;
+    onTestSound?: () => void;
+    onTestNotification?: () => void;
+}
+
+export default function SettingsForm({ settings, onUpdate, onTestSound, onTestNotification }: SettingsFormProps) {
+    const { requestPermission, isSupported } = useNotification();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const handleNumberChange = (
+        key: keyof UserSettings,
+        value: string,
+        min: number,
+        max: number
+    ) => {
+        const num = parseInt(value, 10);
+        if (!isNaN(num) && num >= min && num <= max) {
+            onUpdate({ [key]: num });
+        }
+    };
+
+    const handleBrowserNotificationToggle = async () => {
+        if (!settings.browser_notification) {
+            // Turning on: request permission first
+            const granted = await requestPermission();
+            if (granted) {
+                onUpdate({ browser_notification: true });
+            }
+        } else {
+            onUpdate({ browser_notification: false });
+        }
+    };
+
+    return (
+        <div className={styles.container}>
+            <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    アカウント設定
+                </h3>
+                <div className={styles.field} style={{ flexDirection: 'column', alignItems: 'stretch', gap: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <AuthButton />
+                    </div>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textAlign: 'center', lineHeight: '1.4' }}>
+                        ログインすると設定や統計データがクラウドに同期され、<br />デバイス間で共有できます。
+                    </p>
+                </div>
+            </section>
+
+            <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    タイマー設定
+                </h3>
+
+                <div className={styles.field}>
+                    <label className={styles.label} htmlFor="work-duration">
+                        作業時間（分）
+                    </label>
+                    <input
+                        id="work-duration"
+                        type="number"
+                        className={styles.numberInput}
+                        value={settings.work_duration}
+                        onChange={(e) =>
+                            handleNumberChange('work_duration', e.target.value, 1, 60)
+                        }
+                        min={1}
+                        max={60}
+                    />
+                </div>
+
+                <div className={styles.field}>
+                    <label className={styles.label} htmlFor="short-break">
+                        短い休憩（分）
+                    </label>
+                    <input
+                        id="short-break"
+                        type="number"
+                        className={styles.numberInput}
+                        value={settings.short_break_duration}
+                        onChange={(e) =>
+                            handleNumberChange('short_break_duration', e.target.value, 1, 30)
+                        }
+                        min={1}
+                        max={30}
+                    />
+                </div>
+
+                <div className={styles.field}>
+                    <label className={styles.label} htmlFor="long-break">
+                        長い休憩（分）
+                    </label>
+                    <input
+                        id="long-break"
+                        type="number"
+                        className={styles.numberInput}
+                        value={settings.long_break_duration}
+                        onChange={(e) =>
+                            handleNumberChange('long_break_duration', e.target.value, 1, 60)
+                        }
+                        min={1}
+                        max={60}
+                    />
+                </div>
+
+                <div className={styles.field}>
+                    <label className={styles.label} htmlFor="long-break-interval">
+                        長い休憩までの回数
+                    </label>
+                    <input
+                        id="long-break-interval"
+                        type="number"
+                        className={styles.numberInput}
+                        value={settings.long_break_interval}
+                        onChange={(e) =>
+                            handleNumberChange('long_break_interval', e.target.value, 1, 10)
+                        }
+                        min={1}
+                        max={10}
+                    />
+                </div>
+            </section>
+
+            <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    通知設定
+                </h3>
+
+                <div className={styles.field}>
+                    <label className={styles.label} htmlFor="auto-start">
+                        自動開始
+                    </label>
+                    <button
+                        id="auto-start"
+                        className={`${styles.toggle} ${settings.auto_start ? styles.toggleOn : ''
+                            }`}
+                        onClick={() => onUpdate({ auto_start: !settings.auto_start })}
+                        role="switch"
+                        aria-checked={settings.auto_start}
+                    >
+                        <span className={styles.toggleThumb} />
+                    </button>
+                </div>
+
+                <div className={styles.field}>
+                    <label className={styles.label} htmlFor="browser-notification">
+                        ブラウザ通知
+                        {mounted && !isSupported && (
+                            <span className={styles.hint}>（非対応ブラウザ）</span>
+                        )}
+                    </label>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {onTestNotification && (
+                            <button
+                                className={styles.testButton}
+                                onClick={onTestNotification}
+                                disabled={!settings.browser_notification}
+                                type="button"
+                            >
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                </svg>
+                                テスト通知
+                            </button>
+                        )}
+                        <button
+                            id="browser-notification"
+                            className={`${styles.toggle} ${settings.browser_notification ? styles.toggleOn : ''
+                                }`}
+                            onClick={handleBrowserNotificationToggle}
+                            disabled={!isSupported}
+                            role="switch"
+                            aria-checked={settings.browser_notification}
+                        >
+                            <span className={styles.toggleThumb} />
+                        </button>
+                    </div>
+                </div>
+
+                <div className={styles.field}>
+                    <label className={styles.label} htmlFor="sound-notification">
+                        サウンド通知
+                    </label>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {onTestSound && (
+                            <button
+                                className={styles.testButton}
+                                onClick={onTestSound}
+                                type="button"
+                            >
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                                テスト再生
+                            </button>
+                        )}
+                        <button
+                            id="sound-notification"
+                            className={`${styles.toggle} ${settings.sound_notification ? styles.toggleOn : ''
+                                }`}
+                            onClick={() =>
+                                onUpdate({ sound_notification: !settings.sound_notification })
+                            }
+                            role="switch"
+                            aria-checked={settings.sound_notification}
+                        >
+                            <span className={styles.toggleThumb} />
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <button
+                className={styles.resetSettingsButton}
+                onClick={() => {
+                    if (confirm('設定を初期状態に戻しますか？')) {
+                        onUpdate(DEFAULT_SETTINGS);
+                    }
+                }}
+                type="button"
+            >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+                設定をデフォルトに戻す
+            </button>
+        </div>
+    );
+}

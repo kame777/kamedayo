@@ -1,0 +1,118 @@
+.skeleton {
+    width: 80px;
+    height: 32px;
+    background: var(--surface-secondary);
+    border-radius: 8px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface-secondary);
+    padding: 6px 12px;
+    border-radius: 14px;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px var(--shadow-card);
+}
+
+.userInfo:hover {
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px var(--shadow-card-hover);
+}
+
+.avatarWrapper {
+    position: relative;
+    width: 28px;
+    height: 28px;
+}
+
+.avatar {
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.username {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.signOutBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.signOutBtn:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    transform: rotate(5deg);
+}
+
+.authBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    background: #24292e;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #fff;
+    font-family: inherit;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.githubBtnFull:hover {
+    background: #1b1f23;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.authBtn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+
+
+
+
+    .authBtn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}

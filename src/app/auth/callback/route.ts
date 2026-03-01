@@ -1,0 +1,44 @@
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
+
+export const runtime = 'edge'
+
+export async function GET(request: Request) {
+    const { searchParams, origin } = new URL(request.url)
+    const code = searchParams.get('code')
+
+    // Check cookie first for most reliable "next" destination
+    const cookieStore = cookies()
+    const cookieNext = cookieStore.get('sb_callback_next')?.value
+    const paramNext = searchParams.get('next')
+    const next = cookieNext ?? paramNext ?? '/webtool/8'
+
+    if (code) {
+        const cookieStore = cookies()
+        const supabase = createServerClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            {
+                cookies: {
+                    get(name: string) {
+                        return cookieStore.get(name)?.value
+                    },
+                    set(name: string, value: string, options: CookieOptions) {
+                        cookieStore.set({ name, value, ...options })
+                    },
+                    remove(name: string, options: CookieOptions) {
+                        cookieStore.set({ name, value: '', ...options })
+                    },
+                },
+            }
+        )
+        const { error } = await supabase.auth.exchangeCodeForSession(code)
+        if (!error) {
+            return NextResponse.redirect(`${origin}${next}`)
+        }
+    }
+
+    // return the user to an error page with instructions
+    return NextResponse.redirect(`${origin}/auth/auth-code-error`)
+}

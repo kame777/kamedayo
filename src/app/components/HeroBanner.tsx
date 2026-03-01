@@ -5,9 +5,10 @@ type HeroBannerProps = {
   badge: ReactNode;
   title: string;
   subtitle: string;
+  children?: React.ReactNode;
 };
 
-export default function HeroBanner({ badge, title, subtitle }: HeroBannerProps) {
+export default function HeroBanner({ badge, title, subtitle, children }: HeroBannerProps) {
   return (
     <section className={styles.heroBanner}>
       <div className={styles.heroBg} aria-hidden="true" />
@@ -15,6 +16,7 @@ export default function HeroBanner({ badge, title, subtitle }: HeroBannerProps) 
         <span className={styles.heroBadge}>{badge}</span>
         <h1 className={styles.heroTitle}>{title}</h1>
         <p className={styles.heroSubtitle}>{subtitle}</p>
+        {children}
       </div>
     </section>
   );

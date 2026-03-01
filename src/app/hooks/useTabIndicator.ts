@@ -6,11 +6,21 @@ import { useEffect, useRef, useState } from 'react';
  * タブセレクターのスライディングインジケーター用フック。
  * アクティブなボタンの位置をトラッキングして、背景をスムーズにスライドさせる。
  */
-export function useTabIndicator<T>(activeKey: T) {
+export function useTabIndicator<T>(activeKey: T, persistenceKey?: string) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [style, setStyle] = useState<{ transform: string; width: string }>({
-    transform: 'translateX(0)',
-    width: '0',
+  const [style, setStyle] = useState<{ transform: string; width: string }>(() => {
+    if (typeof window !== 'undefined' && persistenceKey) {
+      try {
+        const saved = sessionStorage.getItem(`tab-indicator-${persistenceKey}`);
+        if (saved) return JSON.parse(saved);
+      } catch (e) {
+        // ignore error
+      }
+    }
+    return {
+      transform: 'translateX(0)',
+      width: '0',
+    };
   });
 
   useEffect(() => {
@@ -23,11 +33,18 @@ export function useTabIndicator<T>(activeKey: T) {
 
     const containerRect = container.getBoundingClientRect();
     const btnRect = activeBtn.getBoundingClientRect();
-    setStyle({
+
+    const newStyle = {
       transform: `translateX(${btnRect.left - containerRect.left}px)`,
       width: `${btnRect.width}px`,
-    });
-  }, [activeKey]);
+    };
+
+    setStyle(newStyle);
+
+    if (persistenceKey) {
+      sessionStorage.setItem(`tab-indicator-${persistenceKey}`, JSON.stringify(newStyle));
+    }
+  }, [activeKey, persistenceKey]);
 
   return { containerRef, indicatorStyle: style };
 }
