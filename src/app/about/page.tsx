@@ -98,26 +98,6 @@ export default function About() {
           私がやっていること
         </h2>
 
-        {/* Misskeyインスタンス運営 */}
-        <div className={styles.activityCard}>
-          <div className={styles.activityBanner}>
-            <span className={styles.activityBannerText}>Misskeyインスタンス運営</span>
-          </div>
-          <div className={styles.callout}>
-            <span className={styles.calloutIcon}>💬</span>
-            <div>
-              <p className={styles.calloutDate}>2025年1月14日～現在</p>
-              <p>
-                <Link href="https://misskey.kamedayo.com/" target="_blank" rel="noopener noreferrer">
-                  かめすきー
-                </Link>
-                という身内用のMisskeyインスタンスを運営しています！
-              </p>
-              <p>入りたければXにDMお願いします。</p>
-            </div>
-          </div>
-        </div>
-
         {/* スキルカード */}
         <div className={styles.skillGrid}>
           <div className={styles.skillCard}>
@@ -147,6 +127,25 @@ export default function About() {
           <span className={styles.titleIcon}>📜</span>
           私がやったこと・やってたこと
         </h2>
+
+        {/* Misskeyインスタンス運営 */}
+        <div className={styles.activityCard}>
+          <div className={styles.activityBanner}>
+            <span className={styles.activityBannerText}>Misskeyインスタンス運営</span>
+          </div>
+          <div className={styles.callout}>
+            <span className={styles.calloutIcon}>💬</span>
+            <div>
+              <p className={styles.calloutDate}>2025年1月14日～2026年3月31日</p>
+              <p>
+                <Link href="https://misskey.kamedayo.com/" target="_blank" rel="noopener noreferrer">
+                  かめすきー
+                </Link>
+                という身内用のMisskeyインスタンスを運営していました。
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* 活動カード */}
         <div className={styles.historyGrid}>
