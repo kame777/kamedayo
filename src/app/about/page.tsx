@@ -137,12 +137,7 @@ export default function About() {
             <span className={styles.calloutIcon}>💬</span>
             <div>
               <p className={styles.calloutDate}>2025年1月14日～2026年3月31日</p>
-              <p>
-                <Link href="https://misskey.kamedayo.com/" target="_blank" rel="noopener noreferrer">
-                  かめすきー
-                </Link>
-                という身内用のMisskeyインスタンスを運営していました。
-              </p>
+              <p>かめすきーという身内用のMisskeyインスタンスを運営していました。</p>
             </div>
           </div>
         </div>
