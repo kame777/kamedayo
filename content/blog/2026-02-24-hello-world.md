@@ -1,6 +1,7 @@
 ---
 title: "はじめてのブログ投稿"
-date: "2026-02-24"
+date: "2026-03-02"
+updatedAt: "2026-03-02"
 summary: "kamedayo.com にブログ機能を追加しました。Next.js と GitHub API を使った実装について書いています。"
 category: "tech"
 tags: ["nextjs", "cloudflare", "blog"]
