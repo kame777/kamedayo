@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import styles from './ImageLightbox.module.css';
 
@@ -10,6 +11,7 @@ type Props = {
 
 export default function ImageLightbox({ images }: Props) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
 
   const close = useCallback(() => setActiveIndex(null), []);
 
@@ -36,6 +38,19 @@ export default function ImageLightbox({ images }: Props) {
     };
   }, [activeIndex, close, prev, next]);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) > 50) {
+      delta < 0 ? next() : prev();
+    }
+    touchStartX.current = null;
+  };
+
   return (
     <>
       <div className={styles.gallery}>
@@ -60,16 +75,28 @@ export default function ImageLightbox({ images }: Props) {
         ))}
       </div>
 
-      {activeIndex !== null && (
-        <div className={styles.overlay} onClick={close}>
-          <button className={styles.closeBtn} onClick={close} aria-label="閉じる">✕</button>
+      {activeIndex !== null && createPortal(
+        <div
+          className={styles.overlay}
+          onClick={close}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <button className={styles.closeBtn} onClick={close} aria-label="閉じる">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
 
           <button
             className={`${styles.navBtn} ${styles.navPrev}`}
             onClick={(e) => { e.stopPropagation(); prev(); }}
             aria-label="前へ"
           >
-            ‹
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
           </button>
 
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -86,13 +113,16 @@ export default function ImageLightbox({ images }: Props) {
             onClick={(e) => { e.stopPropagation(); next(); }}
             aria-label="次へ"
           >
-            ›
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
           </button>
 
           <span className={styles.counter}>
             {activeIndex + 1} / {images.length}
           </span>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

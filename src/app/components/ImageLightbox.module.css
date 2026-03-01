@@ -63,7 +63,6 @@
   position: absolute;
   top: 1rem;
   right: 1.25rem;
-  font-size: 1.5rem;
   color: #fff;
   background: rgba(255, 255, 255, 0.1);
   border: none;
@@ -86,7 +85,6 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 2.5rem;
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
   border: none;
@@ -98,7 +96,6 @@
   justify-content: center;
   cursor: pointer;
   transition: background 0.15s ease;
-  line-height: 1;
 }
 
 .navBtn:hover {
@@ -129,7 +126,6 @@
   .navBtn {
     width: 36px;
     height: 36px;
-    font-size: 2rem;
   }
 
   .navPrev {
