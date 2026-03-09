@@ -44,7 +44,6 @@ export function useUrlShortener() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [history, setHistory] = useState<ShortenedEntry[]>([]);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
   const { toast, showToast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -141,12 +140,10 @@ export function useUrlShortener() {
     }
   }, [url]);
 
-  const copyToClipboard = useCallback(async (text: string, id: string) => {
+  const copyToClipboard = useCallback(async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopiedId(id);
       showToast("コピーしました！");
-      setTimeout(() => setCopiedId(null), 2000);
     } catch (e) {
       console.error("Failed to copy:", e);
     }
@@ -173,7 +170,6 @@ export function useUrlShortener() {
     loading,
     error,
     history,
-    copiedId,
     toast,
     inputRef,
     handleShorten,
