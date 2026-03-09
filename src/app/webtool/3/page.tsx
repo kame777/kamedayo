@@ -3,7 +3,8 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import styles from "./DiffTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
-import { useTabIndicator } from '../../hooks/useTabIndicator';
+import Button from "../../components/ui/Button";
+import TabSelector from "../../components/ui/TabSelector";
 
 
 /* ───────── Types ───────── */
@@ -216,7 +217,6 @@ export default function DiffTool() {
   const [isSampleOld, setIsSampleOld] = useState(true);
   const [isSampleNew, setIsSampleNew] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>("side");
-  const { containerRef: viewToggleRef, indicatorStyle: viewIndicatorStyle } = useTabIndicator(viewMode);
 
   const diff = useMemo(() => computeDiff(oldText, newText), [oldText, newText]);
 
@@ -464,18 +464,9 @@ export default function DiffTool() {
       <main className={styles.container}>
         {/* Action buttons */}
         <div className={styles.buttonGroup}>
-          <button className={styles.button} onClick={handleClear}>
-            🗑️ クリア
-          </button>
-          <button className={styles.button} onClick={handleSwap}>
-            🔄 テキストを入れ替え
-          </button>
-          <button
-            className={`${styles.button} ${styles.buttonPrimary}`}
-            onClick={handleSample}
-          >
-            📄 サンプルテキスト
-          </button>
+          <Button variant="secondary" onClick={handleClear}>🗑️ クリア</Button>
+          <Button variant="secondary" onClick={handleSwap}>🔄 テキストを入れ替え</Button>
+          <Button onClick={handleSample}>📄 サンプルテキスト</Button>
         </div>
 
         {/* Input areas */}
@@ -520,8 +511,7 @@ export default function DiffTool() {
                 </span>
               </div>
 
-              <div className={styles.viewToggle} ref={viewToggleRef}>
-                <div className={styles.viewIndicator} style={viewIndicatorStyle} />
+              <TabSelector activeKey={viewMode} className={styles.viewToggle}>
                 <button
                   className={`${styles.viewBtn} ${viewMode === "side" ? styles.viewBtnActive : ""}`}
                   onClick={() => setViewMode("side")}
@@ -536,7 +526,7 @@ export default function DiffTool() {
                 >
                   統合表示
                 </button>
-              </div>
+              </TabSelector>
             </div>
 
             {/* Diff result */}

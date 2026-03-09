@@ -3,6 +3,7 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import styles from "./TextCounter.module.css";
 import HeroBanner from '../../components/HeroBanner';
+import Button from '../../components/ui/Button';
 
 
 type Stats = {
@@ -110,11 +111,11 @@ const TextCounter: React.FC = () => {
       <main className={styles.container}>
         {/* Buttons */}
         <div className={styles.buttonGroup}>
-          <button onClick={clearText} className={styles.button}>クリア</button>
-          <button onClick={copyText} className={`${styles.button} ${styles.buttonPrimary}`}>
+          <Button variant="secondary" onClick={clearText}>クリア</Button>
+          <Button onClick={copyText}>
             {copied ? "コピー済み！" : "テキストをコピー"}
-          </button>
-          <button onClick={pasteText} className={styles.button}>ペースト</button>
+          </Button>
+          <Button variant="secondary" onClick={pasteText}>ペースト</Button>
         </div>
 
         {/* Textarea */}

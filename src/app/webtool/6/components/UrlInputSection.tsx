@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../UrlShortener.module.css";
+import Button from "../../../components/ui/Button";
 
 interface Props {
   url: string;
@@ -40,13 +41,12 @@ export const UrlInputSection: React.FC<Props> = ({
             autoFocus
           />
         </div>
-        <button
+        <Button
           onClick={onShorten}
-          className={styles.shortenBtn}
           disabled={loading || !url.trim()}
         >
           {loading ? <span className={styles.spinner} /> : "短縮する"}
-        </button>
+        </Button>
       </div>
 
       {error && (

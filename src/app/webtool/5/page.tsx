@@ -3,7 +3,8 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./PdfTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
-import { useTabIndicator } from '../../hooks/useTabIndicator';
+import Button from "../../components/ui/Button";
+import TabSelector from "../../components/ui/TabSelector";
 
 /* ═══════════════════ Types ═══════════════════ */
 type TabKey = "merge" | "split" | "extract" | "compress" | "img2pdf" | "pdf2img";
@@ -307,7 +308,6 @@ async function compressPdf(file: File, level: CompressLevel): Promise<Blob> {
 export default function PdfTool() {
   useEffect(() => { document.title = 'kamedayo | PDFツール'; }, []);
   const [tab, setTab] = useState<TabKey>("merge");
-  const { containerRef: tabBarRef, indicatorStyle: tabIndicatorStyle } = useTabIndicator(tab);
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -637,8 +637,7 @@ export default function PdfTool() {
 
       <main className={styles.container}>
         {/* ── Tabs ── */}
-        <div className={styles.tabBar} ref={tabBarRef}>
-          <div className={styles.tabIndicator} style={tabIndicatorStyle} />
+        <TabSelector activeKey={tab} className={styles.tabBar}>
           {TAB_DEFS.map((t) => (
             <button
               key={t.key}
@@ -651,7 +650,7 @@ export default function PdfTool() {
               <span className={styles.tabLabel}>{t.label}</span>
             </button>
           ))}
-        </div>
+        </TabSelector>
 
         {/* ── Mobile active mode indicator ── */}
         <div className={styles.mobileMode}>
@@ -816,17 +815,16 @@ export default function PdfTool() {
         {/* ── Action buttons ── */}
         {files.length > 0 && (
           <div className={styles.actionBar}>
-            <button
-              className={styles.button}
+            <Button
+              variant="secondary"
               onClick={() => { setFiles([]); clearResult(); setExtractPages(""); }}
             >
               <TrashIcon size={15} />
               クリア
-            </button>
+            </Button>
 
             {!resultUrl && (
-              <button
-                className={`${styles.button} ${styles.buttonPrimary}`}
+              <Button
                 disabled={!canProcess || processing}
                 onClick={handleAction}
               >
@@ -835,17 +833,14 @@ export default function PdfTool() {
                 ) : (
                   <><TabIcon tabKey={tab} size={15} /> {currentTabDef.actionLabel}</>
                 )}
-              </button>
+              </Button>
             )}
 
             {resultUrl && (
-              <button
-                className={`${styles.button} ${styles.buttonPrimary}`}
-                onClick={downloadResult}
-              >
+              <Button onClick={downloadResult}>
                 <DownloadIcon size={15} />
                 ダウンロード
-              </button>
+              </Button>
             )}
           </div>
         )}

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../UrlShortener.module.css";
 import { ShortenedEntry } from "../types";
+import Button from "../../../components/ui/Button";
 
 interface Props {
   entry: ShortenedEntry;
@@ -23,12 +24,13 @@ export const LatestResult: React.FC<Props> = ({ entry, copiedId, onCopy }) => {
         >
           {entry.shortURL}
         </a>
-        <button
+        <Button
+          size="sm"
           onClick={() => onCopy(entry.shortURL, entry.id)}
-          className={`${styles.copyBtn} ${isCopied ? styles.copied : ""}`}
+          className={isCopied ? styles.copied : ""}
         >
           {isCopied ? "✅ コピー済み" : "📋 コピー"}
-        </button>
+        </Button>
       </div>
       <p className={styles.latestOriginal}>
         元のURL: <span>{entry.originalURL}</span>

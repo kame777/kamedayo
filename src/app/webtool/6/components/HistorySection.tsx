@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../UrlShortener.module.css";
 import { ShortenedEntry } from "../types";
+import Button from "../../../components/ui/Button";
 
 interface Props {
   history: ShortenedEntry[];
@@ -24,9 +25,9 @@ export const HistorySection: React.FC<Props> = ({
     <div className={styles.historySection}>
       <div className={styles.historyHeader}>
         <h2 className={styles.historyTitle}>📜 変換履歴</h2>
-        <button onClick={onClear} className={styles.clearBtn}>
+        <Button variant="danger" size="sm" onClick={onClear}>
           履歴をクリア
-        </button>
+        </Button>
       </div>
       <div className={styles.historyList}>
         {historyItems.map((entry) => {
@@ -37,12 +38,13 @@ export const HistorySection: React.FC<Props> = ({
                 <a href={entry.shortURL} target="_blank" rel="noopener noreferrer">
                   {entry.shortURL}
                 </a>
-                <button
+                <Button
+                  size="sm"
                   onClick={() => onCopy(entry.shortURL, entry.id)}
-                  className={`${styles.copyBtn} ${isCopied ? styles.copied : ""}`}
+                  className={isCopied ? styles.copied : ""}
                 >
                   {isCopied ? "✅ コピー済み" : "📋 コピー"}
-                </button>
+                </Button>
               </div>
               <p className={styles.historyOriginal}>{entry.originalURL}</p>
               <span className={styles.historyTime}>{entry.createdAt}</span>

@@ -17,44 +17,9 @@
   flex-wrap: wrap;
   gap: 0.6rem;
   margin-bottom: 1rem;
+  justify-content: center;
 }
 
-.button {
-  padding: 0.65rem 0.75rem;
-  cursor: pointer;
-  background: var(--bg);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-  font-weight: 600;
-  flex: 1 1 120px;
-  min-width: 90px;
-  font-size: 0.95rem;
-  text-align: center;
-  box-shadow: 0 2px 8px var(--surface-alt);
-}
-
-.button:hover {
-  background: rgba(5, 150, 105, 0.06);
-  transform: translateY(-2px);
-}
-
-.button:active {
-  transform: translateY(0);
-}
-
-.buttonPrimary {
-  background: var(--btn-grad);
-  color: #fff;
-  border-color: transparent;
-  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.2);
-}
-
-.buttonPrimary:hover {
-  background: var(--btn-grad-hover);
-  box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
-}
 
 /* ===== Textarea ===== */
 .textarea {
@@ -155,12 +120,6 @@
 
   .buttonGroup {
     gap: 0.5rem;
-  }
-
-  .button {
-    padding: 0.55rem;
-    font-size: 0.88rem;
-    min-width: 72px;
   }
 
   .statGroup {

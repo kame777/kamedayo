@@ -3,8 +3,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "./PasswordGenerator.module.css";
 import HeroBanner from '../../components/HeroBanner';
+import Button from '../../components/ui/Button';
+import TabSelector from '../../components/ui/TabSelector';
 import { LETTERS, DIGITS, DEFAULT_SYMBOLS, WORD_LIST, MOBILE_BREAKPOINT } from '../../data/constants';
-import { useTabIndicator } from '../../hooks/useTabIndicator';
 
 
 type Mode = "random" | "memorable" | "pin";
@@ -41,7 +42,6 @@ const PasswordGenerator: React.FC = () => {
   const [coloredPassword, setColoredPassword] = useState<CharItem[]>([]);
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const { containerRef: selectorRef, indicatorStyle } = useTabIndicator(passwordType);
 
   useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
@@ -146,8 +146,7 @@ const PasswordGenerator: React.FC = () => {
         {/* Mode selector */}
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>パスワードの種類</h2>
-          <div className={styles.modeSelector} ref={selectorRef}>
-            <div className={styles.modeIndicator} style={indicatorStyle} />
+          <TabSelector activeKey={passwordType} className={styles.modeSelector}>
             {modes.map((m) => (
               <button
                 key={m.key}
@@ -160,7 +159,7 @@ const PasswordGenerator: React.FC = () => {
                 {isMobile ? m.shortLabel : m.label}
               </button>
             ))}
-          </div>
+          </TabSelector>
         </div>
 
         {/* Options */}
@@ -259,12 +258,12 @@ const PasswordGenerator: React.FC = () => {
               ))}
             </div>
             <div className={styles.resultActions}>
-              <button type="button" className={styles.copyBtn} onClick={copyToClipboard}>
+              <Button size="sm" onClick={copyToClipboard}>
                 {copySuccess ? "✅ コピー済み" : "📋 コピー"}
-              </button>
-              <button type="button" className={styles.refreshBtn} onClick={generatePassword}>
+              </Button>
+              <Button variant="secondary" size="sm" onClick={generatePassword}>
                 🔄 {isMobile ? "更新" : "再生成"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

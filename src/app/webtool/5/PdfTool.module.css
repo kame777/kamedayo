@@ -13,29 +13,8 @@
 
 /* ===== Tab Bar ===== */
 .tabBar {
-  display: flex;
-  gap: 0.35rem;
-  padding: 0.35rem;
-  border-radius: 14px;
-  background: var(--bg);
   border: 1px solid var(--border);
   margin-bottom: 0.75rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.tabIndicator {
-  position: absolute;
-  top: 0.35rem;
-  left: 0;
-  height: calc(100% - 0.7rem);
-  border-radius: 10px;
-  background: var(--btn-grad);
-  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-              width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  pointer-events: none;
-  z-index: 0;
 }
 
 .tabBtn {
@@ -351,62 +330,6 @@
   margin-bottom: 2.5rem;
 }
 
-.button {
-  padding: 0.7rem 1.25rem;
-  cursor: pointer;
-  background: var(--bg);
-  color: var(--text);
-  /* Stronger border for light-mode visibility */
-  border: 1.5px solid color-mix(in srgb, var(--text) 14%, transparent);
-  border-radius: 12px;
-  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-  font-weight: 600;
-  font-size: 0.92rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.button:hover {
-  background: rgba(5, 150, 105, 0.06);
-  transform: translateY(-2px);
-}
-
-.button:active {
-  transform: translateY(0);
-}
-
-/* Disabled: clearly non-interactive, not just faded */
-.button:disabled {
-  opacity: 1;
-  cursor: not-allowed;
-  transform: none;
-  background: var(--surface-alt);
-  color: var(--muted);
-  border-color: var(--border);
-  box-shadow: none;
-}
-
-.buttonPrimary {
-  background: var(--btn-grad);
-  color: #fff;
-  border-color: transparent;
-  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
-}
-
-.buttonPrimary:hover:not(:disabled) {
-  background: var(--btn-grad-hover);
-  box-shadow: 0 6px 24px rgba(5, 150, 105, 0.35);
-}
-
-/* Disabled primary: light green tint, green text — visually distinct */
-.buttonPrimary:disabled {
-  background: rgba(5, 150, 105, 0.08);
-  color: var(--primary);
-  border: 1.5px dashed rgba(5, 150, 105, 0.3);
-  box-shadow: none;
-}
 
 /* Spinner */
 .spinner {
@@ -621,9 +544,5 @@
 
   .actionBar {
     flex-direction: column;
-  }
-
-  .button {
-    justify-content: center;
   }
 }

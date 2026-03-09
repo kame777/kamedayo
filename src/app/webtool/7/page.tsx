@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./QrGenerator.module.css";
 import HeroBanner from "../../components/HeroBanner";
+import Button from "../../components/ui/Button";
 
 
 type ErrorCorrectionLevel = "L" | "M" | "Q" | "H";
@@ -617,13 +618,12 @@ export default function QrGeneratorPage() {
             className={styles.textarea}
             autoFocus
           />
-          <button
+          <Button
             onClick={generate}
-            className={styles.generateBtn}
             disabled={!text.trim()}
           >
             QRコードを生成
-          </button>
+          </Button>
         </div>
 
         {error && (
@@ -697,15 +697,9 @@ export default function QrGeneratorPage() {
             </div>
 
             <div className={styles.downloadGroup}>
-              <button onClick={downloadPNG} className={styles.dlBtn}>
-                📥 PNGダウンロード
-              </button>
-              <button onClick={downloadSVG} className={styles.dlBtn}>
-                📥 SVGダウンロード
-              </button>
-              <button onClick={copyToClipboard} className={styles.dlBtn}>
-                📋 クリップボードにコピー
-              </button>
+              <Button variant="secondary" onClick={downloadPNG}>📥 PNGダウンロード</Button>
+              <Button variant="secondary" onClick={downloadSVG}>📥 SVGダウンロード</Button>
+              <Button variant="secondary" onClick={copyToClipboard}>📋 クリップボードにコピー</Button>
             </div>
           </div>
         )}
