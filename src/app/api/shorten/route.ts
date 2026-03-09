@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       || "unknown";
     if (isRateLimited(ip)) {
       return NextResponse.json(
-        { error: "リクエストが多すぎます。しばらくしてから再試行してください。[429]" },
+        { error: "リクエストが多すぎます。しばらくしてから再試行してください。", code: "RATE_LIMIT" },
         { status: 429 }
       );
     }
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     if (!url || typeof url !== "string") {
       return NextResponse.json(
-        { error: "URLが指定されていません。[400]" },
+        { error: "URLが指定されていません。", code: "INVALID_URL" },
         { status: 400 }
       );
     }
@@ -75,9 +75,24 @@ export async function POST(req: NextRequest) {
       if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
         throw new Error("Invalid protocol");
       }
+      const h = parsed.hostname;
+      const isPrivate =
+        ["localhost", "0.0.0.0", "::1"].includes(h) ||
+        (() => {
+          const m = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/.exec(h);
+          if (!m) return false;
+          const [, a, b] = m.map(Number);
+          return (
+            a === 127 ||
+            a === 10 ||
+            (a === 172 && b >= 16 && b <= 31) ||
+            (a === 192 && b === 168)
+          );
+        })();
+      if (isPrivate) throw new Error("Private host");
     } catch {
       return NextResponse.json(
-        { error: "有効なURLを入力してください。[400]" },
+        { error: "有効なURLを入力してください。[400]", code: "INVALID_URL" },
         { status: 400 }
       );
     }
@@ -98,7 +113,7 @@ export async function POST(req: NextRequest) {
       const errData = await response.json().catch(() => ({}));
       console.error("Short.io API error:", response.status, errData);
       return NextResponse.json(
-        { error: "短縮URLの生成に失敗しました。しばらくしてから再試行してください。[502]" },
+        { error: "短縮URLの生成に失敗しました。しばらくしてから再試行してください。", code: "API_ERROR" },
         { status: 502 }
       );
     }
@@ -112,7 +127,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("Shorten API error:", err);
     return NextResponse.json(
-      { error: "サーバーエラーが発生しました。[500]" },
+      { error: "サーバーエラーが発生しました。", code: "SERVER_ERROR" },
       { status: 500 }
     );
   }

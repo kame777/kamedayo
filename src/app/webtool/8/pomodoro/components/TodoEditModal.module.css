@@ -8,11 +8,13 @@
 
 .modal {
   position: fixed;
-  top: 50%;
+  top: calc(50% + 32px);
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
   max-width: 480px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
   background: var(--surface-primary);
   border-radius: 16px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
@@ -31,7 +33,7 @@
 
 @keyframes slideUp {
   from {
-    transform: translate(-50%, -40%);
+    transform: translate(-50%, calc(-50% + 16px));
     opacity: 0;
   }
   to {

@@ -3,8 +3,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "./PasswordGenerator.module.css";
 import HeroBanner from '../../components/HeroBanner';
+import Button from '../../components/ui/Button';
+import TabSelector from '../../components/ui/TabSelector';
+import { Toast } from '../../components/ui/Toast';
+import { useToast } from '../../hooks/useToast';
 import { LETTERS, DIGITS, DEFAULT_SYMBOLS, WORD_LIST, MOBILE_BREAKPOINT } from '../../data/constants';
-import { useTabIndicator } from '../../hooks/useTabIndicator';
 
 
 type Mode = "random" | "memorable" | "pin";
@@ -39,9 +42,8 @@ const PasswordGenerator: React.FC = () => {
   const [showSymbolSettings, setShowSymbolSettings] = useState<boolean>(false);
   const [generatedPassword, setGeneratedPassword] = useState<string>("");
   const [coloredPassword, setColoredPassword] = useState<CharItem[]>([]);
-  const [copySuccess, setCopySuccess] = useState<boolean>(false);
+  const { toast, showToast } = useToast();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const { containerRef: selectorRef, indicatorStyle } = useTabIndicator(passwordType);
 
   useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
@@ -129,8 +131,7 @@ const PasswordGenerator: React.FC = () => {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(generatedPassword);
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
+      showToast("コピーしました！");
     } catch { /* ignore */ }
   };
 
@@ -146,8 +147,7 @@ const PasswordGenerator: React.FC = () => {
         {/* Mode selector */}
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>パスワードの種類</h2>
-          <div className={styles.modeSelector} ref={selectorRef}>
-            <div className={styles.modeIndicator} style={indicatorStyle} />
+          <TabSelector activeKey={passwordType} className={styles.modeSelector}>
             {modes.map((m) => (
               <button
                 key={m.key}
@@ -160,7 +160,7 @@ const PasswordGenerator: React.FC = () => {
                 {isMobile ? m.shortLabel : m.label}
               </button>
             ))}
-          </div>
+          </TabSelector>
         </div>
 
         {/* Options */}
@@ -259,16 +259,15 @@ const PasswordGenerator: React.FC = () => {
               ))}
             </div>
             <div className={styles.resultActions}>
-              <button type="button" className={styles.copyBtn} onClick={copyToClipboard}>
-                {copySuccess ? "✅ コピー済み" : "📋 コピー"}
-              </button>
-              <button type="button" className={styles.refreshBtn} onClick={generatePassword}>
+              <Button size="sm" onClick={copyToClipboard}>📋 コピー</Button>
+              <Button variant="secondary" size="sm" onClick={generatePassword}>
                 🔄 {isMobile ? "更新" : "再生成"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       </main>
+      <Toast message={toast} />
     </>
   );
 };

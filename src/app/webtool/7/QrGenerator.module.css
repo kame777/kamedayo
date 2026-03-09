@@ -6,10 +6,6 @@
   animation: fadeInUp 0.6s ease both;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
 
 /* ===== Input Section ===== */
 .inputSection {
@@ -46,34 +42,6 @@
   box-shadow: 0 4px 18px rgba(5, 150, 105, 0.1);
 }
 
-.generateBtn {
-  padding: 0.85rem 1.5rem;
-  background: var(--btn-grad);
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.2);
-  align-self: flex-start;
-}
-
-.generateBtn:hover:not(:disabled) {
-  background: var(--btn-grad-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
-}
-
-.generateBtn:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.generateBtn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
 
 /* ===== Error ===== */
 .errorMsg {
@@ -192,29 +160,6 @@
   gap: 0.6rem;
 }
 
-.dlBtn {
-  flex: 1 1 140px;
-  padding: 0.7rem 1rem;
-  background: rgba(5, 150, 105, 0.08);
-  color: var(--primary);
-  border: 1px solid rgba(5, 150, 105, 0.15);
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
-  text-align: center;
-}
-
-.dlBtn:hover {
-  background: rgba(5, 150, 105, 0.15);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.1);
-}
-
-.dlBtn:active {
-  transform: translateY(0);
-}
 
 /* ===== Info ===== */
 .infoSection {
@@ -258,10 +203,6 @@
     flex-direction: column;
   }
 
-  .dlBtn {
-    flex-basis: auto;
-  }
-
   .canvasWrapper {
     padding: 1.25rem;
   }
@@ -275,11 +216,6 @@
   .textarea {
     min-height: 80px;
     padding: 0.75rem;
-  }
-
-  .generateBtn {
-    width: 100%;
-    text-align: center;
   }
 
   .optionGroup {

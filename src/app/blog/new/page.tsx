@@ -34,7 +34,7 @@ export default function NewPostPage() {
       const data = await res.json() as { error?: string };
       throw new Error(data.error ?? 'Save failed');
     }
-    router.push('/blog');
+    router.push('/blog?flash=created');
   };
 
   return <MarkdownEditor onSave={handleSave} />;

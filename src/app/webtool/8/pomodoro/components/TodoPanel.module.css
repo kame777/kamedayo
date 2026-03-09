@@ -1,7 +1,7 @@
 /* Toggle Button */
 .toggleButton {
   position: fixed;
-  top: 50%;
+  top: calc(50% + 32px);
   right: 24px;
   transform: translateY(-50%);
   z-index: 1000;
@@ -42,9 +42,9 @@
 .panel {
   position: fixed;
   right: 0;
-  top: 0;
+  top: 64px;
   width: 360px;
-  height: 100vh;
+  height: calc(100vh - 64px);
   background: var(--surface-primary);
   border-left: 1px solid var(--border-color);
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
@@ -112,7 +112,7 @@
   }
 
   .panel.open {
-    transform: translateY(0);
+    transform: translateY(64px);
   }
 
   .closeBtn {
@@ -143,9 +143,15 @@
 /* Tablet */
 @media (min-width: 641px) and (max-width: 768px) {
   .panel {
+    top: 64px;
     width: 300px;
-    height: 100vh;
+    height: calc(100vh - 64px);
     max-height: none;
     border-radius: 0;
+    transform: translateX(100%);
+  }
+
+  .panel.open {
+    transform: translateX(0);
   }
 }

@@ -3,7 +3,8 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./PdfTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
-import { useTabIndicator } from '../../hooks/useTabIndicator';
+import Button from "../../components/ui/Button";
+import TabSelector from "../../components/ui/TabSelector";
 
 /* ═══════════════════ Types ═══════════════════ */
 type TabKey = "merge" | "split" | "extract" | "compress" | "img2pdf" | "pdf2img";
@@ -132,6 +133,17 @@ const CloseIcon = ({ size = 12 }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <line x1="18" y1="6" x2="6" y2="18" />
     <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
+
+const GripIcon = ({ size = 14 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <circle cx="9" cy="6" r="1.5" />
+    <circle cx="15" cy="6" r="1.5" />
+    <circle cx="9" cy="12" r="1.5" />
+    <circle cx="15" cy="12" r="1.5" />
+    <circle cx="9" cy="18" r="1.5" />
+    <circle cx="15" cy="18" r="1.5" />
   </svg>
 );
 
@@ -296,7 +308,6 @@ async function compressPdf(file: File, level: CompressLevel): Promise<Blob> {
 export default function PdfTool() {
   useEffect(() => { document.title = 'kamedayo | PDFツール'; }, []);
   const [tab, setTab] = useState<TabKey>("merge");
-  const { containerRef: tabBarRef, indicatorStyle: tabIndicatorStyle } = useTabIndicator(tab);
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -306,6 +317,9 @@ export default function PdfTool() {
   const [extractPages, setExtractPages] = useState("");
   const [compressLevel, setCompressLevel] = useState<CompressLevel>("medium");
   const inputRef = useRef<HTMLInputElement>(null);
+  const dragIndex = useRef<number | null>(null);
+  const [dragItemIndex, setDragItemIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const currentTabDef = TAB_DEFS.find(t => t.key === tab)!;
 
@@ -381,6 +395,44 @@ export default function PdfTool() {
       [copy[idx], copy[newIdx]] = [copy[newIdx], copy[idx]];
       return copy;
     });
+  }, []);
+
+  /* ── Drag reorder ── */
+  const handleItemDragStart = useCallback((e: React.DragEvent, idx: number) => {
+    dragIndex.current = idx;
+    setDragItemIndex(idx);
+    e.dataTransfer.effectAllowed = "move";
+  }, []);
+
+  const handleItemDragOver = useCallback((e: React.DragEvent, idx: number) => {
+    e.preventDefault();
+    if (dragIndex.current === null || dragIndex.current === idx) return;
+    setDragOverIndex(idx);
+  }, []);
+
+  const handleItemDrop = useCallback((idx: number) => {
+    if (dragIndex.current === null || dragIndex.current === idx) {
+      dragIndex.current = null;
+      setDragItemIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+    setFiles((prev) => {
+      const copy = [...prev];
+      const [moved] = copy.splice(dragIndex.current!, 1);
+      copy.splice(idx, 0, moved);
+      return copy;
+    });
+    dragIndex.current = null;
+    setDragItemIndex(null);
+    setDragOverIndex(null);
+    clearResult();
+  }, [clearResult]);
+
+  const handleItemDragEnd = useCallback(() => {
+    dragIndex.current = null;
+    setDragItemIndex(null);
+    setDragOverIndex(null);
   }, []);
 
   /* ── Parse page range ── */
@@ -585,8 +637,7 @@ export default function PdfTool() {
 
       <main className={styles.container}>
         {/* ── Tabs ── */}
-        <div className={styles.tabBar} ref={tabBarRef}>
-          <div className={styles.tabIndicator} style={tabIndicatorStyle} />
+        <TabSelector activeKey={tab} className={styles.tabBar}>
           {TAB_DEFS.map((t) => (
             <button
               key={t.key}
@@ -599,7 +650,7 @@ export default function PdfTool() {
               <span className={styles.tabLabel}>{t.label}</span>
             </button>
           ))}
-        </div>
+        </TabSelector>
 
         {/* ── Mobile active mode indicator ── */}
         <div className={styles.mobileMode}>
@@ -665,7 +716,18 @@ export default function PdfTool() {
         {files.length > 0 && (
           <div className={styles.fileList}>
             {files.map((f, idx) => (
-              <div key={f.id} className={styles.fileCard}>
+              <div
+                key={f.id}
+                className={`${styles.fileCard} ${dragItemIndex === idx ? styles.fileCardDragging : ""} ${dragOverIndex === idx ? styles.fileCardDragOver : ""}`}
+                draggable={tab === "merge" || tab === "img2pdf"}
+                onDragStart={(e) => handleItemDragStart(e, idx)}
+                onDragOver={(e) => handleItemDragOver(e, idx)}
+                onDrop={() => handleItemDrop(idx)}
+                onDragEnd={handleItemDragEnd}
+              >
+                {(tab === "merge" || tab === "img2pdf") && (
+                  <span className={styles.dragHandle}><GripIcon size={14} /></span>
+                )}
                 <div className={styles.fileIcon}>
                   {f.file.type.startsWith("image/")
                     ? <ImageFrameIcon size={26} />
@@ -753,17 +815,16 @@ export default function PdfTool() {
         {/* ── Action buttons ── */}
         {files.length > 0 && (
           <div className={styles.actionBar}>
-            <button
-              className={styles.button}
+            <Button
+              variant="secondary"
               onClick={() => { setFiles([]); clearResult(); setExtractPages(""); }}
             >
               <TrashIcon size={15} />
               クリア
-            </button>
+            </Button>
 
             {!resultUrl && (
-              <button
-                className={`${styles.button} ${styles.buttonPrimary}`}
+              <Button
                 disabled={!canProcess || processing}
                 onClick={handleAction}
               >
@@ -772,17 +833,14 @@ export default function PdfTool() {
                 ) : (
                   <><TabIcon tabKey={tab} size={15} /> {currentTabDef.actionLabel}</>
                 )}
-              </button>
+              </Button>
             )}
 
             {resultUrl && (
-              <button
-                className={`${styles.button} ${styles.buttonPrimary}`}
-                onClick={downloadResult}
-              >
+              <Button onClick={downloadResult}>
                 <DownloadIcon size={15} />
                 ダウンロード
-              </button>
+              </Button>
             )}
           </div>
         )}

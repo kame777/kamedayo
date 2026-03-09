@@ -1,14 +1,50 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { ShortenedEntry } from "../types";
+import { ShortenedEntry, ApiSuccessResponse, ApiErrorResponse } from "../types";
+import { useToast } from "../../../hooks/useToast";
 
 const STORAGE_KEY = "kamedayo:urlShortenerHistory";
+
+const ERROR_MESSAGES: Record<string, string> = {
+  RATE_LIMIT: "リクエストが多すぎます。しばらくしてから再試行してください。",
+  INVALID_URL: "有効なURLを入力してください。",
+  API_ERROR: "短縮URLの生成に失敗しました。しばらくしてから再試行してください。",
+  SERVER_ERROR: "サーバーエラーが発生しました。しばらくしてから再試行してください。",
+};
+
+function isPrivateHost(hostname: string): boolean {
+  if (["localhost", "0.0.0.0", "::1"].includes(hostname)) return true;
+  const ipv4 = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/.exec(hostname);
+  if (!ipv4) return false;
+  const [, a, b] = ipv4.map(Number);
+  return (
+    a === 127 ||
+    a === 10 ||
+    (a === 172 && b >= 16 && b <= 31) ||
+    (a === 192 && b === 168)
+  );
+}
+
+function validateUrl(input: string): string | null {
+  try {
+    const parsed = new URL(input);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return "有効なURL（https://...）を入力してください。";
+    }
+    if (isPrivateHost(parsed.hostname)) {
+      return "内部ネットワークのURLは短縮できません。";
+    }
+    return null;
+  } catch {
+    return "有効なURL（https://...）を入力してください。";
+  }
+}
 
 export function useUrlShortener() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [history, setHistory] = useState<ShortenedEntry[]>([]);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const { toast, showToast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Load history from localStorage on mount
@@ -58,15 +94,10 @@ export function useUrlShortener() {
       setError("URLを入力してください。");
       return;
     }
-    
-    // Simple URL validation
-    try {
-      const parsed = new URL(trimmed);
-      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
-        throw new Error();
-      }
-    } catch {
-      setError("有効なURL（https://...）を入力してください。");
+
+    const validationError = validateUrl(trimmed);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
@@ -80,17 +111,22 @@ export function useUrlShortener() {
         body: JSON.stringify({ url: trimmed }),
       });
 
-      const data = await res.json();
+      const data: ApiSuccessResponse | ApiErrorResponse = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "短縮に失敗しました。もう一度お試しください。");
+        const errData = data as ApiErrorResponse;
+        const message = errData.code
+          ? (ERROR_MESSAGES[errData.code] ?? errData.error)
+          : errData.error;
+        setError(message || "短縮に失敗しました。もう一度お試しください。");
         return;
       }
 
+      const successData = data as ApiSuccessResponse;
       const entry: ShortenedEntry = {
         id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
         originalURL: trimmed,
-        shortURL: data.shortURL,
+        shortURL: successData.shortURL,
         createdAt: new Date().toLocaleString("ja-JP"),
       };
 
@@ -104,15 +140,14 @@ export function useUrlShortener() {
     }
   }, [url]);
 
-  const copyToClipboard = useCallback(async (text: string, id: string) => {
+  const copyToClipboard = useCallback(async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopiedId(id);
-      setTimeout(() => setCopiedId(null), 2000);
+      showToast("コピーしました！");
     } catch (e) {
       console.error("Failed to copy:", e);
     }
-  }, []);
+  }, [showToast]);
 
   const clearHistory = useCallback(() => {
     if (window.confirm("履歴をすべて削除してもよろしいですか？")) {
@@ -135,7 +170,7 @@ export function useUrlShortener() {
     loading,
     error,
     history,
-    copiedId,
+    toast,
     inputRef,
     handleShorten,
     handleInputChange,

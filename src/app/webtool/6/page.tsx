@@ -8,7 +8,14 @@ import { UrlInputSection } from "./components/UrlInputSection";
 import { LatestResult } from "./components/LatestResult";
 import { HistorySection } from "./components/HistorySection";
 import { InfoSection } from "./components/InfoSection";
+import { Toast } from "./components/Toast";
 
+const LinkIcon = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+  </svg>
+);
 
 export default function UrlShortenerPage() {
   useEffect(() => { document.title = 'kamedayo | 短縮URL作成ツール'; }, []);
@@ -17,7 +24,7 @@ export default function UrlShortenerPage() {
     loading,
     error,
     history,
-    copiedId,
+    toast,
     inputRef,
     handleShorten,
     handleInputChange,
@@ -28,7 +35,7 @@ export default function UrlShortenerPage() {
   return (
     <>
       <HeroBanner
-        badge="🔗 URL Shortener"
+        badge={<><LinkIcon size={15} /> URL Shortener</>}
         title="短縮URL作成ツール"
         subtitle="長いURLをワンクリックで短縮"
       />
@@ -44,22 +51,18 @@ export default function UrlShortenerPage() {
         />
 
         {history.length > 0 && (
-          <LatestResult
-            entry={history[0]}
-            copiedId={copiedId}
-            onCopy={copyToClipboard}
-          />
+          <LatestResult entry={history[0]} onCopy={copyToClipboard} />
         )}
 
         <HistorySection
           history={history}
-          copiedId={copiedId}
           onCopy={copyToClipboard}
           onClear={clearHistory}
         />
 
         <InfoSection />
       </main>
+      <Toast message={toast} />
     </>
   );
 }

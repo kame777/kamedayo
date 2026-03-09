@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import { getAllPosts } from './lib/posts';
 import BlogClient from './components/BlogClient';
 import HeroBanner from '../components/HeroBanner';
+import FlashMessage from './components/FlashMessage';
 import { PenIcon } from './components/BlogIcons';
 import type { Metadata } from 'next';
 
@@ -24,6 +26,7 @@ export default function BlogPage() {
         subtitle="技術メモや日々の記録"
       />
       <BlogClient posts={posts} />
+      <Suspense><FlashMessage /></Suspense>
     </>
   );
 }

@@ -3,7 +3,8 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./Converter.module.css";
 import HeroBanner from "../../components/HeroBanner";
-import { useTabIndicator } from '../../hooks/useTabIndicator';
+import Button from "../../components/ui/Button";
+import TabSelector from "../../components/ui/TabSelector";
 
 /* ───────── SVG Icons ───────── */
 type IconProps = { size?: number };
@@ -129,7 +130,6 @@ function uid(): string {
 export default function ExtensionConverter() {
   useEffect(() => { document.title = 'kamedayo | 拡張子変換ツール'; }, []);
   const [mode, setMode] = useState<Mode>("image");
-  const { containerRef: modeTabsRef, indicatorStyle: modeIndicatorStyle } = useTabIndicator(mode);
   const [files, setFiles] = useState<FileItem[]>([]);
   const [imageFormat, setImageFormat] = useState<ImageOutputFormat>("png");
   const [videoFormat, setVideoFormat] = useState<VideoOutputFormat>("mp4");
@@ -495,8 +495,7 @@ export default function ExtensionConverter() {
 
       <main className={styles.container}>
         {/* Mode tabs */}
-        <div className={styles.modeTabs} ref={modeTabsRef}>
-          <div className={styles.modeIndicator} style={modeIndicatorStyle} />
+        <TabSelector activeKey={mode} className={styles.modeTabs}>
           <button
             className={`${styles.modeTab} ${mode === "image" ? styles.modeTabActive : ""}`}
             onClick={() => switchMode("image")}
@@ -513,7 +512,7 @@ export default function ExtensionConverter() {
             <VideoModeIcon size={15} />
             <span>動画変換</span>
           </button>
-        </div>
+        </TabSelector>
 
         {/* Drop zone */}
         <div
@@ -666,32 +665,23 @@ export default function ExtensionConverter() {
 
             {/* Action buttons */}
             <div className={styles.actionBar}>
-              <button className={styles.button} onClick={clearAll}>
+              <Button variant="secondary" onClick={clearAll}>
                 <TrashIcon size={15} /> すべてクリア
-              </button>
+              </Button>
               {hasPending && !isConverting && (
-                <button
-                  className={`${styles.button} ${styles.buttonPrimary}`}
-                  onClick={convertAll}
-                >
+                <Button onClick={convertAll}>
                   <ConvertIcon size={15} /> 変換する
-                </button>
+                </Button>
               )}
               {isConverting && (
-                <button
-                  className={`${styles.button} ${styles.buttonPrimary}`}
-                  disabled
-                >
+                <Button disabled>
                   <span className={styles.spinnerSmall} /> 変換中...
-                </button>
+                </Button>
               )}
               {allDone && (
-                <button
-                  className={`${styles.button} ${styles.buttonPrimary}`}
-                  onClick={downloadAll}
-                >
+                <Button onClick={downloadAll}>
                   <DownloadIcon size={15} /> すべてダウンロード
-                </button>
+                </Button>
               )}
             </div>
           </>

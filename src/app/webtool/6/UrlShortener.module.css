@@ -6,10 +6,6 @@
   animation: fadeInUp 0.6s ease both;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
 
 /* ===== Input Section ===== */
 .inputSection {
@@ -57,38 +53,6 @@
   cursor: not-allowed;
 }
 
-.shortenBtn {
-  padding: 0.85rem 1.5rem;
-  background: var(--btn-grad);
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.2);
-  min-width: 110px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.shortenBtn:hover:not(:disabled) {
-  background: var(--btn-grad-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
-}
-
-.shortenBtn:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.shortenBtn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
 
 /* ===== Spinner ===== */
 .spinner {
@@ -99,12 +63,6 @@
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 /* ===== Error ===== */
@@ -131,10 +89,13 @@
 }
 
 .latestLabel {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--primary);
   margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .latestUrlRow {
@@ -145,6 +106,8 @@
 }
 
 .latestUrl {
+  flex: 1;
+  min-width: 0;
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--primary);
@@ -156,65 +119,6 @@
 .latestUrl:hover {
   color: var(--primary);
   text-decoration: underline;
-}
-
-.copyBtn {
-  padding: 0.5rem 1rem;
-  background: var(--btn-grad);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.92rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  white-space: nowrap;
-  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.2);
-}
-
-.copyBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
-}
-
-/* 右寄せ: 最新と履歴内のコピーボタンを行の右端に配置 */
-.latestUrlRow .copyBtn {
-  margin-left: auto;
-}
-
-.historyShort .copyBtn {
-  margin-left: auto;
-}
-
-/* コピー済みアニメーション */
-.copied {
-  animation: popPulse 650ms ease forwards;
-  background: rgba(5, 150, 105, 0.1);
-  color: var(--primary);
-  border: 1px solid rgba(5, 150, 105, 0.2);
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.08);
-}
-
-.copied:hover {
-  background: rgba(5, 150, 105, 0.95);
-  color: #fff;
-  border-color: rgba(5, 150, 105, 0.95);
-  transform: translateY(-1px);
-}
-
-@keyframes popPulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(5,150,105,0);
-  }
-  40% {
-    transform: scale(1.06);
-    box-shadow: 0 6px 18px rgba(5,150,105,0.12);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(5,150,105,0);
-  }
 }
 
 .latestOriginal {
@@ -246,30 +150,9 @@
   font-weight: 700;
   color: var(--text);
   margin: 0;
-}
-
-.clearBtn {
-  padding: 0.45rem 0.95rem;
-  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.12s, box-shadow 0.15s, opacity 0.12s;
-  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.18);
-}
-
-.clearBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(220, 38, 38, 0.22);
-  opacity: 0.98;
-}
-
-.clearBtn:focus {
-  outline: 3px solid rgba(220,38,38,0.15);
-  outline-offset: 2px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .historyList {
@@ -294,35 +177,25 @@
 }
 
 .historyShort a {
+  flex: 1;
+  min-width: 0;
   font-weight: 600;
   color: var(--primary);
   text-decoration: none;
   font-size: 0.95rem;
-  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .historyShort a:hover {
   text-decoration: underline;
 }
 
-.copyBtnSmall {
-  padding: 0.2rem 0.5rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: transform 0.1s;
-}
-
-.copyBtnSmall:hover {
-  transform: scale(1.15);
-}
-
 .historyOriginal {
   font-size: 0.78rem;
   color: var(--placeholder);
   margin: 0;
-  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -331,6 +204,8 @@
 .historyTime {
   font-size: 0.72rem;
   color: var(--label-muted);
+  margin-top: 0.2rem;
+  display: block;
 }
 
 /* ===== Info ===== */
@@ -347,6 +222,9 @@
   font-weight: 700;
   color: var(--text);
   margin: 0 0 0.6rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .infoList {
@@ -362,10 +240,6 @@
 @media (max-width: 600px) {
   .inputSection {
     flex-direction: column;
-  }
-
-  .shortenBtn {
-    width: 100%;
   }
 
   .container {

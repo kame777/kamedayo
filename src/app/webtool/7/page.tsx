@@ -3,6 +3,9 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./QrGenerator.module.css";
 import HeroBanner from "../../components/HeroBanner";
+import Button from "../../components/ui/Button";
+import { Toast } from "../../components/ui/Toast";
+import { useToast } from "../../hooks/useToast";
 
 
 type ErrorCorrectionLevel = "L" | "M" | "Q" | "H";
@@ -523,6 +526,7 @@ function matrixToSvg(
 export default function QrGeneratorPage() {
   const [text, setText] = useState("");
   useEffect(() => { document.title = 'kamedayo | QRコード生成ツール'; }, []);
+  const { toast, showToast } = useToast();
   const [ecl, setEcl] = useState<ErrorCorrectionLevel>("M");
   const [fgColor, setFgColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");
@@ -588,6 +592,7 @@ export default function QrGeneratorPage() {
       );
       if (blob) {
         await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+        showToast("コピーしました！");
       }
     } catch {
       /* ignore */
@@ -617,13 +622,12 @@ export default function QrGeneratorPage() {
             className={styles.textarea}
             autoFocus
           />
-          <button
+          <Button
             onClick={generate}
-            className={styles.generateBtn}
             disabled={!text.trim()}
           >
             QRコードを生成
-          </button>
+          </Button>
         </div>
 
         {error && (
@@ -697,15 +701,9 @@ export default function QrGeneratorPage() {
             </div>
 
             <div className={styles.downloadGroup}>
-              <button onClick={downloadPNG} className={styles.dlBtn}>
-                📥 PNGダウンロード
-              </button>
-              <button onClick={downloadSVG} className={styles.dlBtn}>
-                📥 SVGダウンロード
-              </button>
-              <button onClick={copyToClipboard} className={styles.dlBtn}>
-                📋 クリップボードにコピー
-              </button>
+              <Button variant="secondary" onClick={downloadPNG}>📥 PNGダウンロード</Button>
+              <Button variant="secondary" onClick={downloadSVG}>📥 SVGダウンロード</Button>
+              <Button variant="secondary" onClick={copyToClipboard}>📋 クリップボードにコピー</Button>
             </div>
           </div>
         )}
@@ -721,6 +719,7 @@ export default function QrGeneratorPage() {
           </ul>
         </div>
       </main>
+      <Toast message={toast} />
     </>
   );
 }

@@ -65,7 +65,7 @@ export default function EditPostClient({ params }: { params: { slug: string } })
       const data = await res.json() as { error?: string };
       throw new Error(data.error ?? 'Save failed');
     }
-    router.push(`/blog/${slug}`);
+    router.push(`/blog/${slug}?flash=updated`);
   };
 
   const handleDelete = async () => {
@@ -78,7 +78,7 @@ export default function EditPostClient({ params }: { params: { slug: string } })
       const data = await res.json() as { error?: string };
       throw new Error(data.error ?? 'Delete failed');
     }
-    router.push('/blog');
+    router.push('/blog?flash=deleted');
   };
 
   return (

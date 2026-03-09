@@ -1,0 +1,47 @@
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 9999;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.toastGreen {
+  background: linear-gradient(135deg, #059669, #34d399);
+  box-shadow: 0 8px 32px rgba(5, 150, 105, 0.35);
+}
+
+.toastBlue {
+  background: linear-gradient(135deg, #0284c7, #38bdf8);
+  box-shadow: 0 8px 32px rgba(2, 132, 199, 0.35);
+}
+
+.toastRed {
+  background: linear-gradient(135deg, #dc2626, #f87171);
+  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.35);
+}
+
+.toastVisible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toastHidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(12px);
+  pointer-events: none;
+}
+
+.checkIcon {
+  font-size: 1rem;
+  line-height: 1;
+}

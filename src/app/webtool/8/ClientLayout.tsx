@@ -31,6 +31,17 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     }
   }, []);
 
+  // Hide BMC widget when any modal is open
+  useEffect(() => {
+    const anyModalOpen = isStatsOpen || isSettingsOpen || isTodoPanelOpen;
+    const widget = document.getElementById('bmc-wbtn');
+    if (widget) {
+      widget.style.transition = 'opacity 0.3s ease';
+      widget.style.opacity = anyModalOpen ? '0' : '1';
+      widget.style.pointerEvents = anyModalOpen ? 'none' : 'auto';
+    }
+  }, [isStatsOpen, isSettingsOpen, isTodoPanelOpen]);
+
   // Determine HeroBanner props based on current path
   const getHeroProps = () => {
     if (pathname === '/webtool/8/stats') {

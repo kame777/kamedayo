@@ -3,7 +3,8 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import styles from "./DiffTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
-import { useTabIndicator } from '../../hooks/useTabIndicator';
+import Button from "../../components/ui/Button";
+import TabSelector from "../../components/ui/TabSelector";
 
 
 /* ───────── Types ───────── */
@@ -155,22 +156,33 @@ function pairDiff(diff: DiffResult[]): PairedItem[] {
   const result: PairedItem[] = [];
   let i = 0;
   while (i < diff.length) {
-    if (
-      diff[i].type === "removed" &&
-      i + 1 < diff.length &&
-      diff[i + 1].type === "added"
-    ) {
-      result.push({
-        type: "modified",
-        leftLine: diff[i].leftLine!,
-        rightLine: diff[i + 1].rightLine!,
-        leftNum: diff[i].leftNum!,
-        rightNum: diff[i + 1].rightNum!,
-      });
-      i += 2;
+    if (diff[i].type === "removed") {
+      // 連続する removed をまとめて収集
+      const removed: DiffResult[] = [];
+      while (i < diff.length && diff[i].type === "removed") {
+        removed.push(diff[i++]);
+      }
+      // 続く連続する added をまとめて収集
+      const added: DiffResult[] = [];
+      while (i < diff.length && diff[i].type === "added") {
+        added.push(diff[i++]);
+      }
+      // min(removed, added) 分を modified としてペアリング
+      const count = Math.min(removed.length, added.length);
+      for (let k = 0; k < count; k++) {
+        result.push({
+          type: "modified",
+          leftLine: removed[k].leftLine!,
+          rightLine: added[k].rightLine!,
+          leftNum: removed[k].leftNum!,
+          rightNum: added[k].rightNum!,
+        });
+      }
+      // 余った removed / added はそのまま追加
+      for (let k = count; k < removed.length; k++) result.push(removed[k]);
+      for (let k = count; k < added.length; k++) result.push(added[k]);
     } else {
-      result.push(diff[i]);
-      i++;
+      result.push(diff[i++]);
     }
   }
   return result;
@@ -205,7 +217,6 @@ export default function DiffTool() {
   const [isSampleOld, setIsSampleOld] = useState(true);
   const [isSampleNew, setIsSampleNew] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>("side");
-  const { containerRef: viewToggleRef, indicatorStyle: viewIndicatorStyle } = useTabIndicator(viewMode);
 
   const diff = useMemo(() => computeDiff(oldText, newText), [oldText, newText]);
 
@@ -453,18 +464,9 @@ export default function DiffTool() {
       <main className={styles.container}>
         {/* Action buttons */}
         <div className={styles.buttonGroup}>
-          <button className={styles.button} onClick={handleClear}>
-            🗑️ クリア
-          </button>
-          <button className={styles.button} onClick={handleSwap}>
-            🔄 テキストを入れ替え
-          </button>
-          <button
-            className={`${styles.button} ${styles.buttonPrimary}`}
-            onClick={handleSample}
-          >
-            📄 サンプルテキスト
-          </button>
+          <Button variant="secondary" onClick={handleClear}>🗑️ クリア</Button>
+          <Button variant="secondary" onClick={handleSwap}>🔄 テキストを入れ替え</Button>
+          <Button onClick={handleSample}>📄 サンプルテキスト</Button>
         </div>
 
         {/* Input areas */}
@@ -509,8 +511,7 @@ export default function DiffTool() {
                 </span>
               </div>
 
-              <div className={styles.viewToggle} ref={viewToggleRef}>
-                <div className={styles.viewIndicator} style={viewIndicatorStyle} />
+              <TabSelector activeKey={viewMode} className={styles.viewToggle}>
                 <button
                   className={`${styles.viewBtn} ${viewMode === "side" ? styles.viewBtnActive : ""}`}
                   onClick={() => setViewMode("side")}
@@ -525,7 +526,7 @@ export default function DiffTool() {
                 >
                   統合表示
                 </button>
-              </div>
+              </TabSelector>
             </div>
 
             {/* Diff result */}

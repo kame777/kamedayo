@@ -3,6 +3,9 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import styles from "./TextCounter.module.css";
 import HeroBanner from '../../components/HeroBanner';
+import Button from '../../components/ui/Button';
+import { Toast } from '../../components/ui/Toast';
+import { useToast } from '../../hooks/useToast';
 
 
 type Stats = {
@@ -54,7 +57,7 @@ const TextCounter: React.FC = () => {
   useEffect(() => { document.title = 'kamedayo | 文字数カウンター'; }, []);
   const [text, setText] = useState("");
   const [selectedText, setSelectedText] = useState("");
-  const [copied, setCopied] = useState(false);
+  const { toast, showToast } = useToast();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const stats = useMemo(() => computeStats(text), [text]);
@@ -81,8 +84,7 @@ const TextCounter: React.FC = () => {
     if (!navigator.clipboard) return;
     try {
       await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      showToast("コピーしました！");
     } catch { /* ignore */ }
   }, [text]);
 
@@ -110,11 +112,9 @@ const TextCounter: React.FC = () => {
       <main className={styles.container}>
         {/* Buttons */}
         <div className={styles.buttonGroup}>
-          <button onClick={clearText} className={styles.button}>クリア</button>
-          <button onClick={copyText} className={`${styles.button} ${styles.buttonPrimary}`}>
-            {copied ? "コピー済み！" : "テキストをコピー"}
-          </button>
-          <button onClick={pasteText} className={styles.button}>ペースト</button>
+          <Button variant="secondary" onClick={clearText}>クリア</Button>
+          <Button onClick={copyText}>テキストをコピー</Button>
+          <Button variant="secondary" onClick={pasteText}>ペースト</Button>
         </div>
 
         {/* Textarea */}
@@ -151,6 +151,7 @@ const TextCounter: React.FC = () => {
           </div>
         </div>
       </main>
+      <Toast message={toast} />
     </>
   );
 };

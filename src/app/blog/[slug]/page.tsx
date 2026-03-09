@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllPostSlugs, getPostBySlug } from '../lib/posts';
@@ -7,6 +8,7 @@ import rehypeHighlight from 'rehype-highlight';
 import HeroBanner from '../../components/HeroBanner';
 import EditButton from '../components/EditButton';
 import DraftBanner from './DraftBanner';
+import FlashMessage from '../components/FlashMessage';
 import type { Metadata } from 'next';
 import styles from './Post.module.css';
 
@@ -79,6 +81,7 @@ export default function PostPage({ params }: Props) {
           </div>
         </article>
       </main>
+      <Suspense><FlashMessage /></Suspense>
     </>
   );
 }
