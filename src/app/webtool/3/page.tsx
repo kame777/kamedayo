@@ -155,22 +155,33 @@ function pairDiff(diff: DiffResult[]): PairedItem[] {
   const result: PairedItem[] = [];
   let i = 0;
   while (i < diff.length) {
-    if (
-      diff[i].type === "removed" &&
-      i + 1 < diff.length &&
-      diff[i + 1].type === "added"
-    ) {
-      result.push({
-        type: "modified",
-        leftLine: diff[i].leftLine!,
-        rightLine: diff[i + 1].rightLine!,
-        leftNum: diff[i].leftNum!,
-        rightNum: diff[i + 1].rightNum!,
-      });
-      i += 2;
+    if (diff[i].type === "removed") {
+      // 連続する removed をまとめて収集
+      const removed: DiffResult[] = [];
+      while (i < diff.length && diff[i].type === "removed") {
+        removed.push(diff[i++]);
+      }
+      // 続く連続する added をまとめて収集
+      const added: DiffResult[] = [];
+      while (i < diff.length && diff[i].type === "added") {
+        added.push(diff[i++]);
+      }
+      // min(removed, added) 分を modified としてペアリング
+      const count = Math.min(removed.length, added.length);
+      for (let k = 0; k < count; k++) {
+        result.push({
+          type: "modified",
+          leftLine: removed[k].leftLine!,
+          rightLine: added[k].rightLine!,
+          leftNum: removed[k].leftNum!,
+          rightNum: added[k].rightNum!,
+        });
+      }
+      // 余った removed / added はそのまま追加
+      for (let k = count; k < removed.length; k++) result.push(removed[k]);
+      for (let k = count; k < added.length; k++) result.push(added[k]);
     } else {
-      result.push(diff[i]);
-      i++;
+      result.push(diff[i++]);
     }
   }
   return result;
