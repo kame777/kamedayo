@@ -8,6 +8,7 @@ import { UrlInputSection } from "./components/UrlInputSection";
 import { LatestResult } from "./components/LatestResult";
 import { HistorySection } from "./components/HistorySection";
 import { InfoSection } from "./components/InfoSection";
+import { Toast } from "./components/Toast";
 
 
 export default function UrlShortenerPage() {
@@ -18,6 +19,7 @@ export default function UrlShortenerPage() {
     error,
     history,
     copiedId,
+    toast,
     inputRef,
     handleShorten,
     handleInputChange,
@@ -60,6 +62,7 @@ export default function UrlShortenerPage() {
 
         <InfoSection />
       </main>
+      <Toast message={toast} />
     </>
   );
 }

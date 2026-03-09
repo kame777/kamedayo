@@ -5,6 +5,8 @@ import styles from "./PasswordGenerator.module.css";
 import HeroBanner from '../../components/HeroBanner';
 import Button from '../../components/ui/Button';
 import TabSelector from '../../components/ui/TabSelector';
+import { Toast } from '../../components/ui/Toast';
+import { useToast } from '../../hooks/useToast';
 import { LETTERS, DIGITS, DEFAULT_SYMBOLS, WORD_LIST, MOBILE_BREAKPOINT } from '../../data/constants';
 
 
@@ -40,7 +42,7 @@ const PasswordGenerator: React.FC = () => {
   const [showSymbolSettings, setShowSymbolSettings] = useState<boolean>(false);
   const [generatedPassword, setGeneratedPassword] = useState<string>("");
   const [coloredPassword, setColoredPassword] = useState<CharItem[]>([]);
-  const [copySuccess, setCopySuccess] = useState<boolean>(false);
+  const { toast, showToast } = useToast();
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
@@ -129,8 +131,7 @@ const PasswordGenerator: React.FC = () => {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(generatedPassword);
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
+      showToast("コピーしました！");
     } catch { /* ignore */ }
   };
 
@@ -258,9 +259,7 @@ const PasswordGenerator: React.FC = () => {
               ))}
             </div>
             <div className={styles.resultActions}>
-              <Button size="sm" onClick={copyToClipboard}>
-                {copySuccess ? "✅ コピー済み" : "📋 コピー"}
-              </Button>
+              <Button size="sm" onClick={copyToClipboard}>📋 コピー</Button>
               <Button variant="secondary" size="sm" onClick={generatePassword}>
                 🔄 {isMobile ? "更新" : "再生成"}
               </Button>
@@ -268,6 +267,7 @@ const PasswordGenerator: React.FC = () => {
           </div>
         </div>
       </main>
+      <Toast message={toast} />
     </>
   );
 };
