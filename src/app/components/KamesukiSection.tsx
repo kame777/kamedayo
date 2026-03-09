@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import styles from '../kamesuki/Kamesuki.module.css';
+import styles from './Kamesuki.module.css';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export default function KamesukiSection() {
@@ -30,18 +30,18 @@ export default function KamesukiSection() {
             </svg>
             <div className={styles.eosText}>
               <strong>サービス終了のお知らせ</strong>
-              <p>かめすきーは 2026年3月31日 をもってサービスを終了します。長らくのご利用ありがとうございました。</p>
+              <p>かめすきーは 2026年3月31日 をもってサービスを終了致しました。長らくのご利用ありがとうございました。</p>
             </div>
           </div>
 
           <a
-            href="https://misskey.kamedayo.com"
+            href="https://kamedayo.com/contact"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.visitBtn}
             data-no-external="true"
           >
-            サイトを見る
+            お問い合わせ
             <span className={styles.visitArrow}>↗</span>
           </a>
         </div>
