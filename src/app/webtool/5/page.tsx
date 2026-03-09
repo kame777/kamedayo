@@ -135,6 +135,17 @@ const CloseIcon = ({ size = 12 }: IconProps) => (
   </svg>
 );
 
+const GripIcon = ({ size = 14 }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <circle cx="9" cy="6" r="1.5" />
+    <circle cx="15" cy="6" r="1.5" />
+    <circle cx="9" cy="12" r="1.5" />
+    <circle cx="15" cy="12" r="1.5" />
+    <circle cx="9" cy="18" r="1.5" />
+    <circle cx="15" cy="18" r="1.5" />
+  </svg>
+);
+
 /* ── Composite icon selectors ── */
 function TabIcon({ tabKey, size = 18 }: { tabKey: TabKey; size?: number }) {
   switch (tabKey) {
@@ -306,6 +317,9 @@ export default function PdfTool() {
   const [extractPages, setExtractPages] = useState("");
   const [compressLevel, setCompressLevel] = useState<CompressLevel>("medium");
   const inputRef = useRef<HTMLInputElement>(null);
+  const dragIndex = useRef<number | null>(null);
+  const [dragItemIndex, setDragItemIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const currentTabDef = TAB_DEFS.find(t => t.key === tab)!;
 
@@ -381,6 +395,44 @@ export default function PdfTool() {
       [copy[idx], copy[newIdx]] = [copy[newIdx], copy[idx]];
       return copy;
     });
+  }, []);
+
+  /* ── Drag reorder ── */
+  const handleItemDragStart = useCallback((e: React.DragEvent, idx: number) => {
+    dragIndex.current = idx;
+    setDragItemIndex(idx);
+    e.dataTransfer.effectAllowed = "move";
+  }, []);
+
+  const handleItemDragOver = useCallback((e: React.DragEvent, idx: number) => {
+    e.preventDefault();
+    if (dragIndex.current === null || dragIndex.current === idx) return;
+    setDragOverIndex(idx);
+  }, []);
+
+  const handleItemDrop = useCallback((idx: number) => {
+    if (dragIndex.current === null || dragIndex.current === idx) {
+      dragIndex.current = null;
+      setDragItemIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+    setFiles((prev) => {
+      const copy = [...prev];
+      const [moved] = copy.splice(dragIndex.current!, 1);
+      copy.splice(idx, 0, moved);
+      return copy;
+    });
+    dragIndex.current = null;
+    setDragItemIndex(null);
+    setDragOverIndex(null);
+    clearResult();
+  }, [clearResult]);
+
+  const handleItemDragEnd = useCallback(() => {
+    dragIndex.current = null;
+    setDragItemIndex(null);
+    setDragOverIndex(null);
   }, []);
 
   /* ── Parse page range ── */
@@ -665,7 +717,18 @@ export default function PdfTool() {
         {files.length > 0 && (
           <div className={styles.fileList}>
             {files.map((f, idx) => (
-              <div key={f.id} className={styles.fileCard}>
+              <div
+                key={f.id}
+                className={`${styles.fileCard} ${dragItemIndex === idx ? styles.fileCardDragging : ""} ${dragOverIndex === idx ? styles.fileCardDragOver : ""}`}
+                draggable={tab === "merge" || tab === "img2pdf"}
+                onDragStart={(e) => handleItemDragStart(e, idx)}
+                onDragOver={(e) => handleItemDragOver(e, idx)}
+                onDrop={() => handleItemDrop(idx)}
+                onDragEnd={handleItemDragEnd}
+              >
+                {(tab === "merge" || tab === "img2pdf") && (
+                  <span className={styles.dragHandle}><GripIcon size={14} /></span>
+                )}
                 <div className={styles.fileIcon}>
                   {f.file.type.startsWith("image/")
                     ? <ImageFrameIcon size={26} />
