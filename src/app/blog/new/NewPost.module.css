@@ -20,17 +20,28 @@
 }
 
 .loginBtn {
-  padding: 0.75rem 2rem;
-  background: var(--btn-grad);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #24292e;
   color: #fff;
   border: none;
   border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .loginBtn:hover {
-  background: var(--btn-grad-hover);
+  background: #1b1f23;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.loginBtn:active {
+  transform: translateY(0);
 }
