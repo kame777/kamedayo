@@ -4,6 +4,7 @@ import React, { useState, useMemo, useCallback, useEffect } from "react";
 import styles from "./DiffTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
 import Button from "../../components/ui/Button";
+import { SearchIcon, TrashIcon, SwapIcon, DocumentIcon } from "../../components/Icons";
 import TabSelector from "../../components/ui/TabSelector";
 
 
@@ -456,7 +457,7 @@ export default function DiffTool() {
   return (
     <>
       <HeroBanner
-        badge="🔍 Diff Tool"
+        badge={<><SearchIcon size={15} /> Diff Tool</>}
         title="文章比較ツール"
         subtitle="2つの文章を比較して差分をハイライト表示"
       />
@@ -464,9 +465,9 @@ export default function DiffTool() {
       <main className={styles.container}>
         {/* Action buttons */}
         <div className={styles.buttonGroup}>
-          <Button variant="secondary" onClick={handleClear}>🗑️ クリア</Button>
-          <Button variant="secondary" onClick={handleSwap}>🔄 テキストを入れ替え</Button>
-          <Button onClick={handleSample}>📄 サンプルテキスト</Button>
+          <Button variant="secondary" onClick={handleClear}><TrashIcon size={14} /> クリア</Button>
+          <Button variant="secondary" onClick={handleSwap}><SwapIcon size={14} /> テキストを入れ替え</Button>
+          <Button onClick={handleSample}><DocumentIcon size={14} /> サンプルテキスト</Button>
         </div>
 
         {/* Input areas */}
@@ -538,7 +539,7 @@ export default function DiffTool() {
 
         {!hasDiff && (
           <div className={styles.emptyState}>
-            <span className={styles.emptyIcon}>🔍</span>
+            <SearchIcon size={32} />
             <p>テキストを入力すると差分が表示されます</p>
           </div>
         )}

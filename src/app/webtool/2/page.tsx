@@ -8,14 +8,16 @@ import TabSelector from '../../components/ui/TabSelector';
 import { Toast } from '../../components/ui/Toast';
 import { useToast } from '../../hooks/useToast';
 import { LETTERS, DIGITS, DEFAULT_SYMBOLS, WORD_LIST, MOBILE_BREAKPOINT } from '../../data/constants';
+import { LockIcon, ShuffleIcon, EyeIcon, RefreshCwIcon, ClipboardIcon, InfoIcon } from '../../components/Icons';
+import type { ReactNode } from 'react';
 
 
 type Mode = "random" | "memorable" | "pin";
 type CharItem = { char: string; type: "letter" | "number" | "symbol" };
 
-const modes: { key: Mode; icon: string; label: string; shortLabel: string }[] = [
-  { key: "random", icon: "🔀", label: "ランダム", shortLabel: "乱数" },
-  { key: "memorable", icon: "👁️", label: "覚えやすい", shortLabel: "記憶" },
+const modes: { key: Mode; icon: ReactNode; label: string; shortLabel: string }[] = [
+  { key: "random", icon: <ShuffleIcon size={14} />, label: "ランダム", shortLabel: "乱数" },
+  { key: "memorable", icon: <EyeIcon size={14} />, label: "覚えやすい", shortLabel: "記憶" },
   { key: "pin", icon: "#", label: "PIN", shortLabel: "PIN" },
 ];
 
@@ -138,7 +140,7 @@ const PasswordGenerator: React.FC = () => {
   return (
     <>
       <HeroBanner
-        badge="🔐 Password Generator"
+        badge={<><LockIcon size={15} /> Password Generator</>}
         title="パスワード生成ツール"
         subtitle="安全なパスワードをワンクリックで生成"
       />
@@ -242,7 +244,7 @@ const PasswordGenerator: React.FC = () => {
               </>
             ) : (
               <div className={styles.pinNotice}>
-                <span className={styles.pinIcon}>📌</span>
+                <InfoIcon size={14} />
                 PINは6桁の数字で生成されます
               </div>
             )}
@@ -259,9 +261,9 @@ const PasswordGenerator: React.FC = () => {
               ))}
             </div>
             <div className={styles.resultActions}>
-              <Button size="sm" onClick={copyToClipboard}>📋 コピー</Button>
+              <Button size="sm" onClick={copyToClipboard}><ClipboardIcon size={14} /> コピー</Button>
               <Button variant="secondary" size="sm" onClick={generatePassword}>
-                🔄 {isMobile ? "更新" : "再生成"}
+                <><RefreshCwIcon size={14} /> {isMobile ? "更新" : "再生成"}</>
               </Button>
             </div>
           </div>

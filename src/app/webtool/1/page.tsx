@@ -4,6 +4,7 @@ import React, { useState, useRef, useMemo, useCallback, useEffect } from "react"
 import styles from "./TextCounter.module.css";
 import HeroBanner from '../../components/HeroBanner';
 import Button from '../../components/ui/Button';
+import { TypeIcon, CopyIcon, TrashIcon, ClipboardIcon } from '../../components/Icons';
 import { Toast } from '../../components/ui/Toast';
 import { useToast } from '../../hooks/useToast';
 
@@ -104,7 +105,7 @@ const TextCounter: React.FC = () => {
   return (
     <>
       <HeroBanner
-        badge="📝 Text Counter"
+        badge={<><TypeIcon size={15} /> Text Counter</>}
         title="文字数カウンター"
         subtitle="文字数・行数・全角/半角をリアルタイムにカウント"
       />
@@ -112,9 +113,9 @@ const TextCounter: React.FC = () => {
       <main className={styles.container}>
         {/* Buttons */}
         <div className={styles.buttonGroup}>
-          <Button variant="secondary" onClick={clearText}>クリア</Button>
-          <Button onClick={copyText}>テキストをコピー</Button>
-          <Button variant="secondary" onClick={pasteText}>ペースト</Button>
+          <Button variant="secondary" onClick={clearText}><TrashIcon size={14} /> クリア</Button>
+          <Button onClick={copyText}><CopyIcon size={14} /> テキストをコピー</Button>
+          <Button variant="secondary" onClick={pasteText}><ClipboardIcon size={14} /> ペースト</Button>
         </div>
 
         {/* Textarea */}
