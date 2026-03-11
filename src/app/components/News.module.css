@@ -18,7 +18,7 @@
   box-shadow: 0 4px 20px var(--shadow-card);
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .card.visible {
@@ -26,10 +26,6 @@
   transform: translateY(0);
 }
 
-.card:hover {
-  box-shadow: 0 8px 30px var(--shadow), 0 0 0 1px rgba(52, 211, 153, 0.2);
-  border-color: rgba(52, 211, 153, 0.3);
-}
 
 /* ===== Title ===== */
 .title {
