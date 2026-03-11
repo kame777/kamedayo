@@ -39,6 +39,11 @@
   justify-content: center;
   font-size: 1.8rem;
   margin: 0 auto 1.25rem;
+  color: #000;
+}
+
+:global([data-theme="dark"]) .cardIcon {
+  color: #fff;
 }
 
 .cardTitle {
