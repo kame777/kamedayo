@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import styles from "./QrGenerator.module.css";
+import { QrCodeIcon, WarningIcon, DownloadIcon, ClipboardIcon, InfoIcon } from "../../components/Icons";
 import HeroBanner from "../../components/HeroBanner";
 import Button from "../../components/ui/Button";
 import { Toast } from "../../components/ui/Toast";
@@ -602,7 +603,7 @@ export default function QrGeneratorPage() {
   return (
     <>
       <HeroBanner
-        badge="📱 QR Generator"
+        badge={<><QrCodeIcon size={15} /> QR Generator</>}
         title="QRコード生成ツール"
         subtitle="テキストやURLからQRコードを即座に生成"
       />
@@ -632,7 +633,7 @@ export default function QrGeneratorPage() {
 
         {error && (
           <div className={styles.errorMsg}>
-            <span>⚠️</span> {error}
+            <WarningIcon size={15} /> {error}
           </div>
         )}
 
@@ -701,16 +702,16 @@ export default function QrGeneratorPage() {
             </div>
 
             <div className={styles.downloadGroup}>
-              <Button variant="secondary" onClick={downloadPNG}>📥 PNGダウンロード</Button>
-              <Button variant="secondary" onClick={downloadSVG}>📥 SVGダウンロード</Button>
-              <Button variant="secondary" onClick={copyToClipboard}>📋 クリップボードにコピー</Button>
+              <Button variant="secondary" onClick={downloadPNG}><DownloadIcon size={14} /> PNGダウンロード</Button>
+              <Button variant="secondary" onClick={downloadSVG}><DownloadIcon size={14} /> SVGダウンロード</Button>
+              <Button variant="primary" onClick={copyToClipboard}><ClipboardIcon size={14} /> クリップボードにコピー</Button>
             </div>
           </div>
         )}
 
         {/* Info */}
         <div className={styles.infoSection}>
-          <h2 className={styles.infoTitle}>💡 使い方</h2>
+          <h2 className={styles.infoTitle}><InfoIcon size={16} /> 使い方</h2>
           <ul className={styles.infoList}>
             <li>テキストまたはURLを入力して「QRコードを生成」をクリック</li>
             <li>誤り訂正レベル・サイズ・色をカスタマイズ可能</li>
