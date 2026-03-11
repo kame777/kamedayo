@@ -1,6 +1,6 @@
 import HeroBanner from '../components/HeroBanner';
 import FaqList from './FaqList';
-import { MailIcon, XIcon, ArrowUpRightIcon } from './ContactIcons';
+import { MailIcon, XIcon, ArrowUpRightIcon } from '../components/Icons';
 import styles from './Contact.module.css';
 export const metadata = {
   title: 'お問い合わせ',

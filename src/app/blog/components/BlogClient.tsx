@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import PostCard from './PostCard';
-import { PlusIcon } from './BlogIcons';
+import { PlusIcon } from '../../components/Icons';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import type { PostMeta } from '../lib/types';
 import styles from '../Blog.module.css';

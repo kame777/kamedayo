@@ -3,7 +3,7 @@ import { getAllPosts } from './lib/posts';
 import BlogClient from './components/BlogClient';
 import HeroBanner from '../components/HeroBanner';
 import FlashMessage from './components/FlashMessage';
-import { PenIcon } from './components/BlogIcons';
+import { PenIcon } from '../components/Icons';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -5,6 +5,23 @@ import styles from "./PdfTool.module.css";
 import HeroBanner from "../../components/HeroBanner";
 import Button from "../../components/ui/Button";
 import TabSelector from "../../components/ui/TabSelector";
+import {
+  MergeIcon,
+  SplitIcon,
+  ExtractIcon,
+  CompressIcon,
+  ImgToPdfIcon,
+  PdfToImgIcon,
+  DocumentIcon,
+  ImageFrameIcon,
+  PdfTrashIcon as TrashIcon,
+  PdfDownloadIcon as DownloadIcon,
+  PdfLockIcon as LockIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
+  CloseIcon,
+  GripIcon,
+} from "../../components/Icons";
 
 /* ═══════════════════ Types ═══════════════════ */
 type TabKey = "merge" | "split" | "extract" | "compress" | "img2pdf" | "pdf2img";
@@ -17,135 +34,6 @@ type FileEntry = {
   size: number;
   pageCount?: number;
 };
-
-/* ═══════════════════ SVG Icons ═══════════════════ */
-type IconProps = { size?: number };
-
-const MergeIcon = ({ size = 18 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="6" cy="6" r="2" />
-    <circle cx="18" cy="6" r="2" />
-    <circle cx="12" cy="19" r="2" />
-    <path d="M6 8v3a6 6 0 0 0 6 6" />
-    <path d="M18 8v3a6 6 0 0 1-6 6" />
-  </svg>
-);
-
-const SplitIcon = ({ size = 18 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="6" cy="6" r="2.5" />
-    <circle cx="6" cy="18" r="2.5" />
-    <path d="M20 4L8.5 15.5" />
-    <path d="M14.5 14.5L20 20" />
-    <path d="M8.5 8.5L12 12" />
-  </svg>
-);
-
-const ExtractIcon = ({ size = 18 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-    <polyline points="14 2 14 8 20 8" />
-    <rect x="8" y="12" width="8" height="4" rx="0.5" strokeDasharray="1.5 1" />
-  </svg>
-);
-
-const CompressIcon = ({ size = 18 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polyline points="4 14 4 20 10 20" />
-    <polyline points="20 10 20 4 14 4" />
-    <line x1="14" y1="10" x2="20.5" y2="3.5" />
-    <line x1="3.5" y1="20.5" x2="10" y2="14" />
-  </svg>
-);
-
-const ImgToPdfIcon = ({ size = 18 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="3" y="3" width="18" height="18" rx="2" />
-    <circle cx="8.5" cy="8.5" r="1.5" />
-    <polyline points="21 15 16 10 5 21" />
-  </svg>
-);
-
-const PdfToImgIcon = ({ size = 18 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
-    <polyline points="13 2 13 9 20 9" />
-    <line x1="12" y1="13" x2="12" y2="18" />
-    <polyline points="9 16 12 19 15 16" />
-  </svg>
-);
-
-const DocumentIcon = ({ size = 24 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-    <polyline points="14 2 14 8 20 8" />
-    <line x1="16" y1="13" x2="8" y2="13" />
-    <line x1="16" y1="17" x2="8" y2="17" />
-  </svg>
-);
-
-const ImageFrameIcon = ({ size = 24 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="3" y="3" width="18" height="18" rx="2" />
-    <circle cx="8.5" cy="8.5" r="1.5" />
-    <polyline points="21 15 16 10 5 21" />
-  </svg>
-);
-
-const TrashIcon = ({ size = 16 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polyline points="3 6 5 6 21 6" />
-    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-    <path d="M10 11v6" />
-    <path d="M14 11v6" />
-    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-  </svg>
-);
-
-const DownloadIcon = ({ size = 16 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-    <polyline points="7 10 12 15 17 10" />
-    <line x1="12" y1="15" x2="12" y2="3" />
-  </svg>
-);
-
-const LockIcon = ({ size = 28 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-  </svg>
-);
-
-const ChevronUpIcon = ({ size = 12 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polyline points="18 15 12 9 6 15" />
-  </svg>
-);
-
-const ChevronDownIcon = ({ size = 12 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
-);
-
-const CloseIcon = ({ size = 12 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <line x1="18" y1="6" x2="6" y2="18" />
-    <line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-);
-
-const GripIcon = ({ size = 14 }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <circle cx="9" cy="6" r="1.5" />
-    <circle cx="15" cy="6" r="1.5" />
-    <circle cx="9" cy="12" r="1.5" />
-    <circle cx="15" cy="12" r="1.5" />
-    <circle cx="9" cy="18" r="1.5" />
-    <circle cx="15" cy="18" r="1.5" />
-  </svg>
-);
 
 /* ── Composite icon selectors ── */
 function TabIcon({ tabKey, size = 18 }: { tabKey: TabKey; size?: number }) {
