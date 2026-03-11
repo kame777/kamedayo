@@ -98,7 +98,6 @@ export default function Hero() {
 
         <div className={styles.buttons}>
           <Link href="/webtool" className={styles.primaryBtn}>
-            <span className={styles.btnIcon}>⚡</span>
             ツール一覧を見る
             <span className={styles.btnArrow}>→</span>
           </Link>
