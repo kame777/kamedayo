@@ -88,7 +88,9 @@
 }
 
 .eosIcon {
+  display: flex;
   flex-shrink: 0;
+  align-self: flex-start;
   margin-top: 0.15rem;
   color: rgb(220, 38, 38);
 }
@@ -133,7 +135,7 @@
 }
 
 .visitArrow {
-  font-size: 1.1rem;
+  display: flex;
   transition: transform 0.2s ease;
 }
 

@@ -68,6 +68,7 @@ import { DownloadIcon, InfoIcon } from "../../components/Icons";
 
 | コンポーネント | デフォルトサイズ | 用途 |
 |---|---|---|
+| `MegaphoneIcon` | 16 | お知らせ見出し |
 | `DownloadIcon` | 16 | ダウンロード |
 | `CopyIcon` | 14 | コピー |
 | `TrashIcon` | 16 | 削除 |

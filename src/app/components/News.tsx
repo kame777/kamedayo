@@ -3,6 +3,7 @@
 import styles from './News.module.css';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { newsItems } from '../data/tools';
+import { MegaphoneIcon } from './Icons';
 
 export default function News() {
   const sectionRef = useScrollReveal<HTMLElement>(
@@ -16,7 +17,7 @@ export default function News() {
       <div className={styles.container}>
         <div className={styles.card}>
           <h2 className={styles.title}>
-            <span className={styles.titleIcon}>📢</span>
+            <MegaphoneIcon size={20} />
             お知らせ
           </h2>
           <ul className={styles.list}>

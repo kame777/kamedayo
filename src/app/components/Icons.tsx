@@ -445,3 +445,13 @@ export function GripIcon({ size = 14 }: IconProps) {
     </svg>
   );
 }
+
+export function MegaphoneIcon({ size = 16 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3 9v6h3l8 5V4L6 9H3z" />
+      <path d="M17 8.5a5 5 0 0 1 0 7" />
+      <path d="M20 6a9 9 0 0 1 0 12" />
+    </svg>
+  );
+}
