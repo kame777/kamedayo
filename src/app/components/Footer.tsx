@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from './Footer.module.css';
 import Donate from './Donate';
+import { ArrowUpRightIcon } from './Icons';
 
 export default function Footer() {
   return (
@@ -19,8 +20,8 @@ export default function Footer() {
           <h4>サイト</h4>
           <ul>
             <li><Link href="/contact">お問い合わせ</Link></li>
-            <li><a data-no-external="true" href="https://status.kamedayo.com/" target='_blank' rel="noopener noreferrer">サイトステータス</a></li>
-            <li><a data-no-external="true" href="https://github.com/kame777/kamedayo/" target='_blank' rel="noopener noreferrer">ソースコード</a></li>
+            <li><a className={styles.extLink} href={`/external?url=${encodeURIComponent('https://status.kamedayo.com/')}`} target="_blank" rel="noopener noreferrer" data-no-external="true">サイトステータス<ArrowUpRightIcon size={12} /></a></li>
+            <li><a className={styles.extLink} href={`/external?url=${encodeURIComponent('https://github.com/kame777/kamedayo/')}`} target="_blank" rel="noopener noreferrer" data-no-external="true">ソースコード<ArrowUpRightIcon size={12} /></a></li>
           </ul>
         </div>
         <div className={styles.section}>

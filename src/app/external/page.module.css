@@ -1,0 +1,204 @@
+/* ===== External Redirect Page ===== */
+.main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem 4rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #031a09 0%, #064e3b 40%, #0d3320 70%, #052e16 100%);
+  color: #fff;
+}
+
+/* ===== Background shapes ===== */
+.bgShapes {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+  filter: blur(2px);
+}
+
+.shape1 {
+  width: 350px;
+  height: 350px;
+  background: linear-gradient(135deg, #34d399, #059669);
+  top: -80px;
+  right: -60px;
+  animation: floatShape 20s ease-in-out infinite;
+}
+
+.shape2 {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, #6ee7b7, #10b981);
+  bottom: 15%;
+  left: -40px;
+  animation: floatShape 25s ease-in-out infinite reverse;
+}
+
+.shape3 {
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(135deg, #a7f3d0, #34d399);
+  top: 50%;
+  right: 25%;
+  animation: floatShape 18s ease-in-out infinite 3s;
+}
+
+@keyframes floatShape {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%      { transform: translate(20px, -30px) scale(1.04); }
+  50%      { transform: translate(-15px, 15px) scale(0.96); }
+  75%      { transform: translate(25px, 10px) scale(1.02); }
+}
+
+/* ===== Content ===== */
+.content {
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+  animation: fadeIn 0.6s ease-out both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Icon ===== */
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  color: #34d399;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== Title & description ===== */
+.title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0 0 0.75rem;
+  color: #fff;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 1.75rem;
+  line-height: 1.8;
+}
+
+/* ===== URL box ===== */
+.urlBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 2rem;
+  text-align: left;
+  overflow: hidden;
+}
+
+.urlHost {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.urlFull {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+/* ===== Buttons ===== */
+.buttons {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.8rem 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primaryBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(5, 150, 105, 0.35);
+}
+
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.8rem 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.secondaryBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .main {
+    padding: 5rem 1rem 3rem;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    justify-content: center;
+  }
+}
