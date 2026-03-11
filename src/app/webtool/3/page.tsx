@@ -377,79 +377,60 @@ export default function DiffTool() {
 
   /* ── Unified inline render ── */
   const renderUnified = () => {
-    type Token = { text: string; type: "normal" | "removed" | "added" };
-    const tokens: Token[] = [];
+    type Seg = { kind: "text" | "removed" | "added"; text: string };
+    type ULine = { leftNum?: number; rightNum?: number; type: DiffLineType | "modified"; segs: Seg[] };
 
-    for (let i = 0; i < paired.length; i++) {
-      const d = paired[i];
+    const lines: ULine[] = [];
 
-      if (d.type === "unchanged") {
-        if (tokens.length > 0) tokens.push({ text: "\n", type: "normal" });
-        tokens.push({ text: d.leftLine!, type: "normal" });
-      } else if (d.type === "removed") {
-        if (tokens.length > 0) tokens.push({ text: "\n", type: "normal" });
-        tokens.push({ text: d.leftLine!, type: "removed" });
-      } else if (d.type === "added") {
-        if (tokens.length > 0) tokens.push({ text: "\n", type: "normal" });
-        tokens.push({ text: d.rightLine!, type: "added" });
-      } else if (d.type === "modified") {
-        const md = d as { leftLine: string; rightLine: string };
-        const { aChars, bChars } = charDiff(md.leftLine, md.rightLine);
-
-        if (tokens.length > 0) tokens.push({ text: "\n", type: "normal" });
-
-        /* Group consecutive chars by highlight state */
+    const buildInlineSegs = (aChars: CharItem[], bChars: CharItem[]): Seg[] => {
+      const segs: Seg[] = [];
+      let ai = 0, bi = 0;
+      while (ai < aChars.length || bi < bChars.length) {
         let buf = "";
-        let curHl = false;
-        for (const c of aChars) {
-          if (c.hl !== curHl) {
-            if (buf) tokens.push({ text: buf, type: curHl ? "removed" : "normal" });
-            buf = c.ch;
-            curHl = c.hl;
-          } else {
-            buf += c.ch;
-          }
-        }
-        if (buf) tokens.push({ text: buf, type: curHl ? "removed" : "normal" });
-
-        /* Add only the highlighted (new) chars from bChars */
+        while (ai < aChars.length && aChars[ai].hl) { buf += aChars[ai++].ch; }
+        if (buf) segs.push({ kind: "removed", text: buf });
         buf = "";
-        curHl = false;
-        for (const c of bChars) {
-          if (c.hl !== curHl) {
-            if (buf && curHl) tokens.push({ text: buf, type: "added" });
-            buf = c.ch;
-            curHl = c.hl;
-          } else {
-            buf += c.ch;
-          }
+        while (bi < bChars.length && bChars[bi].hl) { buf += bChars[bi++].ch; }
+        if (buf) segs.push({ kind: "added", text: buf });
+        buf = "";
+        while (ai < aChars.length && !aChars[ai].hl && bi < bChars.length && !bChars[bi].hl) {
+          buf += aChars[ai++].ch; bi++;
         }
-        if (buf && curHl) tokens.push({ text: buf, type: "added" });
+        if (buf) segs.push({ kind: "text", text: buf });
+        if (!buf && ai >= aChars.length && bi >= bChars.length) break;
+      }
+      return segs;
+    };
+
+    for (const d of paired) {
+      if (d.type === "unchanged") {
+        lines.push({ leftNum: d.leftNum, rightNum: d.rightNum, type: "unchanged", segs: [{ kind: "text", text: d.leftLine! }] });
+      } else if (d.type === "removed") {
+        lines.push({ leftNum: d.leftNum, type: "removed", segs: [{ kind: "removed", text: d.leftLine! }] });
+      } else if (d.type === "added") {
+        lines.push({ rightNum: d.rightNum, type: "added", segs: [{ kind: "added", text: d.rightLine! }] });
+      } else if (d.type === "modified") {
+        const md = d as { leftLine: string; rightLine: string; leftNum: number; rightNum: number };
+        const { aChars, bChars } = charDiff(md.leftLine, md.rightLine);
+        lines.push({ leftNum: md.leftNum, rightNum: md.rightNum, type: "modified", segs: buildInlineSegs(aChars, bChars) });
       }
     }
 
     return (
       <div className={styles.unifiedPane}>
-        <div className={styles.unifiedText}>
-          {tokens.map((t, i) => {
-            if (t.text === "\n") return <br key={i} />;
-            if (t.type === "removed") {
-              return (
-                <span key={i} className={styles.inlineRemoved}>
-                  {t.text}
-                </span>
-              );
-            }
-            if (t.type === "added") {
-              return (
-                <span key={i} className={styles.inlineAdded}>
-                  {t.text}
-                </span>
-              );
-            }
-            return <React.Fragment key={i}>{t.text}</React.Fragment>;
-          })}
-        </div>
+        {lines.map((line, i) => (
+          <div key={i} className={`${styles.diffLine} ${line.type === "removed" ? styles.unifiedLineRemoved : line.type === "added" ? styles.unifiedLineAdded : ""}`}>
+            <span className={styles.lineNum}>{line.leftNum ?? ""}</span>
+            <span className={styles.lineNum}>{line.rightNum ?? ""}</span>
+            <span className={styles.lineText}>
+              {line.segs.map((s, j) => {
+                if (s.kind === "removed") return <span key={j} className={styles.inlineRemoved}>{s.text}</span>;
+                if (s.kind === "added") return <span key={j} className={styles.inlineAdded}>{s.text}</span>;
+                return <React.Fragment key={j}>{s.text}</React.Fragment>;
+              })}
+            </span>
+          </div>
+        ))}
       </div>
     );
   };
