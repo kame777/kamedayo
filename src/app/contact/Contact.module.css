@@ -111,6 +111,16 @@
 }
 
 /* ===== FAQ Section ===== */
+@keyframes faqFadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes faqAnswerReveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .faq {
   padding: 2.5rem 2rem;
   border-radius: 20px;
@@ -137,28 +147,37 @@
   border-radius: 12px;
   border: 1px solid var(--border);
   overflow: hidden;
-  transition: background 0.2s ease;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.faqItem[open] {
+.faqItem:nth-child(1) { animation: faqFadeInUp 0.4s ease 0.05s both; }
+.faqItem:nth-child(2) { animation: faqFadeInUp 0.4s ease 0.15s both; }
+.faqItem:nth-child(3) { animation: faqFadeInUp 0.4s ease 0.25s both; }
+
+.faqItemOpen {
   background: rgba(5, 150, 105, 0.03);
-  border-color: rgba(5, 150, 105, 0.1);
+  border-color: rgba(5, 150, 105, 0.2);
+  box-shadow: 0 2px 12px rgba(5, 150, 105, 0.06);
 }
 
 .faqQuestion {
+  width: 100%;
   padding: 1rem 1.25rem;
   font-weight: 600;
   font-size: 0.95rem;
   color: var(--text);
   cursor: pointer;
-  list-style: none;
+  background: none;
+  border: none;
+  text-align: left;
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  transition: color 0.2s ease;
 }
 
-.faqQuestion::-webkit-details-marker {
-  display: none;
+.faqQuestion:hover {
+  color: var(--primary);
 }
 
 .faqQuestion::before {
@@ -169,19 +188,38 @@
   flex-shrink: 0;
   width: 1.5rem;
   text-align: center;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
+  display: inline-block;
 }
 
-.faqItem[open] .faqQuestion::before {
+.faqItemOpen .faqQuestion::before {
   content: '−';
+  transform: rotate(180deg);
+}
+
+/* アコーディオン開閉アニメーション (grid-template-rows trick) */
+.faqAnswerWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.faqItemOpen .faqAnswerWrapper {
+  grid-template-rows: 1fr;
 }
 
 .faqAnswer {
-  padding: 0 1.25rem 1rem 3rem;
+  overflow: hidden;
+  padding: 0 1.25rem 0 3rem;
   font-size: 0.92rem;
   color: var(--muted);
   line-height: 1.7;
   margin: 0;
+  transition: padding-bottom 0.3s ease;
+}
+
+.faqItemOpen .faqAnswer {
+  padding-bottom: 1rem;
 }
 
 /* ===== Responsive ===== */

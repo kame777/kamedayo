@@ -1,4 +1,5 @@
 import HeroBanner from '../components/HeroBanner';
+import FaqList from './FaqList';
 import styles from './Contact.module.css';
 export const metadata = {
   title: 'お問い合わせ',
@@ -40,20 +41,7 @@ export default function Contact() {
         {/* FAQ section */}
         <div className={styles.faq}>
           <h2 className={styles.faqTitle}>よくある質問</h2>
-          <div className={styles.faqList}>
-            <details className={styles.faqItem}>
-              <summary className={styles.faqQuestion}>ツールのリクエストはできますか？</summary>
-              <p className={styles.faqAnswer}>はい！XのDMでお気軽にリクエストしてください。技術的に可能な範囲で対応します。</p>
-            </details>
-            <details className={styles.faqItem}>
-              <summary className={styles.faqQuestion}>バグを見つけた場合はどうすればいいですか？</summary>
-              <p className={styles.faqAnswer}>XのDMまたはGitHub Issuesで報告していただけると助かります。可能であればスクリーンショットもお願いします。</p>
-            </details>
-            <details className={styles.faqItem}>
-              <summary className={styles.faqQuestion}>返信までどのくらいかかりますか？</summary>
-              <p className={styles.faqAnswer}>通常1〜3日以内に返信します。お急ぎの場合はその旨をお伝えください。</p>
-            </details>
-          </div>
+          <FaqList />
         </div>
       </main>
     </>
