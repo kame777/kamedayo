@@ -45,7 +45,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--primary);
-  background: rgba(22, 163, 74, 0.1);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
   padding: 0.15em 0.6em;
   border-radius: 99px;
 }
@@ -86,9 +86,9 @@
 .draftBadge {
   font-size: 0.7rem;
   font-weight: 600;
-  color: #92400e;
-  background: #fef3c7;
-  border: 1px solid #f59e0b;
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--warning) 40%, transparent);
   padding: 0.1em 0.55em;
   border-radius: 99px;
 }

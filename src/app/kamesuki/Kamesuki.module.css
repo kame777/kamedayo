@@ -121,8 +121,8 @@
   gap: 0.4rem;
   padding: 0.75rem 1.75rem;
   border-radius: 12px;
-  background: linear-gradient(135deg, #43e97b, #38f9d7);
-  color: var(--brand-grad-end);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: white;
   font-size: 0.95rem;
   font-weight: 700;
   text-decoration: none;
