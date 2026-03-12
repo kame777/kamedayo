@@ -13,20 +13,32 @@ html {
 
 body {
   font-family: 'LINE Seed JP', sans-serif;
-  background: var(--page-bg);
   color: var(--text);
   line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+  z-index: 0;
+}
+
+/* 背景グラデーションを固定レイヤーとして描画（ちらつき防止） */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--page-bg);
+  pointer-events: none;
 }
 
 /* Page transition */
 
 .page-transition {
-  animation: pageFadeIn 220ms ease both;
+  animation: pageFadeIn 250ms ease-out both;
 }
 
 @keyframes pageFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { transform: translateY(8px); }
+  to   { transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {

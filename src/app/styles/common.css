@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   /* カラーパレット — 深緑基調 */
   --bg: #ffffff;
   --surface: #f8faf8;
@@ -55,6 +56,7 @@
 
 /* ダークモード */
 [data-theme="dark"] {
+  color-scheme: dark;
   --bg: #1e2e26;
   --surface: #26362e;
   --text: #f0f5f2;
@@ -62,8 +64,9 @@
   --primary: #34d399;
   --brand-grad-start: #34d399;
   --brand-grad-end: #059669;
-  --page-grad-start: #141e1a;
-  --page-grad-end: #101810;
+  --page-grad-start: #131c18;
+  --page-grad-end: #131c18;
+  --page-bg: #131c18;
   --accent: #26362e;
   --shadow: rgba(0, 0, 0, 0.3);
   --hero-bg: rgba(4, 30, 16, 0.92);
